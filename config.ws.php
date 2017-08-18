@@ -82,7 +82,7 @@ include_once(WEBTHES_ABSPATH.'/common/vocabularyservices.php');
 include_once(WEBTHES_ABSPATH.'/common/portalthes.php');
 
 session_start();
-$v=fetchVocabCode($_GET["v"]);
+$v=fetchVocabCode($CFG["DEFVOCAB"]);
 
 $_SESSION["vocab"]=$CFG_VOCABS[$v];
 $URL_BASE=$CFG_VOCABS[$v]["URL_BASE"];
