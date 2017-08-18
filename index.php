@@ -52,7 +52,7 @@
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"];?>">
     <head>
-        <?php 
+        <?php
             echo HTMLmeta($_SESSION["vocab"],$term);
             echo HTMLestilosyjs();
         ?>
@@ -86,17 +86,14 @@
                             echo $htmlTerm["results"];
                             break;
                         case 'fetchTerm':
-
                             echo HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata);
-
                             break;
                         case 'mdata':
                             echo HTMLmetadataVocabulary($CFG_VOCABS[$v]);
                             break;
                         default:
                             if ($CFG_VOCABS[$v]["SHOW_TREE"]!==0) {
-                                echo '  <div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?v='.$v.'">
-                                        </div><!-- #topterms -->';
+                                echo '  <div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?v='.$v.'"></div><!-- #topterms -->';
                             }
                             break;
                     }

@@ -59,7 +59,7 @@ function HTMLmeta($vocabularyMetadata,$extraTitle="")
     GLOBAL $CFG_URL_PARAM;
 
     $extraTitle=FixEncoding($extraTitle);
-    $extraTitle     =(strlen($extraTitle)>0) ? $extraTitle.'.  ' : null; 
+    $extraTitle     =(strlen($extraTitle)>0) ? $extraTitle.'.  ' : null;
     $rows='<title>'.$extraTitle.$vocabularyMetadata["title"].' / '.$vocabularyMetadata["author"].'</title>';
     $rows.='
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,8 +96,8 @@ function HTMLformSearch(){
                 </div>
             </div>
         </div>
-        <input type="hidden" id="task" name="task" value="search" />                    
-        <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />                  
+        <input type="hidden" id="task" name="task" value="search" />
+        <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />
         </form>
     </div>
 </div>';
@@ -163,7 +163,7 @@ function HTMLglobalFooter($params=array())
                             <a href="'.$CFG_URL_PARAM["url_site"].'index.php">
                                 '.ucfirst(LABEL_showNewsTerm).'
                             </a>
-                        </li>                        
+                        </li>
                     </ul>
                 </section>
                 <section class="col-xs-12 col-sm-4">
@@ -224,9 +224,9 @@ function HTMLglobalContextualMenu($params=array())
                                     '.$params["vocabularyMetadata"]["cant_terms"].'
                                 </p>
                                 <p class="statstext"> '.LABEL_terms.' ';
-        
+
         if ($_SESSION["vocab"]["mail"])
-            $rows.='<a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABELFORM_newSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>'.LABELFORM_newSuggest.'</span></a>';        
+            $rows.='<a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABELFORM_newSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>'.LABELFORM_newSuggest.'</span></a>';
 
         $rows.='                </p>
                             </div>
@@ -476,7 +476,7 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                                 .$htmlTerm["results"]["UF"].'
                             </div>
                         </div>';
-    if (strlen($htmlTerm["results"]["NOTES"]) > 0) {            
+    if (strlen($htmlTerm["results"]["NOTES"]) > 0) {
           $rows.= '      <div class="relation panel">
                             <div id="notas" class="relation-body">
                                 '.$htmlTerm["results"]["NOTES"].'
@@ -520,8 +520,8 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                 </div>';
       $rows.=  '</div><!-- #term -->';
       $rows.=  '</div> <! --#tabbable -->';
- 
-    return $rows;                            
+
+    return $rows;
 }
 
 function human_filesize($bytes, $decimals = 2)
@@ -584,17 +584,6 @@ function fetchVocabCode($vocab_code)
 {
     GLOBAL $CFG_VOCABS;
     GLOBAL $CFG;
-
-    $v=(strlen($vocab_code)>0) ? XSSprevent($vocab_code) : '';
-
-    $v=(strlen($v)>0) ? $v : $CFG["DEFVOCAB"];
-    
-
-    foreach ($CFG_VOCABS as $k => $val) {
-       if ($val[$key] == $v) {
-           return $v;
-       };
-    }
-
-    return $CFG["DEFVOCAB"];
+    $v=(in_array($vocab_code,$CFG_VOCABS)) ? $vocab_code : $CFG["DEFVOCAB"];
+    return $v;
 }
