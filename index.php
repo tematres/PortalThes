@@ -93,7 +93,7 @@
                             break;
                         default:
                             if ($CFG_VOCABS[$v]["SHOW_TREE"]!==0) {
-                                echo '  <div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?v='.$v.'"></div><!-- #topterms -->';
+                                echo '  <div id="treeTerm" data-url="common/treedata.php?v='.$v.'"></div><!-- #topterms -->';
                             }
                             break;
                     }

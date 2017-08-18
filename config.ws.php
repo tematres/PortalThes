@@ -84,8 +84,8 @@ include_once(WEBTHES_ABSPATH.'/common/portalthes.php');
 session_start();
 $v=fetchVocabCode($CFG["DEFVOCAB"]);
 
-$_SESSION["vocab"]=$CFG_VOCABS[$v];
-$URL_BASE=$CFG_VOCABS[$v]["URL_BASE"];
+$_SESSION["vocab"]=$CFG_VOCABS[$CFG["DEFVOCAB"]];
+$URL_BASE=$CFG_VOCABS[$CFG["DEFVOCAB"]]["URL_BASE"];
 
 if (is_array($CFG_VOCABS[$v])) {
         $vocabularyMetadata=fetchVocabularyMetadata($URL_BASE);
