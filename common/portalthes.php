@@ -160,7 +160,7 @@ function HTMLglobalFooter($params=array())
                             </a>
                         </li>
                         <li>
-                            <a href="'.$CFG_URL_PARAM["url_site"].'index.php">
+                            <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">
                                 '.ucfirst(LABEL_showNewsTerm).'
                             </a>
                         </li>

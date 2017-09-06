@@ -97,5 +97,7 @@ if (is_array($CFG_VOCABS[$v])) {
         $_SESSION["vocab"]["keywords"] = (string) $vocabularyMetadata["keywords"];
         $_SESSION["vocab"]["lastMod"] = (string) $vocabularyMetadata["lastMod"];
         $_SESSION["vocab"]["cant_terms"] = (string) $vocabularyMetadata["cant_terms"];
+        $_SESSION["vocab"]["code"] = (string) $v;
+
 };
 ?>
