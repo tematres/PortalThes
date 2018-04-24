@@ -31,7 +31,7 @@ function HTMLestilosyjs()
 
     $rows='
     <!-- js -->
-    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-2.1.0.min.js"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery.mockjax.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.validate.min.js"></script>
