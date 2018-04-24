@@ -1,11 +1,18 @@
 <?php
     require '../../config.ws.php';
+    
+    if(checkModuleCFG('SUGGESTION_SERVICE')!==true) header("Location:../../index.php");      
+      
     require 'config.ws.php';
+    
     include_once('fun.suggest.php');
     $params["TEMATRES_URI_SERVICE"]=$CFG_VOCABS[$CFG["DEFVOCAB"]]["URL_BASE"];
-    $vocabularyMetaData=getTemaTresData($params["TEMATRES_URI_SERVICE"]);
-    if (!isset($_SESSION["vocab"]["mail"])) header("Location:../../index.php");
 
+    $vocabularyMetaData=getTemaTresData($params["TEMATRES_URI_SERVICE"]);
+
+        
+
+        
     //type of sugges _$GET["r"]= : UF / EQ / NT / modT
     //Se invoca con un hash y se envía la sugerencia
     $params = array();

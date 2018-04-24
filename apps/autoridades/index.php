@@ -1,6 +1,8 @@
 <?php
-    header('Content-Type: text/html; charset=UTF-8');
     require '../../config.ws.php';
+    if(checkModuleCFG('BULK_TERMS_REVIEW')!==true) header("Location:../../index.php");          
+
+    header('Content-Type: text/html; charset=UTF-8');        
     require 'config.ws.php';
 
     include_once('../../common/excel/ExcelWriterXML.php');
@@ -12,7 +14,8 @@
 
     if ( ! isset($params["content"]))
         $params["content"] = '';
-    $params["content"] = isset($_POST["q"]) ? XSSprevent($_POST["q"]) : $params["content"] ;
+        $params["content"] = isset($_POST["q"]) ? XSSprevent($_POST["q"]) : $params["content"] ;
+        
     if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
         $array_text=explode("\n",$params["content"]);
         if (count($array_text)>1) {

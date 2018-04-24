@@ -1,6 +1,11 @@
 <?php
-    header('Content-Type: text/html; charset=UTF-8');
     require 'config.ws.php';
+    $searchq  =  XSSprevent($_GET['term']);
+    if(strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {
+        echo getData4AutocompleterUI($URL_BASE,$searchq);
+        exit();
+    };
+    header('Content-Type: text/html; charset=UTF-8');    
     if (is_array($CFG_VOCABS[$v])) {
         $task = '';
         if (isset ($_GET["task"])) {
@@ -52,10 +57,10 @@
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"];?>">
     <head>
-        <?php
+        <?php 
             echo HTMLmeta($_SESSION["vocab"],$term);
             echo HTMLestilosyjs();
-        ?>
+        ?>        
     </head>
     <body>
         <?php
@@ -86,14 +91,17 @@
                             echo $htmlTerm["results"];
                             break;
                         case 'fetchTerm':
+
                             echo HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata);
+
                             break;
                         case 'mdata':
                             echo HTMLmetadataVocabulary($CFG_VOCABS[$v]);
                             break;
                         default:
                             if ($CFG_VOCABS[$v]["SHOW_TREE"]!==0) {
-                                echo '  <div id="treeTerm" data-url="common/treedata.php?v='.$v.'"></div><!-- #topterms -->';
+                                echo '  <div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?v='.$v.'">
+                                        </div><!-- #topterms -->';
                             }
                             break;
                     }

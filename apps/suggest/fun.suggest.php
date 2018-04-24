@@ -1,10 +1,7 @@
 <?php
+/* Funciones espcíficas de TemaTres Suggest Form*/
 
-/*   http://jqueryvalidation.org/
-http://getbootstrap.com/2.3.2/base-css.html#buttons
-http://localhost/test/jQuery-Autocomplete-master/
-Funciones espcíficas de TemaTres Suggest Form
-Datos de definición del vocabulario   */
+/*Datos de definición del vocabulario   */
 
 function getTemaTresData($tematres_uri,$task="fetchVocabularyData",$arg="")
 {

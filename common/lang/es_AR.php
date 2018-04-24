@@ -40,7 +40,7 @@ define('LABEL_lastChanges','cambios recientes');
 define('LABEL_tools','Herramientas');
 define('LABEL__attrib','por ');
 
-/*TERM SUGGESTION PLUGIN */
+/*TERM SUGGESTION MODULE */
 define('SUGGESTION_SERVICE_title','Sugerencia de términos y correcciones');
 define('SUGGESTION_SERVICE_description','Esta herramienta permite proponer términos nuevos, modificaciones y términos alternativos o sinónimos. Por favor consigne una justificación y alguna fuente.');
 define('LABEL_termSuggest','Sugerencias terminológicas');
@@ -54,8 +54,12 @@ define('LABELFORM_newSuggest','Proponer un término ');
 define('LABELFORM_eqSuggest;','Proponer una traducción ');
 
 
-/*BULK TERM ANALISIS PLUGIN */
+/*BULK TERM ANALISIS MODULE */
 define('BULK_TERMS_REVIEW_title','Servicio de análisis masivo de términos');
 define('BULK_TERMS_REVIEW_description','Esta herramienta permite comparar un conjunto de términos, <strong>pueden ser hasta %s</strong>. Al finalizar la comparación se obtiene un informe en línea o descargable que indica:
 términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
+
+/*CLASSIFY MODULE */
+define('CLASSIFY_SERVICE_title','Asistente de clasificación');
+define('CLASSIFY_SERVICE_description','Esta herramienta permite analizar un texto breve e identificar potenciales palabras clave. ');
 ?>

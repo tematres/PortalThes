@@ -22,8 +22,6 @@ if ( ! defined('WEBTHES_ABSPATH'))
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
-
-
 /* Funciones de consulta de datos */
 
 /*  Hacer una consulta y devolver un array
@@ -71,28 +69,17 @@ function data2html4Notes($data,$param=array())
     $rows = '';
     if ($data->resume->cant_result > 0) {
         $i = 0;
-        $haynota = 0;
-        foreach ($data->result->term as $value) {
-            $i=++$i;
-            if ($value->note_type == "NA" || $value->note_type == "NH" || $value->note_type == "CB") {
-                $haynota=1;
-            }
-        }
-        if ($haynota == 1) {
-            $rows.='<div class="well well-small" id="notabnm">';
-            $i=0;
+        $rows.='<div class="well well-small" id="notabnm">';
+        $i=0;
             foreach ($data->result->term as $value) {
                 $i=++$i;
-                if ($value->note_type == "NA" || $value->note_type == "NH" || $value->note_type == "CB" || ($value->note_type == "NB" && $param["vocab_code"] != "VEA")) {
                     $note_label=(in_array((string) $value->note_type,array("NA","NH","NB","NP","NC","CB","DEF"))) ? str_replace(array("NA","NH","NB","NP","NC","CB","DEF"),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC,"Nota bibliográfica",$CFG["LOCAL_NOTES"]["DEF"]),(string) $value->note_type) : (string) $value->note_type;
                     $rows.='<div rel="skos:scopeNote">';
                     $rows.='<span class="note_label">'.$note_label.':</span>';
                     $rows.='<p class="note">'.(string) $value->note_text.'</p>';
                     $rows.='</div>';
-                }
             }
-            $rows.='</div>';
-        }
+        $rows.='</div>';
     }
     return $rows;
 };
@@ -679,11 +666,18 @@ function clean($val)
 
 function XSSprevent($string)
 {
-    require_once 'htmlpurifier/HTMLPurifier.auto.php';
+$string = str_replace ( array ('<',">","&",'"' ), array ('','','',''), $string );
+
+//$string=htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+require_once 'htmlpurifier/HTMLPurifier.auto.php';
     $config = HTMLPurifier_Config::createDefault();
+  //$config->set('HTML.Allowed', '');
     $purifier = new HTMLPurifier($config);
     $clean_string = $purifier->purify($string);
-    return $clean_string;
+
+    return clean($clean_string);
+
 }
 
 function sendMail($to_address,$subject,$message,$extra=array())

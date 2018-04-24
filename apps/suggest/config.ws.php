@@ -1,7 +1,7 @@
 <?php
 /*
-*      config.ws.php
-*
+*      config.ws.php 
+*       
 *      Copyright 2015 diego <tematres@r020.com.ar>
 *
 *      This program is free software; you can redistribute it and/or modify
@@ -23,8 +23,11 @@
 CONFIGURATION
 ********************************************************************************************/
 $lang_suggest = $lang_tematres;
+
 require_once("lang/$lang_suggest.php");
+
 $CFG["SUGGEST_OPT"]             = array("UF","NT","EQ","term","modT");  //type of suggestions availables
 $CFG_SGS["key_google_captcha"]='6LegSAUTAAAAAAJXLhasBuWh9twJyviiU7rPEZ5a';
 $CFG_SGS["sitekey_google_captcha"]='6LegSAUTAAAAAPu7xGaCcgXGFJXx-YJq1UKX8rED';
+
 ?>

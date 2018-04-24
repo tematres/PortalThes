@@ -21,30 +21,36 @@
      *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
      *      MA 02110-1301, USA.
      */
-
 function HTMLestilosyjs()
 {
     GLOBAL $CFG_URL_PARAM;
+
+//<script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.autocomplete.min.js"></script>
+//<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jquery.autocomplete.css">
+
+
     $rows='
     <!-- js -->
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-2.1.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.autocomplete.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery.mockjax.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.validate.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/masonry.pkgd.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/imagesloaded.pkgd.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/tree.jquery.js"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php"></script>
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.css">
-    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jquery.autocomplete.css">
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans|Syncopate">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.css">
+
+    
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->';
@@ -59,7 +65,7 @@ function HTMLmeta($vocabularyMetadata,$extraTitle="")
     GLOBAL $CFG_URL_PARAM;
 
     $extraTitle=FixEncoding($extraTitle);
-    $extraTitle     =(strlen($extraTitle)>0) ? $extraTitle.'.  ' : null;
+    $extraTitle     =(strlen($extraTitle)>0) ? $extraTitle.'.  ' : null; 
     $rows='<title>'.$extraTitle.$vocabularyMetadata["title"].' / '.$vocabularyMetadata["author"].'</title>';
     $rows.='
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,8 +102,8 @@ function HTMLformSearch(){
                 </div>
             </div>
         </div>
-        <input type="hidden" id="task" name="task" value="search" />
-        <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />
+        <input type="hidden" id="task" name="task" value="search" />                    
+        <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />                  
         </form>
     </div>
 </div>';
@@ -107,9 +113,10 @@ return $rows;
 
 
 /*  Presentación de menú global  */
-function HTMLglobalMenu($params=array())
-{
+function HTMLglobalMenu($params=array()){
+
     GLOBAL $CFG_URL_PARAM;
+
     $rows=' <nav class="navbar navbar-inverse navbar-fixed-top bnm_navbar">
                 <div class="container">
                     <div class="navbar-header">
@@ -126,10 +133,15 @@ function HTMLglobalMenu($params=array())
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_tools).'<b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>
-                                    <li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>
-                                    <li><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">Consultar últimas modificaciones</a></li>
+                                <ul class="dropdown-menu" role="menu">';
+
+    if (checkModuleCFG('BULK_TERMS_REVIEW')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
+
+    if (checkModuleCFG('CLASSIFFY')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
+
+    if (checkModuleCFG('SUGGESTION_SERVICE')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+
+    $rows.='    <li><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">Consultar últimas modificaciones</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -148,22 +160,19 @@ function HTMLglobalFooter($params=array())
             <footer class="row">
                 <section class="col-xs-12 col-sm-4">
                     <h5>'.ucfirst(LABEL_tools).'</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php">
-                                '.ucfirst(BULK_TERMS_REVIEW_title).'
-                            </a>
-                        </li>
-                        <li>
-                            <a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php">
-                                '.ucfirst(SUGGESTION_SERVICE_title).'
-                            </a>
-                        </li>
-                        <li>
+                    <ul class="list-unstyled">';
+
+                if (checkModuleCFG('BULK_TERMS_REVIEW')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
+
+                if (checkModuleCFG('CLASSIFFY')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
+
+                if (checkModuleCFG('SUGGESTION_SERVICE')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+
+    $rows.='       <li>
                             <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">
                                 '.ucfirst(LABEL_showNewsTerm).'
                             </a>
-                        </li>
+                        </li>                        
                     </ul>
                 </section>
                 <section class="col-xs-12 col-sm-4">
@@ -208,7 +217,7 @@ function HTMLglobalContextualMenu($params=array())
                 <p class="autor text-right">
                     '.LABEL__attrib.' '.$params["vocabularyMetadata"]["author"].'
                 </p>
-                <p class="text-justify ocultar">
+                <p class="text-left ocultar">
                     '.$params["vocabularyMetadata"]["scope"].'
                 </p>
                 <div id="carousel" class="carousel slide ocultar" data-ride="carousel">
@@ -224,9 +233,9 @@ function HTMLglobalContextualMenu($params=array())
                                     '.$params["vocabularyMetadata"]["cant_terms"].'
                                 </p>
                                 <p class="statstext"> '.LABEL_terms.' ';
-
+        
         if ($_SESSION["vocab"]["mail"])
-            $rows.='<a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABELFORM_newSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>'.LABELFORM_newSuggest.'</span></a>';
+            $rows.='<a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABELFORM_newSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>'.LABELFORM_newSuggest.'</span></a>';        
 
         $rows.='                </p>
                             </div>
@@ -476,7 +485,7 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                                 .$htmlTerm["results"]["UF"].'
                             </div>
                         </div>';
-    if (strlen($htmlTerm["results"]["NOTES"]) > 0) {
+    if (strlen($htmlTerm["results"]["NOTES"]) > 0) {            
           $rows.= '      <div class="relation panel">
                             <div id="notas" class="relation-body">
                                 '.$htmlTerm["results"]["NOTES"].'
@@ -520,8 +529,8 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                 </div>';
       $rows.=  '</div><!-- #term -->';
       $rows.=  '</div> <! --#tabbable -->';
-
-    return $rows;
+ 
+    return $rows;                            
 }
 
 function human_filesize($bytes, $decimals = 2)
@@ -584,6 +593,73 @@ function fetchVocabCode($vocab_code)
 {
     GLOBAL $CFG_VOCABS;
     GLOBAL $CFG;
-    $v=(in_array($vocab_code,$CFG_VOCABS)) ? $vocab_code : $CFG["DEFVOCAB"];
-    return $v;
+
+    $v=(strlen($vocab_code)>0) ? XSSprevent($vocab_code) : '';
+
+    $v=(strlen($v)>0) ? $v : $CFG["DEFVOCAB"];
+    
+
+    foreach ($CFG_VOCABS as $k => $val) {
+       if ($val[$key] == $v) {
+           return $v;
+       };
+    }
+
+    return $CFG["DEFVOCAB"];
+}
+
+/* Retorna los datos, acorde al formato de autocompleter */
+function getData4Autocompleter($URL_BASE,$searchq){
+        $data=getURLdata($URL_BASE.'?task=suggestDetails&arg='.$searchq);       
+        $arrayResponse=array("query"=>$searchq,
+                             "suggestions"=>array(),
+                             "data"=>array());
+        if($data->resume->cant_result > 0)  {   
+            foreach ($data->result->term as $value) {
+                $i=++$i;
+                array_push($arrayResponse["suggestions"], (string) $value->string);
+                array_push($arrayResponse["data"], (int) $value->term_id);
+            }
+        }                   
+        return json_encode($arrayResponse);
+    };
+
+
+/* Retorna los datos, acorde al formato de autocompleter UI*/
+function getData4AutocompleterUI($URL_BASE,$searchq){
+
+        $data=getURLdata($URL_BASE.'?task=suggestDetails&arg='.$searchq);       
+        $arrayResponse=array();
+        if($data->resume->cant_result > 0)  {   
+            foreach ($data->result->term as $value) {
+                $i=++$i;
+                array_push($arrayResponse, (string) $value->string);
+            }
+        }                   
+        return json_encode($arrayResponse);
+    };
+
+
+
+/*Revisa si el módulo esta habilitado para el vocabulario*/
+function checkModuleCFG($module,$v=1){
+
+$enable_modules=$_SESSION["vocab"]["MODULES"];
+
+switch ($module) {
+        case 'BULK_TERMS_REVIEW':
+            if(in_array('BULK_TERMS_REVIEW',$enable_modules)) return true;
+            break;
+        case 'CLASSIFFY':
+            if(in_array('CLASSIFFY',$enable_modules)) return true;
+            break;
+        case 'SUGGESTION_SERVICE':
+            //que este habilitado y que haya mail de contacto
+            if((in_array('SUGGESTION_SERVICE',$enable_modules)) && (strlen($_SESSION["vocab"]["mail"])>0)) return true;
+            break;
+        
+        default:
+            return false;
+            break;
+    }    
 }
