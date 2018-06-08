@@ -81,16 +81,11 @@ function HTMLmeta($vocabularyMetadata,$extraTitle="")
     return $rows;
 }
 
-
-
 function HTMLformSearch(){
-
     GLOBAL $CFG_URL_PARAM;
-
-    $rows.='<div class="container">
-    <div class="row">
+    $rows.='<div class="row">
+      <div class="col-12">
         <form name="searchForm" method="get" id="searchform" action="'.$CFG_URL_PARAM["url_site"].'">
-        <div class="col-md-8">
             <div id="custom-search-input">
                 <div class="input-group ">
                     <input type="text" class="form-control input-lg"  id="query" name="arg" class="search-query" placeholder="'.LABEL_Buscar.'">
@@ -101,15 +96,14 @@ function HTMLformSearch(){
                     </span>
                 </div>
             </div>
-        </div>
-        <input type="hidden" id="task" name="task" value="search" />                    
-        <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />                  
+            <input type="hidden" id="task" name="task" value="search" />
+            <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />             
         </form>
-    </div>
-</div>';
-
+        </div>
+    </div>';
 return $rows;
 }
+
 
 
 /*  Presentación de menú global  */
