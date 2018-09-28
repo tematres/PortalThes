@@ -31,7 +31,8 @@ $lang_tematres = "es_AR" ;
 
 //  VOCABULARIOS == vocabulary to use
 $CFG_VOCABS["1"]["CODE"]       	= "1"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
-$CFG_VOCABS["1"]["URL_BASE"]   	= 'http://www.r020.com.ar/tematres/demo/services.php'; // URL of the tematres web services provider
+$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/services.php'; // URL of the tematres web services provider
+$CFG_VOCABS["1"]["URL_BASE"]   	= 'http://www.tc.df.gov.br/app/tematres-tcdf/vocab/services.php'; // URL of the tematres web 
 $CFG_VOCABS["1"]["ALPHA"]      	= array(); // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
 $CFG_VOCABS["1"]["SHOW_TREE"]  	= 1; // show main tree navigation. Default=1
 $CFG_VOCABS["1"]["MODULES"]     = array("CLASSIFFY","BULK_TERMS_REVIEW","SUGGESTION_SERVICE");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE

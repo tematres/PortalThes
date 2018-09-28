@@ -43,10 +43,23 @@ header('Content-Type: text/html; charset=UTF-8');
         ?>
            
     <style>
-        .marked-text {background-color: #ffddff;padding: 0 3px;color: #000;border-radius: 3px;font-weight: 300;}
+    	.corpus{opacity: 0.9;}
+        .marked-text {opacity: 0.9;background-color: DarkCyan;padding: 0 3px;color: LightGrey;border-radius: 3px;font-weight: 600;}
         .active-step{opacity: 1 !important;filter: alpha(opacity=100) !important;font-weight: bold;}
         .term_list{list-style-type:none;}
         .noSelectedTerms {opacity: 0.5;font-weight: bold;}
+  .ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 200px;
+  }        
     </style>           
     <!-- Tokenfield CSS -->
     <link href="tokenfield/dist/css/bootstrap-tokenfield.css" type="text/css" rel="stylesheet">
@@ -203,7 +216,7 @@ header('Content-Type: text/html; charset=UTF-8');
              autocomplete: { delay: 0, // show suggestions immediately
                                     position: { collision: 'flip' }, // automatic menu position up/down },
                                     'source': '<?php echo $CFG_URL_PARAM["url_site"];?>apps/classify/index.php', 
-                                    'minLength': 3 },
+                                    'minLength': 3,  autoFocus: true },
             showAutocompleteOnFocus: false,
             createTokensOnBlur:true,
             delimiter:',',
@@ -214,7 +227,7 @@ header('Content-Type: text/html; charset=UTF-8');
              autocomplete: { delay: 0, // show suggestions immediately
                                     position: { collision: 'flip' }, // automatic menu position up/down },
                                     'source': '<?php echo $CFG_URL_PARAM["url_site"];?>apps/classify/index.php', 
-                                    'minLength': 3 },
+                                    'minLength': 3,  autoFocus: true },
             showAutocompleteOnFocus: true,
             createTokensOnBlur:true,
             delimiter:',' 
