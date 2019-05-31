@@ -73,7 +73,13 @@ function data2html4Notes($data,$param=array())
         $i=0;
             foreach ($data->result->term as $value) {
                 $i=++$i;
-                    $note_label=(in_array((string) $value->note_type,array("NA","NH","NB","NP","NC","CB","DEF"))) ? str_replace(array("NA","NH","NB","NP","NC","CB","DEF"),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC,"Nota bibliográfica",$CFG["LOCAL_NOTES"]["DEF"]),(string) $value->note_type) : (string) $value->note_type;
+
+                    $note_type=(string) $value->note_type;
+                    //note_label is one of the standard type of note
+                    $note_label=(in_array($note_type,array("NA","NH","NB","NP","NC","CB"))) ? str_replace(array("NA","NH","NB","NP","NC"),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$note_type) : $note_type;
+
+                    //note_label is custom type of note
+                    $note_label=(isset($CFG["LOCAL_NOTES"]["$note_type"])) ? $CFG["LOCAL_NOTES"]["$note_type"] : $note_type;
                     $rows.='<div rel="skos:scopeNote">';
                     $rows.='<span class="note_label">'.$note_label.':</span>';
                     $rows.='<p class="note">'.(string) $value->note_text.'</p>';
