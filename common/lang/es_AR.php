@@ -28,6 +28,12 @@ define('LABEL_Abreviatura','Abreviatura');
 define('LABEL_CODE','Notación');
 define('USE_termino','USE');
 define('LABEL_terms','términos');
+define('LABEL_NA',LABEL_NotaAlcance);
+define('LABEL_ND',LABEL_NotaDefinicion);
+define('LABEL_NH','Nota histórica');
+define('LABEL_NB',LABEL_NotaBibliografica);
+define('LABEL_NC','Nota de catalogación');
+
 
 define('LABEL_resources','Recursos');
 
@@ -55,7 +61,7 @@ define('LABELFORM_eqSuggest;','Proponer una traducción ');
 
 
 /*BULK TERM ANALISIS MODULE */
-define('BULK_TERMS_REVIEW_title','Servicio de análisis masivo de términos');
+define('BULK_TERMS_REVIEW_title','Herramienta de reconciliación terminológica');
 define('BULK_TERMS_REVIEW_description','Esta herramienta permite comparar un conjunto de términos, <strong>pueden ser hasta %s</strong>. Al finalizar la comparación se obtiene un informe en línea o descargable que indica:
 términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
 

@@ -65,7 +65,7 @@ function getURLdata2($url)
     Recibe un objeto con las notas y lo publica como HTML  */
 function data2html4Notes($data,$param=array())
 {
-    GLOBAL $CFG;
+    GLOBAL $CFG,$CFG_URL_PARAM;
     $rows = '';
     if ($data->resume->cant_result > 0) {
         $i = 0;
@@ -76,7 +76,7 @@ function data2html4Notes($data,$param=array())
 
                     $note_type=(string) $value->note_type;
                     //note_label is one of the standard type of note
-                    $note_label=(in_array($note_type,array("NA","NH","NB","NP","NC","CB"))) ? str_replace(array("NA","NH","NB","NP","NC"),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$note_type) : $note_type;
+                    $note_label=(in_array($note_type,array("NA","NH","NB","NP","NC","CB"))) ? str_replace(array("NA","NH","NB","NP","NC"),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NC),$note_type) : $note_type;
 
                     //note_label is custom type of note
                     $note_label=(isset($CFG["LOCAL_NOTES"]["$note_type"])) ? $CFG["LOCAL_NOTES"]["$note_type"] : $note_type;
@@ -93,7 +93,7 @@ function data2html4Notes($data,$param=array())
 /*  data to letter html  */
 function data2html4Letter($data,$param=array())
 {
-    GLOBAL $URL_BASE, $PHP_SELF;
+    GLOBAL $URL_BASE, $CFG_URL_PARAM;
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows=' <h3>
                 '.$param["div_title"].'  <i>'.$data->resume->param->arg.'</i>: '.$data->resume->cant_result.'
@@ -105,9 +105,9 @@ function data2html4Letter($data,$param=array())
             $i=++$i;
             //Controlar que no sea un resultado unico
             $rows.='<li>
-                        <span about="'.$URL_BASE.'?task=fetchtTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+                        <span about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
             $rows.=(strlen($value->no_term_string)>0) ? $value->no_term_string." ".USE_termino." " : "";
-            $rows.='        <a resource="'.$URL_BASE.'?task=fetchtTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$PHP_SELF.'?task=fetchTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" title="'.FixEncoding($value->string).'">
+            $rows.='        <a resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" title="'.FixEncoding($value->string).'">
                                 '.FixEncoding($value->string).'
                             </a>
                         </span>
@@ -121,7 +121,7 @@ function data2html4Letter($data,$param=array())
 /* data to last terms created  */
 function data2html4LastTerms($data,$param=array())
 {
-    GLOBAL $URL_BASE,$PHP_SELF;
+    GLOBAL $URL_BASE,$CFG_URL_PARAM;
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows='<h3>'.$param["div_title"].'</h3>';
     $i = 0;
@@ -131,9 +131,9 @@ function data2html4LastTerms($data,$param=array())
             $i=++$i;
             $term_date = do_date(($value->date_mod > $value->date_create) ? $value->date_mod : $value->date_create);
             $rows.= '<li>
-                        <span about="'.$URL_BASE.'?task=fetch tTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+                        <span about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
             $rows.=         (strlen($value->no_term_string)>0) ? $value->no_term_string." ".USE_termino." " : "";
-            $rows.=         '<a resource="'.$URL_BASE.'?task=fetchtTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$PHP_SELF.'?task=fetchTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" title="'.FixEncoding($value->string).'">'
+            $rows.=         '<a resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" title="'.FixEncoding($value->string).'">'
                                 .FixEncoding($value->string).
                             '</a>
                              ('.$term_date["dia"].'/'.$term_date["mes"].'/'.$term_date["ano"].')
@@ -148,8 +148,8 @@ function data2html4LastTerms($data,$param=array())
 /*  Recibe un objeto con resultados de búsqueda y lo publica como HTML  */
 function data2html4Search($data,$string,$param=array())
 {
-    GLOBAL $message;
-    GLOBAL $CFG_URL_PARAM;
+    GLOBAL $message, $CFG_URL_PARAM,$URL_BASE;
+
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows=' <div>
                 <h3 id="msg_search_result">
@@ -178,7 +178,7 @@ function data2html4Search($data,$string,$param=array())
         $rows.='</ul>';
     } else {
         //No hay resultados, buscar términos similares
-        GLOBAL $URL_BASE;
+
         $data=getURLdata($URL_BASE.'?task=fetchSimilar&arg='.urlencode((string) $data->resume->param->arg));
         if($data->resume->cant_result > 0) {
             $rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).' <a href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["search"].(string) $data->result->string.'&amp;v='.$vocab_code.'" title="'.(string) $data->result->string.'">'.(string) $data->result->string.'</a>?</h4>';
@@ -271,9 +271,9 @@ function data2html4MappedTerms($data,$param=array())
 }
 
 /*  HTML details for direct terms  */
-function data2html4directTerms($data,$param=array())
-{
+function data2html4directTerms($data,$param=array()){
     GLOBAL $URL_BASE, $CFG_URL_PARAM, $class_dd, $BT_rows, $RT_rows, $UF_rows;
+
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $i = 0;
     $iRT = 0;
@@ -310,7 +310,7 @@ function data2html4directTerms($data,$param=array())
                                 </dd>';
                     break;
                 case '4':
-                    if ($value->relation_code != H) {
+                    if ($value->relation_code !='H') {
                         $iUF=++$iUF;
                         $UF_rows.=' <dd
                                         id="nopref"
@@ -441,7 +441,7 @@ function HTMLalphaNav($arrayLetras=array(),$param=array(),$select_letra="")
     foreach ($arrayLetras as $letra) {
         $class=($select_letra==$letra) ? 'active' : '';
         $rows.='    <li class="'.$class.'">
-                        <a href="'.$CFG_URL_PARAM["url_site"].'?task=letter&amp;arg='.strtoupper($letra).'&amp;v='.$vocab_code.'">
+                        <a href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["letter"].strtoupper($letra).'&amp;v='.$vocab_code.'">
                             '.strtoupper($letra).'
                         </a>
                     </li>';
@@ -620,58 +620,8 @@ function utf8($txt)
     return $txt;
 }
 
-function clean($val)
-{
-    // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed
-    // this prevents some character re-spacing such as <java\0script>
-    // note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs
-    $val = preg_replace('/([\x00-\x08][\x0b-\x0c][\x0e-\x20])/', '', $val);
-    // straight replacements, the user should never need these since they're normal characters
-    // this prevents like <IMG SRC=&#X40&#X61&#X76&#X61&#X73&#X63&#X72&#X69&#X70&#X74&#X3A&#X61&#X6C&#X65&#X72&#X74&#X28&#X27&#X58&#X53&#X53&#X27&#X29>
-    $search = 'abcdefghijklmnopqrstuvwxyz';
-    $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $search .= '1234567890!@#$%^&*()';
-    $search .= '~`";:?+/={}[]-_|\'\\';
-    for ($i = 0; $i < strlen($search); $i++) {
-        // ;? matches the ;, which is optional
-        // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars
-        // &#x0040 @ search for the hex values
-        $val = preg_replace('/(&#[x|X]0{0,8}'.dechex(ord($search[$i])).';?)/i', $search[$i], $val); // with a ;
-        // &#00064 @ 0{0,7} matches '0' zero to seven times
-        $val = preg_replace('/(&#0{0,8}'.ord($search[$i]).';?)/', $search[$i], $val); // with a ;
-    }
-    // now the only remaining whitespace attacks are \t, \n, and \r
-    $ra1 = Array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base');
-    $ra2 = Array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload');
-    $ra = array_merge($ra1, $ra2);
-    $found = true; // keep replacing as long as the previous round replaced something
-    while ($found == true) {
-        $val_before = $val;
-        for ($i = 0; $i < sizeof($ra); $i++) {
-            $pattern = '/';
-            for ($j = 0; $j < strlen($ra[$i]); $j++) {
-                if ($j > 0) {
-                    $pattern .= '(';
-                    $pattern .= '(&#[x|X]0{0,8}([9][a][b]);?)?';
-                    $pattern .= '|(&#0{0,8}([9][10][13]);?)?';
-                    $pattern .= ')?';
-                }
-                $pattern .= $ra[$i][$j];
-            }
-            $pattern .= '/i';
-            $replacement = substr($ra[$i], 0, 2).'<x>'.substr($ra[$i], 2); // add in <> to nerf the tag
-            $val = preg_replace($pattern, $replacement, $val); // filter out the hex tags
-            if ($val_before == $val) {
-                // no replacements were made, so exit the loop
-                $found = false;
-            }
-        }
-    }
-   return $val;
-}
 
-function XSSprevent($string)
-{
+function XSSprevent($string){
 $string = str_replace ( array ('<',">","&",'"' ), array ('','','',''), $string );
 
 //$string=htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
@@ -682,9 +632,11 @@ require_once 'htmlpurifier/HTMLPurifier.auto.php';
     $purifier = new HTMLPurifier($config);
     $clean_string = $purifier->purify($string);
 
-    return clean($clean_string);
+    return $clean_string;
 
 }
+
+
 
 function sendMail($to_address,$subject,$message,$extra=array())
 {

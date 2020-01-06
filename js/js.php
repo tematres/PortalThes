@@ -11,7 +11,7 @@ $(document).ready(function (){
 	          url: "<?php echo $CFG_URL_PARAM["url_site"];?>index.php",
 	          dataType: "json",
 	          data: {
-	            term: request.term
+	            sgterm: request.term
 	          },
 	          success: function( data ) {
 	            response( data );

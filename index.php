@@ -1,17 +1,17 @@
 <?php
     require 'config.ws.php';
-    $searchq  =  XSSprevent($_GET['term']);
+    $searchq  =  XSSprevent($_GET['sgterm']);
     if(strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {
         echo getData4AutocompleterUI($URL_BASE,$searchq);
         exit();
     };
     header('Content-Type: text/html; charset=UTF-8');    
-    if (is_array($CFG_VOCABS[$v])) {
-        $task = '';
+    $task = '';
+    if (is_array($CFG_VOCABS[$v])) {     
         if (isset ($_GET["task"])) {
             switch ($_GET["task"]) {
                 //datos de un término == term data
-                case 'fetchTerm':
+                case 'term':
                     //sanitiar variables
                     $tema_id = is_numeric($_GET['arg']) ? intval($_GET['arg']) : 0;
                     if ($tema_id > 0) {
@@ -43,7 +43,7 @@
                         $dataTerm = getURLdata($URL_BASE.'?task=search&arg='.urlencode($string));
                         //check for unique results
                         if (((int) $dataTerm->resume->cant_result == 1) && (mb_strtoupper((string) $dataTerm->result->term->string) == mb_strtoupper($string)))
-                            header('Location:'.$CFG_URL_PARAM["url_site"].'?task=fetchTerm&arg='.$dataTerm->result->term->term_id.'&v='.$v);
+                            header('Location:'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$dataTerm->result->term->term_id.'&v='.$v);
                         $htmlSearchTerms = data2html4Search($dataTerm,/*ucfirst($message["searchExpresion"]).' : <i>'.*/$string/*.'</i>'*/,array("vocab_code"=>$v));
                         $task = 'search';
                     }
@@ -77,6 +77,12 @@
                 </div><!--  END box presentación  -->
                 <div class="col-sm-8 col-md-9">
                     <?php echo HTMLformSearch();?>
+
+                    <?php
+                        if(is_array($CFG_VOCABS[$v]["ALPHA"]))      {
+                            echo HTMLalphaNav($CFG_VOCABS[$v]["ALPHA"],$_GET["letter"],array("vocab_code"=>$v));
+                        }
+                        ?>                    
                 </div><!--  END buscador  -->
                 <div class="col-sm-8 col-md-9" id="content">
                     <?php
