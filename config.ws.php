@@ -31,7 +31,8 @@ $lang_tematres = "es_AR" ;
 
 //  VOCABULARIOS == vocabulary to use
 $CFG_VOCABS["1"]["CODE"]       	= "1"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
-$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/services.php'; // URL of the tematres web services provider
+//$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/services.php'; // URL of the tematres web services provider
+$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/unbis/en/services.php'; // URL of the tematres web services provider
 $CFG_VOCABS["1"]["ALPHA"]      	= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
 $CFG_VOCABS["1"]["SHOW_TREE"]  	= 1; // show main tree navigation. Default=1
 $CFG_VOCABS["1"]["MODULES"]     = array("CLASSIFFY","BULK_TERMS_REVIEW","SUGGESTION_SERVICE");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE
@@ -51,11 +52,13 @@ $CFG["LOCAL_NOTES"]["DEF"]      = "Nota de definición";
 //$CFG_URL_PARAM["fetchTerm"]		= 'index.php?task=fetchTerm&amp;arg=';
 //$CFG_URL_PARAM["search"]		= 'index.php?task=search&amp;arg=';
 //$CFG_URL_PARAM["letter"]		= 'index.php?task=letter&amp;arg=';
-$CFG_URL_PARAM["URIfetchTerm"]	= 'fetchTerm/';
+//$CFG_URL_PARAM["v"]		= '&amp;v=';
+$CFG_URL_PARAM["URIfetchTerm"]	= '/fetchTerm/';
 
-$CFG_URL_PARAM["fetchTerm"]		= 'term/';
-$CFG_URL_PARAM["search"]		= 'search/';
-$CFG_URL_PARAM["letter"]		= 'letter/';
+$CFG_URL_PARAM["v"]		= '';
+$CFG_URL_PARAM["fetchTerm"]		= '/term/';
+$CFG_URL_PARAM["search"]		= '/search/';
+$CFG_URL_PARAM["letter"]		= '/letter/';
 
 
 

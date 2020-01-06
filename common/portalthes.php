@@ -427,7 +427,8 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
     $term= (string) FixEncoding($dataTerm->result->term->string);
     $term_id= (int) $dataTerm->result->term->term_id;
 
-      $rows.= '<div class="tabbable">
+
+    $rows.= '<div class="tabbable">
             <ul class="nav nav-tabs sections">
                 <li class="active">
                     <a href="#main" data-toggle="tab">
@@ -458,8 +459,9 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                 <div class="tab-content">
                     <div class="tab-pane active" id="main">';
 
-    if (isset($htmlTerm["results"]["breadcrumb"]))
-      $rows.=            $htmlTerm["results"]["breadcrumb"];
+    if (isset($htmlTerm["results"]["breadcrumb"])) $rows.=$htmlTerm["results"]["breadcrumb"];
+
+
     if (isset($htmlTerm["results"]["BT"])) {
       $rows.= '          <div class="relation-body">
                             '.$htmlTerm["results"]["BT"].'
@@ -604,6 +606,7 @@ function fetchVocabCode($vocab_code)
 
 /* Retorna los datos, acorde al formato de autocompleter */
 function getData4Autocompleter($URL_BASE,$searchq){
+
         $data=getURLdata($URL_BASE.'?task=suggestDetails&arg='.$searchq);       
         $arrayResponse=array("query"=>$searchq,
                              "suggestions"=>array(),

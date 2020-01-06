@@ -105,9 +105,9 @@ function data2html4Letter($data,$param=array())
             $i=++$i;
             //Controlar que no sea un resultado unico
             $rows.='<li>
-                        <span about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+                        <span about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
             $rows.=(strlen($value->no_term_string)>0) ? $value->no_term_string." ".USE_termino." " : "";
-            $rows.='        <a resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" title="'.FixEncoding($value->string).'">
+            $rows.='        <a resource="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" property="skos:prefLabel" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.FixEncoding($value->string).'">
                                 '.FixEncoding($value->string).'
                             </a>
                         </span>
@@ -122,7 +122,9 @@ function data2html4Letter($data,$param=array())
 function data2html4LastTerms($data,$param=array())
 {
     GLOBAL $URL_BASE,$CFG_URL_PARAM;
+    
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
+
     $rows='<h3>'.$param["div_title"].'</h3>';
     $i = 0;
     if ($data->resume->cant_result > 0) {
@@ -131,9 +133,9 @@ function data2html4LastTerms($data,$param=array())
             $i=++$i;
             $term_date = do_date(($value->date_mod > $value->date_create) ? $value->date_mod : $value->date_create);
             $rows.= '<li>
-                        <span about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+                        <span about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
             $rows.=         (strlen($value->no_term_string)>0) ? $value->no_term_string." ".USE_termino." " : "";
-            $rows.=         '<a resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$value->term_id.'&amp;v='.$vocab_code.'" title="'.FixEncoding($value->string).'">'
+            $rows.=         '<a resource="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" property="skos:prefLabel" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.FixEncoding($value->string).'">'
                                 .FixEncoding($value->string).
                             '</a>
                              ('.$term_date["dia"].'/'.$term_date["mes"].'/'.$term_date["ano"].')
@@ -166,10 +168,10 @@ function data2html4Search($data,$string,$param=array())
             $no_term_string = '';
             $no_term_string = (string) $value->no_term_string;
             $rows.='    <li>
-                            <span about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept" >';
+                            <span about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept" >';
             if ($no_term_string != '')
                 $rows.=         $no_term_string.' <strong>use</strong> ';
-            $rows.='            <a resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'"  title="'.$term_string.'">
+            $rows.='            <a resource="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" property="skos:prefLabel" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'"  title="'.$term_string.'">
                                     '.$term_string.'
                                 </a>
                             </span>
@@ -181,7 +183,7 @@ function data2html4Search($data,$string,$param=array())
 
         $data=getURLdata($URL_BASE.'?task=fetchSimilar&arg='.urlencode((string) $data->resume->param->arg));
         if($data->resume->cant_result > 0) {
-            $rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).' <a href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["search"].(string) $data->result->string.'&amp;v='.$vocab_code.'" title="'.(string) $data->result->string.'">'.(string) $data->result->string.'</a>?</h4>';
+            $rows.='<h4>'.ucfirst(LABEL_TERMINO_SUGERIDO).' <a href="'.redactHREF($vocab_code,"search",(string) $data->result->string).'" title="'.(string) $data->result->string.'">'.(string) $data->result->string.'</a>?</h4>';
         }
     }
     return $rows;
@@ -215,11 +217,11 @@ function data2htmlTerm($data,$param=array())
     $dataDirectTerms = getURLdata($URL_BASE.'?task=fetchDirectTerms&arg='.$term_id);
     $array2HTMLdirectTerms = data2html4directTerms($dataDirectTerms,array("vocab_code"=>$vocab_code));
     if ($array2HTMLdirectTerms["UFcant"] > 0) {
-        // $arrayRows["UF"].='<dt>'.ucfirst(UP_terminos).':</dt>';
+        
         $arrayRows["UF"]=$array2HTMLdirectTerms["UF"];
     }
     if ($array2HTMLdirectTerms["RTcant"] > 0) {
-        // $arrayRows["RT"].='<dt class="relation translation panel">'.ucfirst(TR_terminos).'</dt>';
+        
         $arrayRows["RT"]=$array2HTMLdirectTerms["RT"];
     }
     /* el breadcrumb se visualiza si tiene un solo término general; si no, se ven los términos generales */
@@ -233,6 +235,7 @@ function data2htmlTerm($data,$param=array())
     if ($array2HTMLdirectTerms["BTcant"] > 1) {
         $arrayRows["BT"].='<dt>'.ucfirst(TG_terminos).':</dt>';
         $arrayRows["BT"].=$array2HTMLdirectTerms["BT"];
+        $arrayRows["breadcrumb"]=data2html4Breadcrumb($dataTG,$term_id,array("vocab_code"=>$vocab_code));
     }
     /* Buscar términos mapeados  */
     $dataMapped=getURLdata($URL_BASE.'?task=fetchTargetTerms&arg='.$term_id);
@@ -259,8 +262,8 @@ function data2html4MappedTerms($data,$param=array())
         $rows.='        <ul>';
         foreach ($data->result->term as $value) {
             $i=++$i;
-            $rows.='<li><span about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].(int) $value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
-            $rows.=(string) $value->target_vocabulary_label.': <span resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].(int) $value->term_id.'&amp;v='.$vocab_code.'" property="skos:prefLabel" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].(int) $value->term_id.'&amp;v='.$vocab_code.'" title="'.(string) $value->string.'">'.(string) $value->string.'</span>';
+            $rows.='<li><span about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
+            $rows.=(string) $value->target_vocabulary_label.': <span resource="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" property="skos:prefLabel" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.(string) $value->string.'">'.(string) $value->string.'</span>';
             $rows.='</span>';
             $rows.='</li>';
         }
@@ -291,10 +294,10 @@ function data2html4directTerms($data,$param=array()){
             switch ((int) $value->relation_type_id) {
                 case '2':
                     $iRT=++$iRT;
-                    $RT_rows.='<dd id="relac" about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+                    $RT_rows.='<dd id="relac" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
                     $RT_rows.=($value->code) ? '<span property="skos:notation">'.$value->code.'</span>' :'';
                     $RT_rows.=' <a rel="skos:related"
-                    href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'"
+                    href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'"
                     title="'.$term_string.'">'.$term_string.'</a>';
                     $RT_rows.='</dd>';
                     break;
@@ -302,8 +305,8 @@ function data2html4directTerms($data,$param=array()){
                     $iBT=++$iBT;
                     if (isset($v["isMetaTerm"]))
                         $class_dd=($v["isMetaTerm"]==1) ? ' class="metaTerm" ' :'';
-                    $BT_rows.=' <dd '.$class_dd.' about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">
-                                    <a rel="skos:broather" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'"
+                    $BT_rows.=' <dd '.$class_dd.' about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">
+                                    <a rel="skos:broather" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'"
                     title="'.$term_string.'">'
                                         .$term_string.
                                     '</a>
@@ -343,12 +346,11 @@ function data2html4Breadcrumb($data,$tema_id="0",$param=array()){
 
     $tema_id = (int) $tema_id;
     
-    if ($data->resume->cant_result > 0)
-    {
-    
+    if ($data->resume->cant_result > 0){
+
         $rows.='<div id="term_breadcrumb">';                    
         $rows.='<span typeof="v:Breadcrumb">';
-        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
+        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
         $rows.='</span>  ';
 
         $i=0;
@@ -358,7 +360,7 @@ function data2html4Breadcrumb($data,$tema_id="0",$param=array()){
             if((int) $value->term_id!==$tema_id)
             {
                 $rows.='› <span typeof="v:Breadcrumb">';
-                $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].(int) $value->term_id.'&amp;v='.$vocab_code.'" title="'.(string) $value->string.'">'.(string) $value->string.'</a>';
+                $rows.='<a rel="v:url" property="v:title" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.(string) $value->string.'">'.(string) $value->string.'</a>';
                 $rows.='</span>  ';
             }
             else
@@ -375,7 +377,7 @@ function data2html4Breadcrumb($data,$tema_id="0",$param=array()){
         //there are only one result
         $rows.='<div id="term_breadcrumb">';                    
         $rows.='<span typeof="v:Breadcrumb">';
-        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
+        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
         $rows.='</span>  ';
 
         $rows.='› <span typeof="v:Breadcrumb">';
@@ -398,7 +400,7 @@ function data2html4MappedURITerms($data,$param=array())
     if($data->resume->cant_result > 0) {
         $rows.='<ul>';
         foreach ($data->result->term as $value) {
-            $rows.='<li><span about="'.$URL_BASE.'?task=fetchtTerm&amp;arg='.$value->term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+            $rows.='<li><span about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
             $rows.=(string) $value->link_type.': <a resource="'.(string) $value->link.'" property="skos:'.(string) $value->link_type.'" href="'.(string) $value->link.'" title="'.(string) $value->link_type.' '.(string) $value->link.'">'.(string) $value->link.'</a>';
             $rows.='</span>';
             $rows.='</li>';
@@ -408,6 +410,8 @@ function data2html4MappedURITerms($data,$param=array())
     $rows.='</div>';
     return $rows;
 };
+
+
 
 function data2html4TopTerms($data,$param=array())
 {
@@ -421,9 +425,9 @@ function data2html4TopTerms($data,$param=array())
             $term_id=(int) $value->term_id;
             $term_string=(string) $value->string;
             $class_li=($value->isMetaTerm==1) ? ' class="metaTerm" ' :'';
-            $rows.='<li '.$class_li.' about="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" typeof="skos:Concept">';
+            $rows.='<li '.$class_li.' about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
             $rows.=($value->code) ? '<span property="skos:notation">'.$value->code.'</span> ' :'';
-            $rows.='<a resource="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" property="skos:hasTopConcept" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$term_id.'&amp;v='.$vocab_code.'" title="'.$term_string.'">'.$term_string.'</a>';
+            $rows.='<a resource="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" property="skos:hasTopConcept" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>';
             $rows.='</li>';
         }
         $rows.='</ul>';
@@ -441,7 +445,7 @@ function HTMLalphaNav($arrayLetras=array(),$param=array(),$select_letra="")
     foreach ($arrayLetras as $letra) {
         $class=($select_letra==$letra) ? 'active' : '';
         $rows.='    <li class="'.$class.'">
-                        <a href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["letter"].strtoupper($letra).'&amp;v='.$vocab_code.'">
+                        <a href="'.redactHREF($vocab_code,"letter",strtoupper($letra)).'">
                             '.strtoupper($letra).'
                         </a>
                     </li>';
@@ -676,4 +680,16 @@ function do_date($time)
     return $array;
 }
 
+
+
+function redactHREF($v,$task,$arg,$extra=array()){
+
+    GLOBAL $CFG_VOCABS,$CFG,$CFG_URL_PARAM;
+
+    $v=(is_array($CFG_VOCABS[$v])) ? $v : $CFG["DEFVOCAB"];
+
+    $task=(in_array($task,array('fetchTerm','search','letter','last'))) ? $task : 'last' ;
+
+    return $CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$v.$CFG_URL_PARAM[$task].$arg;
+}
 ?>

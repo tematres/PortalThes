@@ -43,7 +43,7 @@
                         $dataTerm = getURLdata($URL_BASE.'?task=search&arg='.urlencode($string));
                         //check for unique results
                         if (((int) $dataTerm->resume->cant_result == 1) && (mb_strtoupper((string) $dataTerm->result->term->string) == mb_strtoupper($string)))
-                            header('Location:'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["fetchTerm"].$dataTerm->result->term->term_id.'&v='.$v);
+                            header('Location:'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$v.$CFG_URL_PARAM["fetchTerm"].$dataTerm->result->term->term_id);
                         $htmlSearchTerms = data2html4Search($dataTerm,/*ucfirst($message["searchExpresion"]).' : <i>'.*/$string/*.'</i>'*/,array("vocab_code"=>$v));
                         $task = 'search';
                     }
@@ -52,7 +52,7 @@
         }
         //default values
         $c=isset($_GET['c']) ? XSSprevent($_GET['c']) : '';
-    }
+    }    
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"];?>">
