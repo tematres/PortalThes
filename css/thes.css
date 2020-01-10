@@ -87,24 +87,15 @@ body {
 
 /*   VARIOS   */
 
-a {
-    word-wrap: break-word;
-}
+a {word-wrap: break-word;}
 
 .img-center {
     display: block;
     margin: 0 auto;
 }
 
-#links a:nth-child(1) { /*logos ME y BNM */
-    margin-right: 10px;
-    margin-bottom: 10px;
-    display: inline-block;
-    padding-top: 10px;
-}
 
 /*   BUSCADOR   */
-
 .box-buscador {
     background-color: rgba(21, 94, 140, 0.22);
     box-shadow: 1px 1px 13px rgba(26,74,151,.7);
@@ -113,9 +104,7 @@ a {
     padding: 2% 2% 0 2%;
 }
 
-.buscador,
-.input-group,
-#searchbox {
+.buscador,.input-group,#searchbox {
     width: 100%;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -209,20 +198,6 @@ a {
     -transform: scale(1.05) rotate(-2deg);
 }
 
-.vocme .widgettitulo {
-   background: #813615;
-}
-
-.vocext .widgettitulo {
-   background: #20520C;
-}
-
-.nuevo > .widgettitulo a:after {
-    content: url(../imagenes/nuevo.png);
-    position: absolute;
-    top: 0;
-    right: 0;
-}
 
 .widgettitulo a {
     color: #FFFFFF;
@@ -471,15 +446,6 @@ section.stats {
     color: #1a4a97;
 }
 
-.meta-datos-elementos,
-.etiquetas,
-.plugin img,
-.plugin #item_tags,
-.plugin .info-busquedaTipofuncional,
-.plugin .info-busquedaVotos,
-.plugin .clr {
-    display: none;
-}
 
 
 /*   PÁGINA DEL VOC: BOX PRINCIPAL: PESTAÑAS  */
@@ -770,3 +736,27 @@ span.note_label {
 .resultados:nth-child(even) {
     background-color: #E1E7EC;
 }
+
+
+.label_list {display:inline; font-weight: bolder;}  
+
+#alt_terms li, #broader_terms li, #related_terms li{   list-style-type: none;   display: inline;}
+
+#term_relations a{text-decoration:underline;}
+
+.post-tags a,.post-tags li{display:inline-block;color:#999}
+.post-tags{margin-bottom:40px}
+
+.post-tags a{background:#f2f2f2; line-height:2;white-space:nowrap;padding:3px 5px;margin:0 5px 2px 0;-webkit-border-radius:3px;border-radius:3px;color:blue}
+.post-tags a:hover{background-color:#46B8DA;color:#fff}
+
+.alt-tags {background:#f2f2f2; line-height:2.666em;white-space:nowrap;padding:3px 7px;margin:0 5px 2px 0;-webkit-border-radius:2px;border-radius:2px}
+
+
+/*
+#alt_terms li:first-child:before, #broader_terms li:first-child:before, #related_terms li:first-child:before{    content: " ";}
+#alt_terms li:before {   content: "; ";}
+#alt_terms li:first-child:before {content: "";}
+*/
+
+#alt_terms li{   font-style: italic; }

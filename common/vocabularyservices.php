@@ -106,7 +106,7 @@ function data2html4Letter($data,$param=array())
             //Controlar que no sea un resultado unico
             $rows.='<li>
                         <span about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
-            $rows.=(strlen($value->no_term_string)>0) ? $value->no_term_string." ".USE_termino." " : "";
+            $rows.=(strlen($value->no_term_string)>0) ? $value->no_term_string." <i>".USE_termino."</i> " : "";
             $rows.='        <a resource="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" property="skos:prefLabel" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.FixEncoding($value->string).'">
                                 '.FixEncoding($value->string).'
                             </a>
@@ -190,53 +190,55 @@ function data2html4Search($data,$string,$param=array())
 }
 
 /*  HTML details for one term  */
-function data2htmlTerm($data,$param=array())
-{
-    GLOBAL $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS, $array, $array2HTMLdirectTerms;
+function data2htmlTerm($data,$param=array()){
+    //GLOBAL $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS, $array, $array2HTMLdirectTerms;
+    GLOBAL $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS ;
+
     $vocab_code = fetchVocabCode(@$param["vocab_code"]);
     $date_term  = ($data->result->term->date_mod) ? $data->result->term->date_mod : $data->result->term->date_create;
     $date_term  = date_create($date_term);
     $term_id    = (int) $data->result->term->tema_id;
     $term       = (string) $data->result->term->string;
     $class_term = ($data->result->term->isMetaTerm == 1) ? ' class="metaTerm" ' :'';
-    /*  fetch broader terms  */
-    $dataTG     = getURLdata($URL_BASE.'?task=fetchUp&arg='.$term_id);
+
+
     $arrayRows["termdata"] = '<span '.$class_term.' id="term_prefLabel" property="skos:prefLabel" content="'.FixEncoding($array["result"]["term"]["string"]).'">'.FixEncoding($term).'</span>';
+
+
     /*  Notas  */
     $dataNotes = getURLdata($URL_BASE.'?task=fetchNotes&arg='.$term_id);
     $arrayRows["NOTES"] = data2html4Notes($dataNotes,$param);
+
     $dataTE = getURLdata($URL_BASE.'?task=fetchDown&arg='.$term_id);
     if ($dataTE->resume->cant_result > 0) {
-        // <dt>'.ucfirst(TE_terminos).':</dt>
-        $arrayRows["NT"]='  <dd>
-                                <div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?node='.$term_id.'&amp;v='.$vocab_code.'">
-                                </div>
-                            </dd>';
+        $arrayRows["NT"]='<div><span class="label_list">'.ucfirst(TE_terminos).':</span>';
+        $arrayRows["NT"].='<div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?node='.$term_id.'&amp;v='.$vocab_code.'"></div></div>';
     }
     //Fetch data about associated terms (BT,RT,UF)
     $dataDirectTerms = getURLdata($URL_BASE.'?task=fetchDirectTerms&arg='.$term_id);
     $array2HTMLdirectTerms = data2html4directTerms($dataDirectTerms,array("vocab_code"=>$vocab_code));
+
     if ($array2HTMLdirectTerms["UFcant"] > 0) {
         
-        $arrayRows["UF"]=$array2HTMLdirectTerms["UF"];
+        $arrayRows["UF"]='<div id="alt_terms" class="term_relations"><span class="label_list">'.ucfirst(UP_terminos).':</span><ul class="uf_terms">'.$array2HTMLdirectTerms["UF"].'</ul></div>';
     }
-    if ($array2HTMLdirectTerms["RTcant"] > 0) {
-        
-        $arrayRows["RT"]=$array2HTMLdirectTerms["RT"];
+
+    if ($array2HTMLdirectTerms["RTcant"] > 0) {        
+
+        $arrayRows["RT"]='<div id="related_terms" class="term_relations"><span class="label_list">'.ucfirst(TR_terminos).':</span><ul class="rt_terms">'.$array2HTMLdirectTerms["RT"].'</ul></div>';
+
     }
-    /* el breadcrumb se visualiza si tiene un solo término general; si no, se ven los términos generales */
-    if ($array2HTMLdirectTerms["BTcant"] == 1) {
-        if ($dataTG->resume->cant_result > 0) {
-            $arrayTG["term"]["string"]=$term;
-            $arrayRows["breadcrumb"]=data2html4Breadcrumb($dataTG,$term_id,array("vocab_code"=>$vocab_code));
-        }
+
+    /*  fetch broader terms  */
+    $dataTG = getURLdata($URL_BASE.'?task=fetchUp&arg='.$term_id);
+
+    $arrayRows["breadcrumb"]=data2html4Breadcrumb($dataTG,$term_id,array("vocab_code"=>$vocab_code));    
+
+    /* términos generales */
+    if ($array2HTMLdirectTerms["BTcant"] > 0) {
+        $arrayRows["BT"]='<div id="broader_terms" class="term_relations"><span class="label_list">'.ucfirst(TG_terminos).':</span><ul class="bt_terms">'.$array2HTMLdirectTerms["BT"].'</ul></div>';        
     }
-    /* si tiene más de un término general, se visualizan; si no, está el breadcrumb */
-    if ($array2HTMLdirectTerms["BTcant"] > 1) {
-        $arrayRows["BT"].='<dt>'.ucfirst(TG_terminos).':</dt>';
-        $arrayRows["BT"].=$array2HTMLdirectTerms["BT"];
-        $arrayRows["breadcrumb"]=data2html4Breadcrumb($dataTG,$term_id,array("vocab_code"=>$vocab_code));
-    }
+
     /* Buscar términos mapeados  */
     $dataMapped=getURLdata($URL_BASE.'?task=fetchTargetTerms&arg='.$term_id);
     if ($dataMapped->resume->cant_result > 0) {
@@ -275,7 +277,7 @@ function data2html4MappedTerms($data,$param=array())
 
 /*  HTML details for direct terms  */
 function data2html4directTerms($data,$param=array()){
-    GLOBAL $URL_BASE, $CFG_URL_PARAM, $class_dd, $BT_rows, $RT_rows, $UF_rows;
+    GLOBAL $URL_BASE, $CFG_URL_PARAM, $class_dd;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $i = 0;
@@ -291,39 +293,26 @@ function data2html4directTerms($data,$param=array()){
             $i=++$i;
             $term_id=(int) $value->term_id;
             $term_string=(string) $value->string;
+
+            if (isset($v["isMetaTerm"])) $class_dd=($v["isMetaTerm"]==1) ? 'metaTerm ' :'';
+
             switch ((int) $value->relation_type_id) {
                 case '2':
                     $iRT=++$iRT;
-                    $RT_rows.='<dd id="relac" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
+                    $RT_rows.='<li class="rt_term post-tags" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
                     $RT_rows.=($value->code) ? '<span property="skos:notation">'.$value->code.'</span>' :'';
-                    $RT_rows.=' <a rel="skos:related"
-                    href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'"
-                    title="'.$term_string.'">'.$term_string.'</a>';
-                    $RT_rows.='</dd>';
+                    $RT_rows.=' <a rel="tag" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a></li>';                    
+
                     break;
                 case '3':
                     $iBT=++$iBT;
-                    if (isset($v["isMetaTerm"]))
-                        $class_dd=($v["isMetaTerm"]==1) ? ' class="metaTerm" ' :'';
-                    $BT_rows.=' <dd '.$class_dd.' about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">
-                                    <a rel="skos:broather" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'"
-                    title="'.$term_string.'">'
-                                        .$term_string.
-                                    '</a>
-                                </dd>';
+                    
+                    $BT_rows.=' <li class="'.$class_dd.' bt_term post-tags" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept"><a rel="tag" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a></li>';
                     break;
                 case '4':
                     if ($value->relation_code !='H') {
                         $iUF=++$iUF;
-                        $UF_rows.=' <dd
-                                        id="nopref"
-                                        typeof="skos:altLabel"
-                                        property="skos:altLabel"
-                                        content="'.$term_string.'"
-                                        xml:lang="'.(string) $value->lang.'">
-                                        <i class="fa fa-ban"></i> '
-                                        .$term_string.'
-                                    </dd>';
+                        $UF_rows.=' <li class="uf_term alt-tags" typeof="skos:altLabel" property="skos:altLabel" content="'.$term_string.'" xml:lang="'.(string) $value->lang.'">'.$term_string.'</li>';
                     }
                     break;
             }

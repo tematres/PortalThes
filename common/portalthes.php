@@ -31,8 +31,9 @@ function HTMLestilosyjs()
 
     $rows='
     <!-- js -->
-    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-3.3.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-3.4.1.min.js"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/js/bootstrap.min.js"></script>
+
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery.mockjax.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.validate.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/masonry.pkgd.min.js"></script>
@@ -40,14 +41,15 @@ function HTMLestilosyjs()
     <script src="'.$CFG_URL_PARAM["url_site"].'js/tree.jquery.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php"></script>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'js/tagcloud.js"></script>
+
     <!-- css -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.css">
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes.css">
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans|Syncopate">
-    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Syncopate">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.css">
 
     
@@ -428,45 +430,6 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
     $term_id= (int) $dataTerm->result->term->term_id;
 
 
-    $rows.= '<div class="tabbable">
-            <ul class="nav nav-tabs sections">
-                <li class="active">
-                    <a href="#main" data-toggle="tab">
-                        '.LABEL_Termino.'
-                    </a>
-                </li>';
-    if (isset($htmlTerm["results"]["MAP"]) || isset($htmlTerm["results"]["LINKED"])) {
-      $rows.= '  <li class="">
-                    <a href="#matches" data-toggle="tab">
-                        '.LABEL_TargetTerm.'
-                    </a>
-                </li>';
-    }
-    if ($_SESSION["vocab"]["mail"]) {
-      $rows.= '  <li class="">
-                    <a href="#suggests" data-toggle="tab">
-                        '.LABEL_suggests.'
-                    </a>
-                </li>';
-    }
-     $rows.= '      <li class="">
-                    <a href="#datos" data-toggle="tab">
-                        '.LABEL_webservices.'
-                    </a>
-                </li>
-            </ul>
-            <div id="term" about="'.$URL_BASE.$dataTerm->result->term->term_id.'" typeof="skos:Concept">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="main">';
-
-    if (isset($htmlTerm["results"]["breadcrumb"])) $rows.=$htmlTerm["results"]["breadcrumb"];
-
-
-    if (isset($htmlTerm["results"]["BT"])) {
-      $rows.= '          <div class="relation-body">
-                            '.$htmlTerm["results"]["BT"].'
-                        </div>';
-    }
     if (isset($htmlTerm["results"]["termdata"])) {
       $rows.= '          <div>
                             <h2>
@@ -474,13 +437,53 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                             </h2>
                         </div>';
     }
+
+
+    $rows.= '<div class="tabbable">
+                    <ul class="nav nav-tabs sections">
+                        <li class="active">
+                            <a href="#main" data-toggle="tab">
+                                '.LABEL_Termino.'
+                            </a>
+                        </li>';
+            if (isset($htmlTerm["results"]["MAP"]) || isset($htmlTerm["results"]["LINKED"])) {
+              $rows.= '  <li class="">
+                            <a href="#matches" data-toggle="tab">
+                                '.LABEL_TargetTerm.'
+                            </a>
+                        </li>';
+            }
+            if ($_SESSION["vocab"]["mail"]) {
+              $rows.= '  <li class="">
+                            <a href="#suggests" data-toggle="tab">
+                                '.LABEL_suggests.'
+                            </a>
+                        </li>';
+            }
+             $rows.= '      <li class="">
+                            <a href="#datos" data-toggle="tab">
+                                '.LABEL_webservices.'
+                            </a>
+                        </li>
+                    </ul>
+
+
+            <div id="term" about="'.$URL_BASE.$dataTerm->result->term->term_id.'" typeof="skos:Concept">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="main">';
+
+    if (isset($htmlTerm["results"]["breadcrumb"])) $rows.=$htmlTerm["results"]["breadcrumb"];
+
+
     if ( ! isset($htmlTerm["results"]["UF"]))
-        $htmlTerm["results"]["UF"]='';
+     $htmlTerm["results"]["UF"]='';
      $rows.= '              <div class="relation-body padbot">
-                            <div>'
+                            <div id="altTerms">'
                                 .$htmlTerm["results"]["UF"].'
                             </div>
                         </div>';
+
+
     if (strlen($htmlTerm["results"]["NOTES"]) > 0) {            
           $rows.= '      <div class="relation panel">
                             <div id="notas" class="relation-body">
@@ -488,24 +491,27 @@ function HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata){
                             </div>
                         </div>';
     }
+
+    if (isset($htmlTerm["results"]["BT"])) {
+    $rows.= '          <div class="relation-body">
+                            '.$htmlTerm["results"]["BT"].'
+                        </div>';
+    }
+
     if ( ! isset($htmlTerm["results"]["NT"]))
         $htmlTerm["results"]["NT"]='';
      $rows.= '              <div class="row">
-                            <div class="relation-body col-md-5">
-                              '.$htmlTerm["results"]["NT"].'
+                                <div class="relation-body col-md-5">'.$htmlTerm["results"]["NT"].'</div>
                             </div>';
+
     if (isset($htmlTerm["results"]["RT"])) {
-      $rows.= '              <div class="col-md-4 pull-right" id="box-rel">
-                                <div class="row">
-                                    <em>Términos relacionados</em>
-                                    <div class="relation-body">
-                                        '.$htmlTerm["results"]["RT"].'
-                                    </div>
-                                </div>
-                            </div>';
+    $rows.= '          <div class="relation-body">
+                            '.$htmlTerm["results"]["RT"].'
+                        </div>';
     }
-      $rows.=  '              </div>
-                    </div>';
+
+     $rows.=  '</div>';
+
     if ( ! isset($htmlTerm["results"]["MAP"]))
         $htmlTerm["results"]["MAP"] = '';
     if ( ! isset($htmlTerm["results"]["LINKED"]))

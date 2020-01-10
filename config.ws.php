@@ -31,8 +31,8 @@ $lang_tematres = "es_AR" ;
 
 //  VOCABULARIOS == vocabulary to use
 $CFG_VOCABS["1"]["CODE"]       	= "1"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
-//$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/services.php'; // URL of the tematres web services provider
-$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/unbis/en/services.php'; // URL of the tematres web services provider
+$CFG_VOCABS["1"]["URL_BASE"]    = 'https://www.vocabularyserver.com/unbis/es/'; // URL of the tematres web services provider
+//$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/unbis/en/services.php'; // URL of the tematres web services provider
 $CFG_VOCABS["1"]["ALPHA"]      	= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
 $CFG_VOCABS["1"]["SHOW_TREE"]  	= 1; // show main tree navigation. Default=1
 $CFG_VOCABS["1"]["MODULES"]     = array("CLASSIFFY","BULK_TERMS_REVIEW","SUGGESTION_SERVICE");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE
@@ -84,7 +84,7 @@ if ( !defined('WEBTHES_ABSPATH') )
 	
     $_SESSION["vocab"]=$CFG_VOCABS[$v];	
 	
-    $URL_BASE=$CFG_VOCABS[$v]["URL_BASE"];
+    $URL_BASE=$CFG_VOCABS[$v]["URL_BASE"].'services.php';
 
         $vocabularyMetadata=fetchVocabularyMetadata($URL_BASE);
         $_SESSION["vocab"]["mail"]  = ((strlen($vocabularyMetadata["adminEmail"])>0)) ? $vocabularyMetadata["adminEmail"] : false ;
