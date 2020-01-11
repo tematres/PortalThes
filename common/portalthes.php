@@ -41,7 +41,6 @@ function HTMLestilosyjs()
     <script src="'.$CFG_URL_PARAM["url_site"].'js/tree.jquery.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php"></script>
-    <script type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'js/tagcloud.js"></script>
 
     <!-- css -->
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">

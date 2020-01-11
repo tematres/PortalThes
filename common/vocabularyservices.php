@@ -232,7 +232,7 @@ function data2htmlTerm($data,$param=array()){
     /*  fetch broader terms  */
     $dataTG = getURLdata($URL_BASE.'?task=fetchUp&arg='.$term_id);
 
-    $arrayRows["breadcrumb"]=data2html4Breadcrumb($dataTG,$term_id,array("vocab_code"=>$vocab_code));    
+    $arrayRows["breadcrumb"]=data2html4Breadcrumb($dataTG,array("term_id"=>$term_id,"term"=>$term),array("vocab_code"=>$vocab_code));    
 
     /* términos generales */
     if ($array2HTMLdirectTerms["BTcant"] > 0) {
@@ -326,34 +326,30 @@ function data2html4directTerms($data,$param=array()){
                     "UFcant"=>$iUF);
 }
 
-function data2html4Breadcrumb($data,$tema_id="0",$param=array()){
+function data2html4Breadcrumb($data,$the_term=array(),$param=array()){
 
     GLOBAL $URL_BASE;
     GLOBAL $CFG_URL_PARAM;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
-
-    $tema_id = (int) $tema_id;
     
     if ($data->resume->cant_result > 0){
 
         $rows.='<div id="term_breadcrumb">';                    
         $rows.='<span typeof="v:Breadcrumb">';
-        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
+        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
         $rows.='</span>  ';
 
         $i=0;
 
         foreach ($data->result->term as $value){
             $i=++$i;
-            if((int) $value->term_id!==$tema_id)
+            if((int) $value->term_id!==$the_term["term_id"])
             {
                 $rows.='› <span typeof="v:Breadcrumb">';
                 $rows.='<a rel="v:url" property="v:title" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.(string) $value->string.'">'.(string) $value->string.'</a>';
                 $rows.='</span>  ';
-            }
-            else
-            {
+            } else {
                 
                 $rows.='› <span typeof="v:Breadcrumb">';
                 $rows.=(string) $value->string;
@@ -364,17 +360,17 @@ function data2html4Breadcrumb($data,$tema_id="0",$param=array()){
         $rows.='</div>';        
     }        else        {
         //there are only one result
+
         $rows.='<div id="term_breadcrumb">';                    
         $rows.='<span typeof="v:Breadcrumb">';
-        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
+        $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
         $rows.='</span>  ';
 
         $rows.='› <span typeof="v:Breadcrumb">';
-        $rows.=(string) $data->term->string;
+        $rows.=(string) $the_term["term"];
         $rows.='</span>  ';
 
         $rows.='</div>';
-
         }
 
 return $rows;
