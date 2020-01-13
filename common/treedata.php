@@ -7,7 +7,7 @@
 			$array_data=array();
 			foreach ($data->result->term as $value){
 				$load_on_demand=($value->hasMoreDown==0) ? false : true;
-				$link='<a href="'.redactHREF(fetchVocabCode($v),"fetchTerm",(int) $value->term_id).'" title="'.$value->string.'">'.$value->string.'</a>';
+				$link='<a id="nt'.$value->term_id.'" href="'.redactHREF(fetchVocabCode($v),"fetchTerm",(int) $value->term_id).'" title="'.$value->string.'">'.$value->string.'</a>'.HTMLcopyClick($vocab_code,'nt'.$value->term_id,array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])) ;
 				array_push($array_data, array("label"=>"$link",
 	                "id"=>"$value->term_id",
 	                "load_on_demand"=>$load_on_demand));
@@ -19,7 +19,7 @@
 		if($data->resume->cant_result > 0) {	
 			$array_data=array();
 			foreach ($data->result->term as $value) {
-				$link='<a href="'.redactHREF(fetchVocabCode($v),"fetchTerm",(int) $value->term_id).'" title="'.(string) $value->string.'">'.(string)$value->string.'</a>';
+				$link='<a href="'.redactHREF(fetchVocabCode($v),"fetchTerm",(int) $value->term_id).'" title="'.(string) $value->string.'">'.(string)$value->string.'</a>'.HTMLcopyClick($vocab_code,'nt'.$value->term_id,array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 				array_push($array_data, array("label"=>"$link",
                   "id"=>"$value->term_id",
                   "load_on_demand"=>true));
