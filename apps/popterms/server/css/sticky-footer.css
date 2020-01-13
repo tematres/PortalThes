@@ -1,0 +1,10 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 160px;
+  margin-top: 80px;
+}
+.container .text-muted {
+  margin: 20px 0;
+}

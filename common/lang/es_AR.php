@@ -61,11 +61,15 @@ define('LABELFORM_eqSuggest;','Proponer una traducción ');
 
 
 /*BULK TERM ANALISIS MODULE */
-define('BULK_TERMS_REVIEW_title','Herramienta de reconciliación terminológica');
+define('BULK_TERMS_REVIEW_title','Reconciliación terminológica');
 define('BULK_TERMS_REVIEW_description','Esta herramienta permite comparar un conjunto de términos, <strong>pueden ser hasta %s</strong>. Al finalizar la comparación se obtiene un informe en línea o descargable que indica:
 términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
 
 /*CLASSIFY MODULE */
 define('CLASSIFY_SERVICE_title','Asistente de clasificación');
 define('CLASSIFY_SERVICE_description','Esta herramienta permite analizar un texto breve e identificar potenciales palabras clave. ');
+
+/*Copy-click module*/
+
+define('LABEL_copy_click','copiar término al portapapeles');
 ?>

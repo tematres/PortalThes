@@ -760,3 +760,16 @@ span.note_label {
 */
 
 #alt_terms li{   font-style: italic; }
+
+.copy-clipboard {
+    border-radius: 0;
+    vertical-align: inherit;
+    font-size: 14px;
+    margin-right: 5px;
+    border: 0;
+}
+
+
+span.metaTerm,a.metaTerm{color:#616161;}
+span.metaTerm:before,a.metaTerm:before{content:'<'}
+span.metaTerm:after,a.metaTerm:after{content:'>'}

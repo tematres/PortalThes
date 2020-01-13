@@ -41,7 +41,7 @@ function HTMLestilosyjs()
     <script src="'.$CFG_URL_PARAM["url_site"].'js/tree.jquery.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php"></script>
-
+    <script type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'js/clipboard.min.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">
     
@@ -196,6 +196,8 @@ function HTMLglobalFooter($params=array())
                     </ul>
                 </section>
             </footer>';
+            
+            $rows.='<script type="text/javascript">var clipboard = new ClipboardJS(\'.copy-clipboard\')</script>';
     return $rows;
 }
 
@@ -659,9 +661,19 @@ switch ($module) {
             //que este habilitado y que haya mail de contacto
             if((in_array('SUGGESTION_SERVICE',$enable_modules)) && (strlen($_SESSION["vocab"]["mail"])>0)) return true;
             break;
+        case 'COPY_CLICK':
+            if(in_array('COPY_CLICK',$enable_modules)) return true;            
         
         default:
             return false;
             break;
     }    
+}
+
+/*HTML button to copy the value string for valid term*/
+function HTMLcopyClick($v,$targt_div,$array_flags){
+ 
+    if(($array_flags["isMetaTerm"]==1) || ($array_flags["isValidTerm"]==0) || (checkModuleCFG('COPY_CLICK',$v)==0)) return;
+
+    return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'"><span class="glyphicon glyphicon-copy" aria-hidden="true"  title="'.ucfirst(LABEL_copy_click).'"></span></button>';
 }

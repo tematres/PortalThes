@@ -39,6 +39,7 @@ $(document).ready(function (){
 });
 
 
+
 $(function() {
-  $("#query").focus();
-});
+	  $("#query").focus();
+	});

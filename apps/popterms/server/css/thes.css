@@ -1,0 +1,129 @@
+
+/*
+ * 
+ * Vocabulary tematres styles
+ * 
+ */
+/*
+contenido de la definicio
+*/
+dd{
+	margin-left:25px;
+}
+
+/*
+labels de la defincion
+*/
+.termData dt{
+	font-size: 14px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;
+	padding-top:10px;
+}
+
+#term_breadcrumb{
+	font-size: 14px; font-family: Arial, Helvetica, sans-serif; ;
+}
+
+
+#term_prefLabel{
+font-size: 20px; 
+font-weight: bold;
+}
+
+
+
+#topterms{
+	font-size: 16px; font-family: Arial, Helvetica, sans-serif; 
+	padding:15px;
+
+}
+
+.label_details{
+display: block; 
+font-size: 12px; 
+font-family: Arial, Helvetica, sans-serif; 
+line-height: 10px;  
+color:#000000;
+padding:10px;
+text-align:right;
+}
+
+.label_details a{
+color:#000000;
+text-decoration:none;
+}
+
+
+#acerca_vocabulario h2{
+font-size: 25px; letter-spacing: -2px; line-height: 35px; padding: 15px 0px 0px 0px; margin: 0px;
+}
+
+
+#msg_search_result{
+font-size: 14px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;
+color: #000000;
+margin: 20px 0 10px;
+font-weight: bold;
+}
+
+#list_search_result li{
+font-size: 14px; font-family: Arial, Helvetica, sans-serif;
+margin: 10px 0 6px 10px;
+}
+
+
+
+
+dd.metaTerm,li.metaTerm,a.metaTerm{color:#999999;}
+dd.metaTerm:before, li.metaTerm:before,a.metaTerm:before{content:'<'}
+dd.metaTerm:after,li.metaTerm:after,a.metaTerm:after{content:'>'}
+
+
+.topterms li.metaTerm
+{
+font-family: "Proxima Nova Regular","Helvetica Neue","Calibri","Droid Sans","Helvetica","Arial",sans-serif;
+font-style: normal;
+font-weight: 400;
+}
+
+
+ul.topterms a {
+font-size: 1.2em;
+width: auto!important;
+border: 0;
+letter-spacing: .15em;
+margin-top: 2.5em;
+padding: .8em .5em .25em 1%;
+text-transform: uppercase;
+border-bottom: .07em solid rgba(0,0,0,0.1);
+line-height: 30px!important;
+}
+
+ul.topterms  {
+list-style-type: none;
+}
+
+p.note{
+	padding: .1em 0 0 2.5em;
+	margin: 0 auto;
+}
+
+span.note_label{
+	padding: .8em 0 0 0;
+	margin-top: 2.5em;
+	padding: .8em .5em .25em 0;
+	border-bottom: .07em solid rgba(0,0,0,0.1);
+	line-height: 30px;
+}
+	
+a:link
+                color: #009BDD;
+text-decoration: none;
+                }
+a:hover {
+                color: #009BDD;
+                text-decoration: underline;
+}
+a:visited {
+                color: #009BDD;
+                text-decoration: none;
+}

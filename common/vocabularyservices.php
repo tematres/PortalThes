@@ -201,8 +201,7 @@ function data2htmlTerm($data,$param=array()){
     $term       = (string) $data->result->term->string;
     $class_term = ($data->result->term->isMetaTerm == 1) ? ' class="metaTerm" ' :'';
 
-
-    $arrayRows["termdata"] = '<span '.$class_term.' id="term_prefLabel" property="skos:prefLabel" content="'.FixEncoding($array["result"]["term"]["string"]).'">'.FixEncoding($term).'</span>';
+    $arrayRows["termdata"] = '<span '.$class_term.' id="xterm_prefLabel" property="skos:prefLabel" content="'.FixEncoding($term).'">'.FixEncoding($term).'</span> '.HTMLcopyClick($vocab_code,'xterm_prefLabel',array("isMetaTerm"=>$data->result->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 
 
     /*  Notas  */
@@ -277,7 +276,7 @@ function data2html4MappedTerms($data,$param=array())
 
 /*  HTML details for direct terms  */
 function data2html4directTerms($data,$param=array()){
-    GLOBAL $URL_BASE, $CFG_URL_PARAM, $class_dd;
+    GLOBAL $URL_BASE, $CFG_URL_PARAM, $class_dd,$CFG;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $i = 0;
@@ -299,15 +298,15 @@ function data2html4directTerms($data,$param=array()){
             switch ((int) $value->relation_type_id) {
                 case '2':
                     $iRT=++$iRT;
-                    $RT_rows.='<li class="rt_term post-tags" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
-                    $RT_rows.=($value->code) ? '<span property="skos:notation">'.$value->code.'</span>' :'';
-                    $RT_rows.=' <a rel="tag" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a></li>';                    
+                    $RT_rows.='<li class="rt_term post-tags" id="rt'.$value->term_id.'" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept">';
+                    //$RT_rows.=($value->code) ? '<span property="skos:notation">'.$value->code.'</span>' :'';
+                    $RT_rows.=' <a rel="tag" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>'.HTMLcopyClick($vocab_code,'rt'.$value->term_id,array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>';                    
 
                     break;
                 case '3':
                     $iBT=++$iBT;
                     
-                    $BT_rows.=' <li class="'.$class_dd.' bt_term post-tags" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept"><a rel="tag" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a></li>';
+                    $BT_rows.=' <li class="'.$class_dd.' bt_term post-tags" id="bt'.$value->term_id.'" about="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" typeof="skos:Concept"><a rel="tag" href="'.redactHREF($vocab_code,"fetchTerm",$value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>'.HTMLcopyClick($vocab_code,'bt'.$value->term_id,array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>';
                     break;
                 case '4':
                     if ($value->relation_code !='H') {

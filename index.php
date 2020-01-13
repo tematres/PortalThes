@@ -59,7 +59,7 @@
     <head>
         <?php 
             echo HTMLmeta($_SESSION["vocab"],$term);
-            echo HTMLestilosyjs();
+            echo HTMLestilosyjs();            
         ?>        
     </head>
     <body>
