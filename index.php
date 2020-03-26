@@ -1,5 +1,8 @@
 <?php
     require 'config.ws.php';
+
+    include_once('apps/vv/config.ws.php');
+
     $searchq  =  XSSprevent($_GET['sgterm']);
     if(strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {
         echo getData4AutocompleterUI($URL_BASE,$searchq);
@@ -19,6 +22,7 @@
                         $htmlTerm=data2htmlTerm($dataTerm,array("vocab_code"=>$v));
                         $term= (string) FixEncoding($dataTerm->result->term->string);
                         $term_id= (int) $dataTerm->result->term->term_id;
+                        $arrayTermData=$htmlTerm["resultData"];
                         $task='fetchTerm';
                     }
                 break;
@@ -61,8 +65,13 @@
             echo HTMLmeta($_SESSION["vocab"],$term);
             echo HTMLestilosyjs();            
         ?>        
+        <link type="text/css" href="<?php echo $CFG_URL_PARAM["url_site"];?>apps/vv/css/hypertree.css" rel="stylesheet" />
+                <!-- JIT Library File -->
+        <script language="javascript" type="text/javascript" src="<?php echo $CFG_URL_PARAM["url_site"];?>apps/vv/js/jit-yc.js"></script>
+        <!-- Source File -->
+        <script language="javascript" type="text/javascript" src="<?php echo $CFG_URL_PARAM["url_site"].'apps/vv/vv.php?term_id='.$term_id;?>"></script>
     </head>
-    <body>
+    <body onload="init();">
         <?php
             echo HTMLglobalMenu(array("CFG_VOCABS"=>$CFG_VOCABS,"vocab_code"=>$v));
         ?>
@@ -97,9 +106,7 @@
                             echo $htmlTerm["results"];
                             break;
                         case 'fetchTerm':
-
                             echo HTMLtermDetaills($htmlTerm,$dataTerm,$vocabularyMetadata);
-
                             break;
                         case 'mdata':
                             echo HTMLmetadataVocabulary($CFG_VOCABS[$v]);
@@ -112,6 +119,10 @@
                             break;
                     }
                     ?>
+
+                    <div id="container">
+                        <div id="infovis"></div>    
+                    </div>
                 </div><!--  END main  -->
                 <div class="col-xs-12 littleinfo">
                     <div class="caja box-info">

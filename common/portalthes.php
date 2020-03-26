@@ -21,8 +21,7 @@
      *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
      *      MA 02110-1301, USA.
      */
-function HTMLestilosyjs()
-{
+function HTMLestilosyjs(){
     GLOBAL $CFG_URL_PARAM;
 
 //<script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.autocomplete.min.js"></script>
@@ -44,7 +43,8 @@ function HTMLestilosyjs()
     <script type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'js/clipboard.min.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">
-    
+    <link type="image/x-icon" href="'.$CFG_URL_PARAM["url_site"].'css/favicon.ico" rel="icon" />
+
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.css">
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Syncopate">
@@ -130,11 +130,13 @@ function HTMLglobalMenu($params=array()){
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_tools).'<b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu">';
 
-    if (checkModuleCFG('BULK_TERMS_REVIEW')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
+                    if (checkModuleCFG('BULK_TERMS_REVIEW')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
 
-    if (checkModuleCFG('CLASSIFFY')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
+                    if (checkModuleCFG('CLASSIFFY')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
 
-    if (checkModuleCFG('SUGGESTION_SERVICE')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+                    if (checkModuleCFG('SUGGESTION_SERVICE')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+                    
+                    if (checkModuleCFG('MARC21')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
 
     $rows.='    <li><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">Consultar últimas modificaciones</a></li>
                                 </ul>
@@ -157,11 +159,13 @@ function HTMLglobalFooter($params=array())
                     <h5>'.ucfirst(LABEL_tools).'</h5>
                     <ul class="list-unstyled">';
 
-                if (checkModuleCFG('BULK_TERMS_REVIEW')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
+                    if (checkModuleCFG('BULK_TERMS_REVIEW')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
 
-                if (checkModuleCFG('CLASSIFFY')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
+                    if (checkModuleCFG('CLASSIFFY')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
 
-                if (checkModuleCFG('SUGGESTION_SERVICE')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+                    if (checkModuleCFG('SUGGESTION_SERVICE')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+                    
+                    if (checkModuleCFG('MARC21')==true) $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
 
     $rows.='       <li>
                             <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">
@@ -654,16 +658,23 @@ switch ($module) {
         case 'BULK_TERMS_REVIEW':
             if(in_array('BULK_TERMS_REVIEW',$enable_modules)) return true;
             break;
+
         case 'CLASSIFFY':
             if(in_array('CLASSIFFY',$enable_modules)) return true;
             break;
+
         case 'SUGGESTION_SERVICE':
             //que este habilitado y que haya mail de contacto
             if((in_array('SUGGESTION_SERVICE',$enable_modules)) && (strlen($_SESSION["vocab"]["mail"])>0)) return true;
             break;
+
         case 'COPY_CLICK':
             if(in_array('COPY_CLICK',$enable_modules)) return true;            
-        
+            break;
+
+        case 'MARC21':
+            if(in_array('MARC21',$enable_modules)) return true;            
+            break;
         default:
             return false;
             break;

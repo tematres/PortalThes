@@ -31,11 +31,19 @@ $lang_tematres = "es_AR" ;
 
 //  VOCABULARIOS == vocabulary to use
 $CFG_VOCABS["1"]["CODE"]       	= "1"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
-$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/'; // URL of the tematres instance
+//$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/'; // URL of the tematres instance
+$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/bne/encabezamientos/'; // URL of the tematres instance
 $CFG_VOCABS["1"]["ALPHA"]      	= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
-$CFG_VOCABS["1"]["ALIAS"]  	= "SAIJ"; // show main tree navigation. Default=1
-$CFG_VOCABS["1"]["SHOW_TREE"]  	= 1; // show main tree navigation. Default=1
-$CFG_VOCABS["1"]["MODULES"]     = array("CLASSIFFY","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
+$CFG_VOCABS["1"]["ALIAS"]  	= "SAIJ"; // 
+$CFG_VOCABS["1"]["SHOW_TREE"]  	= 0; // show main tree navigation. Default=1
+$CFG_VOCABS["1"]["MODULES"]     = array("MARC21","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
+
+
+$CFG_VOCABS["2"]["CODE"]       	= "2"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
+$CFG_VOCABS["2"]["URL_BASE"]    = 'https://vocabularyserver.com/brased/'; // URL of the tematres instance
+$CFG_VOCABS["2"]["ALPHA"]      	= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
+$CFG_VOCABS["2"]["SHOW_TREE"]  	= 1; // show main tree navigation. Default=1
+$CFG_VOCABS["2"]["MODULES"]     = array("CLASSIFFY","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
 
 ## Config data about THIS WEB PORTAL
 $CFG_URL_PARAM["url_site"]      ='http://localhost/tematres/portalthes/';

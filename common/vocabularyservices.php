@@ -1,7 +1,5 @@
 <?php
-
-if ( ! defined('WEBTHES_ABSPATH'))
-    die("no access");
+if ( ! defined('WEBTHES_ABSPATH'))   die("no access");
 /*
  *      vocabularyservices.php
  *
@@ -28,8 +26,7 @@ if ( ! defined('WEBTHES_ABSPATH'))
 *       $uri = url de servicios tematres
 *       & task = consulta a realizar
 *       & arg = argumentos de la consulta   */
-function getURLdata($url)
-{
+function getURLdata($url){
     if (extension_loaded('curl')) {
         $rCURL = curl_init();
         curl_setopt($rCURL, CURLOPT_URL, $url);
@@ -44,28 +41,23 @@ function getURLdata($url)
     return $content;
 }
 
-function getURLdata2($url)
-{
-    if (extension_loaded('curl')) {
-        $rCURL = curl_init();
-        curl_setopt($rCURL, CURLOPT_URL, $url);
-        curl_setopt($rCURL, CURLOPT_HEADER, 0);
-        curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
-        $xml = curl_exec($rCURL);
+/*
+Datos de definicion del vocabularios
+* */
+function getTemaTresData($tematres_uri,$task="fetchVocabularyData",$arg=""){
+    if ( ! $arg) {
+        return getURLdata($tematres_uri.'services.php?task=fetchVocabularyData');
     } else {
-        $xml=file_get_contents($url);
+        return getURLdata($tematres_uri.'services.php?task='.$task.'&arg='.$arg);
     }
-    if ( ! $xml) {
-        return false;
-    }
-    return new SimpleXMLElement($xml);
 }
+
 
 /*  Funciones de presentación de datos
     Recibe un objeto con las notas y lo publica como HTML  */
 function data2html4Notes($data,$param=array())
 {
-    GLOBAL $CFG,$CFG_URL_PARAM;
+    GLOBAL $CFG;
     $rows = '';
     if ($data->resume->cant_result > 0) {
         $i = 0;
@@ -93,7 +85,7 @@ function data2html4Notes($data,$param=array())
 /*  data to letter html  */
 function data2html4Letter($data,$param=array())
 {
-    GLOBAL $URL_BASE, $CFG_URL_PARAM;
+    GLOBAL $URL_BASE;
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows=' <h3>
                 '.$param["div_title"].'  <i>'.$data->resume->param->arg.'</i>: '.$data->resume->cant_result.'
@@ -121,7 +113,7 @@ function data2html4Letter($data,$param=array())
 /* data to last terms created  */
 function data2html4LastTerms($data,$param=array())
 {
-    GLOBAL $URL_BASE,$CFG_URL_PARAM;
+    GLOBAL $URL_BASE;
     
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
 
@@ -150,7 +142,7 @@ function data2html4LastTerms($data,$param=array())
 /*  Recibe un objeto con resultados de búsqueda y lo publica como HTML  */
 function data2html4Search($data,$string,$param=array())
 {
-    GLOBAL $message, $CFG_URL_PARAM,$URL_BASE;
+    GLOBAL $message, $URL_BASE;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows=' <div>
@@ -191,7 +183,7 @@ function data2html4Search($data,$string,$param=array())
 
 /*  HTML details for one term  */
 function data2htmlTerm($data,$param=array()){
-    //GLOBAL $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS, $array, $array2HTMLdirectTerms;
+
     GLOBAL $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS ;
 
     $vocab_code = fetchVocabCode(@$param["vocab_code"]);
@@ -209,6 +201,7 @@ function data2htmlTerm($data,$param=array()){
     $arrayRows["NOTES"] = data2html4Notes($dataNotes,$param);
 
     $dataTE = getURLdata($URL_BASE.'?task=fetchDown&arg='.$term_id);
+
     if ($dataTE->resume->cant_result > 0) {
         $arrayRows["NT"]='<div><span class="label_list">'.ucfirst(TE_terminos).':</span>';
         $arrayRows["NT"].='<div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?node='.$term_id.'&amp;v='.$vocab_code.'"></div></div>';
@@ -238,6 +231,8 @@ function data2htmlTerm($data,$param=array()){
         $arrayRows["BT"]='<div id="broader_terms" class="term_relations"><span class="label_list">'.ucfirst(TG_terminos).':</span><ul class="bt_terms">'.$array2HTMLdirectTerms["BT"].'</ul></div>';        
     }
 
+
+
     /* Buscar términos mapeados  */
     $dataMapped=getURLdata($URL_BASE.'?task=fetchTargetTerms&arg='.$term_id);
     if ($dataMapped->resume->cant_result > 0) {
@@ -249,11 +244,12 @@ function data2htmlTerm($data,$param=array()){
         $arrayRows["LINKED"]=data2html4MappedURITerms($dataMappedURI,array("vocab_code"=>$vocab_code));
     }
 
-    return array("task"=>"fetchTerm","results"=>$arrayRows);
+    return array("task"=>"fetchTerm","results"=>$arrayRows,"resultData"=>array("nt"=>$dataTE,"rt"=>$dataDirectTerms,"bt"=>$dataTG));
 }
 
-function data2html4MappedTerms($data,$param=array())
-{
+
+
+function data2html4MappedTerms($data,$param=array()){
     GLOBAL $URL_BASE;
     GLOBAL $CFG_URL_PARAM;
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
@@ -276,7 +272,7 @@ function data2html4MappedTerms($data,$param=array())
 
 /*  HTML details for direct terms  */
 function data2html4directTerms($data,$param=array()){
-    GLOBAL $URL_BASE, $CFG_URL_PARAM, $class_dd,$CFG;
+    GLOBAL $URL_BASE,$CFG;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $i = 0;
@@ -327,8 +323,7 @@ function data2html4directTerms($data,$param=array()){
 
 function data2html4Breadcrumb($data,$the_term=array(),$param=array()){
 
-    GLOBAL $URL_BASE;
-    GLOBAL $CFG_URL_PARAM;
+    GLOBAL $URL_BASE, $CFG_URL_PARAM;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     
@@ -378,7 +373,7 @@ return $rows;
 function data2html4MappedURITerms($data,$param=array())
 {
     GLOBAL $URL_BASE;
-    GLOBAL $CFG_URL_PARAM;
+
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows.='<div>';
     if($data->resume->cant_result > 0) {
@@ -397,9 +392,7 @@ function data2html4MappedURITerms($data,$param=array())
 
 
 
-function data2html4TopTerms($data,$param=array())
-{
-    GLOBAL $CFG_URL_PARAM;
+function data2html4TopTerms($data,$param=array()){
     GLOBAL $URL_BASE;
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     if($data->resume->cant_result > 0) {
@@ -421,9 +414,9 @@ function data2html4TopTerms($data,$param=array())
 }
 
 //lista alfabética
-function HTMLalphaNav($arrayLetras=array(),$param=array(),$select_letra="")
-{
-    GLOBAL $URL_BASE, $CFG_URL_PARAM;
+function HTMLalphaNav($arrayLetras=array(),$param=array(),$select_letra=""){
+    GLOBAL $URL_BASE;
+
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     $rows='    <ul class="nav nav-alpha nav-pills">';
     foreach ($arrayLetras as $letra) {
@@ -478,10 +471,10 @@ function fetchRSS($URL_BASE,$param=array())
 }
 
 /*  fetch vocabulary metadata  */
-function fetchVocabularyMetadata($url)
-{
+function fetchVocabularyMetadata($url){
     $data=getURLdata($url.'?task=fetchVocabularyData');
     if (is_object($data)) {
+
         $array["title"]=        (string) $data->result->title;
         $array["author"]=       (string) $data->result->author;
         $array["lang"]=         (string) $data->result->lang;
@@ -495,10 +488,8 @@ function fetchVocabularyMetadata($url)
         $array["createDate"]=   (string) $data->result->createDate;
         $array["cant_terms"]=   (int) $data->result->cant_terms;
         $array["adminEmail"]=   (string) $data->result->adminEmail;
-    } else {
-        $array=array();
-    }
-    return $array;
+        return $array;
+    } else { $array=array();}   
 }
 
 /*  Funciones generales  */
@@ -675,5 +666,21 @@ function redactHREF($v,$task,$arg,$extra=array()){
     $task=(in_array($task,array('fetchTerm','search','letter','last'))) ? $task : 'last' ;
 
     return $CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$v.$CFG_URL_PARAM[$task].$arg;
+}
+
+
+/*Check for values and not null in a variable*/
+function configValue($value,$default=false,$defaultValues=array()){
+
+
+    if(strlen($value)<1) return $default;
+
+    //si es que ser uno de una lista de valores
+    if(count($defaultValues)>0){
+        if(!in_array($value,$defaultValues)) return $default;        
+    }
+
+    return $value;
+
 }
 ?>

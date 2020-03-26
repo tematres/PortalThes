@@ -38,8 +38,11 @@ define('LABEL_resources','Resources');
 define('LABEL_ATS_resources','Antarctic Treaty database');
 
 
-//Labels suggest form
-define('LABEL_sendSuggest','Send a suggestion');
+/*TERM SUGGESTION MODULE */
+define('SUGGESTION_SERVICE_title','Sugerencia de términos y correcciones');
+define('SUGGESTION_SERVICE_description','Proponer términos, modificaciones y términos alternativos o sinónimos. Por favor consigne una justificación y alguna fuente.');
+define('SUGGESTION_SERVICE_short_description','Proponer términos, modificaciones y sinónimos');
+
 define('LABEL_termSuggest','Terminology suggestions');
 define('LABEL_modSuggest','Suggest a change');
 define('LABEL_altSuggest','Suggest an alternative term');
@@ -49,6 +52,8 @@ define('LABELFORM_ntSuggest','Suggest a subordinate term for');
 define('LABELFORM_altSuggest','Suggest an alternative term for');
 define('LABELFORM_newSuggest','Suggest a term');
 define('LABELFORM_eqSuggest;','Suggest a translation');
+
+//Labels suggest form
 define('LABEL_suggest','Suggestion');
 define('LABELFORM_note','Why should this term be included?');
 define('LABELFORM_name','First and last name');
@@ -68,4 +73,25 @@ define('LABEL_ERROR_field','This is a mandatory field');
 define('MAILSGS_subject','Vocabulary suggestion');
 define('MAILSGS_salute1','Thank you very much for your suggestion');
 define('MAILSGS_salute2','The team responsible for  %s will contact you shortly.');
+
+
+/*BULK TERM ANALISIS MODULE */
+define('BULK_TERMS_REVIEW_title','Reconciliación terminológica');
+define('BULK_TERMS_REVIEW_description','Herramienta de análisis y control de términos. Coteja una lista de términos (<strong>hasta %s términos</strong>) según se encuentro o no en el vocabulario. Genera un informe en línea o descargable que indica: términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
+define('BULK_TERMS_REVIEW_short_description','Herramienta de análisis y control masivo de términos');
+
+/*CLASSIFY MODULE */
+define('CLASSIFY_SERVICE_title','Asistente de clasificación');
+define('CLASSIFY_SERVICE_description','Extractor de de palabras clave. ');
+define('CLASSIFY_SERVICE_short_description','Extractor de de palabras clave. ');
+
+/*MARC21 MODULE */
+define('MARC21_SERVICE_title','Encabezamientos de materia MARC21');
+define('MARC21_SERVICE_description','Asistente de redacción de encabezamientos de materia según las pautas de <strong>encabezamientos temáticos en MARC21</strong> (campo <a href="https://www.loc.gov/marc/classification/cd750.html">750 - Index Term-Topical (R)</a>). ');
+define('MARC21_SERVICE_short_description','Asistente de redacción de encabezamientos de materia según las pautas de encabezamientos temáticos en MARC21');
+
+/*Copy-click module*/
+
+define('LABEL_copy_click','copiar término al portapapeles');
+
 ?>

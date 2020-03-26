@@ -43,6 +43,7 @@ define('LABEL__attrib','por ');
 /*TERM SUGGESTION PLUGIN */
 define('SUGGESTION_SERVICE_title','Sugestões de termos e correções');
 define('SUGGESTION_SERVICE_description','Esta ferramenta permite propor termos novos, alterações e termos alternativos ou sinônimos. Por favor inclua uma justificativa e alguma fonte.');
+define('SUGGESTION_SERVICE_short_description','Propor termos, alterações e termos alternativos');
 define('LABEL_termSuggest','Sugestões terminológicas');
 define('LABEL_modSuggest','Sugerir uma alteração');
 define('LABEL_altSuggest','Sugerir um termo alternativo');
@@ -58,4 +59,6 @@ define('LABELFORM_eqSuggest;','Propor uma tradução ');
 define('BULK_TERMS_REVIEW_title','Serviço de análise de termos em lote');
 define('BULK_TERMS_REVIEW_description','Esta ferramenta permite comparar um conjunto de termos, <strong>podem ser até %s</strong>. Ao finalizar a comparação se obtém um relatório online ou descarregável que indica:
 termos coincidentes, termos não coincidentes, termos equivalentes (não preferidos), termos similares (variantes ortográficas).');
+
+define('BULK_TERMS_REVIEW_short_description','Ferramenta permite comparar um conjunto de termos');
 ?>

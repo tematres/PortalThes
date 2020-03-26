@@ -19,7 +19,7 @@
     if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
         $array_text=explode("\n",$params["content"]);
         if (count($array_text)>1) {
-            return getXLSTemaTresTerm($vocabularyMetaData->result->uri."services.php",$vocabularyMetaData,$array_text);
+            return getXLSTemaTresTerm($vocabularyMetaData->result->uri,$vocabularyMetaData,$array_text);
         }
     }
 ?>
@@ -40,26 +40,20 @@
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
                 <div class="box box-pres box-pres2">
-                    <h1><?php echo BULK_TERMS_REVIEW_title;?></h1>
-                    <p><?php echo sprintf(BULK_TERMS_REVIEW_description,$CFG["MAX_TERMS4MASS_CTRL"]);?></p>
-
-                    <h1>
-                    <?php echo $_SESSION["vocab"]["title"];?>
-                </h1>
-                <p class="autor text-right">
-                    <?php echo $_SESSION["vocab"]["author"];?>
-                </p>
-                <p class="text-justify ocultar">
-                    <?php echo $_SESSION["vocab"]["scope"];?>
-                </p>
+                    <h1><?php echo $_SESSION["vocab"]["title"];?></h1>
+                    <p class="autor text-right"><?php echo $_SESSION["vocab"]["author"];?></p>
+                    <p class="text-justify ocultar"><?php echo $_SESSION["vocab"]["scope"];?></p>
                 </div><!-- END box presentación -->
 
+                <div class="col-sm-8 col-md-9">
+                    <h2><?php echo BULK_TERMS_REVIEW_title;?></h2>
+                    <p><?php echo sprintf(BULK_TERMS_REVIEW_description,$CFG["MAX_TERMS4MASS_CTRL"]);?></p>                    
+                </div><!--  END buscador  -->
 
+                <div class="col-sm-8 col-md-9" id="content">
 
                 <div class="box box-info triple">
                     <form class="controlterm" action="index.php#massiveresult" method="post">
-                        <?php echo '<h2><a href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$_SESSION["vocab"]["code"].'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a></h2>';?> 
-
                         <div class="text-field">
                             <textarea id="searchbox" name="q" rows="20" placeholder="<?php echo BULK_TERMS_REVIEW_help;?>"><?php echo $params["content"];?></textarea>
                         </div>
@@ -76,16 +70,22 @@
                         </div>
                     </form>
                 </div><!-- END input autoridades -->
-                <div class="box box-info triple">
+                
                     <?php
                         if (isset($_POST["f"]) && $_POST["f"] == 'HTML') {
+                        
                             $array_text=explode("\n",$params["content"]);
+
                             if (count($array_text)>1) {
-                                echo getHTMLTemaTresTerm($vocabularyMetaData->result->uri."services.php",$vocabularyMetaData,$array_text);
+                                echo '<div class="box box-info triple">'    ;
+                                
+                                echo getHTMLTemaTresTerm($vocabularyMetaData->result->uri,$vocabularyMetaData,$array_text);
+
+                                echo '</div><!-- END resultados autoridades-->'    ;
                             }
                         }
                     ?>
-                </div><!-- END resultados autoridades-->
+
             </div><!--END keep -->
             <?php
                 echo HTMLglobalFooter(array());

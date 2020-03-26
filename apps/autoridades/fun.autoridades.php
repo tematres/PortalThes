@@ -1,18 +1,6 @@
 <?php
-/*
-Datos de definicion del vocabularios
-* */
-function getTemaTresData($tematres_uri,$task="fetchVocabularyData",$arg="")
-{
-    if ( ! $arg) {
-        return getURLdata($tematres_uri.'?task=fetchVocabularyData');
-    } else {
-        return getURLdata($tematres_uri.'?task='.$task.'&arg='.$arg);
-    }
-}
 
-function getTemaTresTerm($tematres_uri,$vocab,$term)
-{
+function getTemaTresTerm($tematres_uri,$vocab,$term){
     GLOBAL $message;
     GLOBAL $CFG_URL_PARAM;
     $data=getTemaTresData($tematres_uri,"fetch",urlencode($term));
@@ -32,8 +20,7 @@ function getTemaTresTerm($tematres_uri,$vocab,$term)
     return $rows;
 }
 
-function getXLSTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms)
-{
+function getXLSTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms){
     GLOBAL $CFG_URL_PARAM;
     GLOBAL $CFG;
 
@@ -55,7 +42,7 @@ function getXLSTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms)
     $format = $xml->addStyle('StyleHeader');
     $format->fontBold();
     $sheet = $xml->addSheet($sheetTitle);
-    $sheet->writeString(1,1,BULK_TERM_REVIEW_sheetLabel,'StyleHeader');
+    $sheet->writeString(1,1,$sheetLabel,'StyleHeader');
     $sheet->cellMerge( 1, 1, 3, 0);
     $sheet->writeString(2,1,$sheetLabelTerm,'StyleHeader');
     $sheet->writeString(2,2,$sheetLabelResults,'StyleHeader');
@@ -98,8 +85,8 @@ function getXLSTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms)
 }
 
 ///tomado de http://stackoverflow.com/questions/3930975/alternative-for-php-excel/3931142#3931142
-function getHTMLTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms)
-{
+function getHTMLTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms){
+
     GLOBAL $CFG_URL_PARAM;
     GLOBAL $CFG;
     $rows=' <div id="massiveresult">
@@ -114,12 +101,16 @@ function getHTMLTemaTresTerm($tematres_uri,$vocabularyMetaData,$array_terms)
                             </tr>
                         </thead>';
     $i=0;
+
     $array_terms = array_map("trim",$array_terms);
     $array_terms = array_unique($array_terms);
     foreach ($array_terms as $term) {
+
         $i=++$i;
         if($i <= $CFG["MAX_TERMS4MASS_CTRL"]) {
+
             $data=getTemaTresData($tematres_uri,"fetch",urlencode($term));
+
             if($data->resume->cant_result>0) {
                 foreach ($data->result->term as $value) {
                     //if((string)$value->string==(string)$term)

@@ -48,7 +48,8 @@ define('LABEL__attrib','por ');
 
 /*TERM SUGGESTION MODULE */
 define('SUGGESTION_SERVICE_title','Sugerencia de términos y correcciones');
-define('SUGGESTION_SERVICE_description','Esta herramienta permite proponer términos nuevos, modificaciones y términos alternativos o sinónimos. Por favor consigne una justificación y alguna fuente.');
+define('SUGGESTION_SERVICE_description','Proponer términos, modificaciones y términos alternativos o sinónimos. Por favor consigne una justificación y alguna fuente.');
+define('SUGGESTION_SERVICE_short_description','Proponer términos, modificaciones y sinónimos');
 define('LABEL_termSuggest','Sugerencias terminológicas');
 define('LABEL_modSuggest','Sugerir una modificación');
 define('LABEL_altSuggest','Sugerir un término alternativo');
@@ -62,12 +63,18 @@ define('LABELFORM_eqSuggest;','Proponer una traducción ');
 
 /*BULK TERM ANALISIS MODULE */
 define('BULK_TERMS_REVIEW_title','Reconciliación terminológica');
-define('BULK_TERMS_REVIEW_description','Esta herramienta permite comparar un conjunto de términos, <strong>pueden ser hasta %s</strong>. Al finalizar la comparación se obtiene un informe en línea o descargable que indica:
-términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
+define('BULK_TERMS_REVIEW_description','Herramienta de análisis y control de términos. Coteja una lista de términos (<strong>hasta %s términos</strong>) según se encuentro o no en el vocabulario. Genera un informe en línea o descargable que indica: términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
+define('BULK_TERMS_REVIEW_short_description','Herramienta de análisis y control masivo de términos');
 
 /*CLASSIFY MODULE */
 define('CLASSIFY_SERVICE_title','Asistente de clasificación');
-define('CLASSIFY_SERVICE_description','Esta herramienta permite analizar un texto breve e identificar potenciales palabras clave. ');
+define('CLASSIFY_SERVICE_description','Extractor de de palabras clave. ');
+define('CLASSIFY_SERVICE_short_description','Extractor de de palabras clave. ');
+
+/*MARC21 MODULE */
+define('MARC21_SERVICE_title','Encabezamientos de materia MARC21');
+define('MARC21_SERVICE_description','Asistente de redacción de encabezamientos de materia según las pautas de <strong>encabezamientos temáticos en MARC21</strong> (campo <a href="https://www.loc.gov/marc/classification/cd750.html">750 - Index Term-Topical (R)</a>). ');
+define('MARC21_SERVICE_short_description','Asistente de redacción de encabezamientos de materia según las pautas de encabezamientos temáticos en MARC21');
 
 /*Copy-click module*/
 
