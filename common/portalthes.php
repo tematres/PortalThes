@@ -663,6 +663,10 @@ switch ($module) {
             if(in_array('CLASSIFFY',$enable_modules)) return true;
             break;
 
+        case 'VISUAL_VOCAB':
+            if(in_array('VISUAL_VOCAB',$enable_modules)) return true;
+            break;
+
         case 'SUGGESTION_SERVICE':
             //que este habilitado y que haya mail de contacto
             if((in_array('SUGGESTION_SERVICE',$enable_modules)) && (strlen($_SESSION["vocab"]["mail"])>0)) return true;

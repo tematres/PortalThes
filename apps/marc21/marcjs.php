@@ -23,7 +23,7 @@ function split( val ) {
 	        } );
 
 	      },                
-//https://stackoverflow.com/questions/24533562/jquery-autocomplete-special-char-trigger
+	   //https://stackoverflow.com/questions/24533562/jquery-autocomplete-special-char-trigger
        select: function( event, ui ) {
           var terms = split( this.value );
           // remove the current input
@@ -70,6 +70,39 @@ function split( val ) {
 	        } );
 	      },                
 		});
+	$("#t750_xr").autocomplete({
+	          source: function( request, response ) {
+	        $.ajax( {
+	          url: "index.php?s=t750_xr",
+	          dataType: "json",
+	          data: {t750_x: request.term},
+	          success: function( data ) {response( data );}
+	        } );
+	      },                
+		});
+
+	$("#t750_zr").autocomplete({
+	          source: function( request, response ) {
+	        $.ajax( {
+	          url: "index.php?s=t750_zr",
+	          dataType: "json",
+	          data: {t750_z: request.term},
+	          success: function( data ) {response( data );}
+	        } );
+	      },                
+		});
+
+
+	$("#t750_vr").autocomplete({
+	          source: function( request, response ) {
+	        $.ajax( {
+	          url: "index.php?s=t750_vr",
+	          dataType: "json",
+	          data: {t750_v: request.term},
+	          success: function( data ) {response( data );}
+	        } );
+	      },                
+		});
 
 
 
@@ -86,11 +119,11 @@ function btngerar(){
 	
 		var resultstr = strtermocatalog(xtr('t750_a'),
 						xtr('t750_x'),
-						xtr('qualificadorresposta2'),
+						xtr('t750_xr'),
 						xtr('t750_v'),
-						document.getElementById('qualificadorresposta2').value.trim(),
+						document.getElementById('t750_xr').value.trim(),
 						xtr('t750_z'),
-						xtr('geograficoresposta2'));
+						xtr('t750_zr'));
 		
 		if(resultstr.trim().length > 0){
 			insertBefore(document.querySelectorAll('#resultado')[document.querySelectorAll('#resultado').length-1].cloneNode(true),document.querySelectorAll('#resultado')[0]);

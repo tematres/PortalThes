@@ -85,8 +85,8 @@
                         <button id="b1" class="btn add-more btn-success" type="button" onclick="toggle_visibility('t750_aa2div');">+</button>
                         </div>
                         <div class="form-group" id="t750_aa2div" style="display:none;">
-                        <label class="sr-only" for="qualificador2"><?php echo ucfirst(MARC21_t750_x).' '.MARC21_r;?></label>
-                        <input type="text" class="form-control-add" id="qualificadorresposta2" placeholder="<?php echo ucfirst(MARC21_t750_x).' '.MARC21_r;?>">  <button id="b2" class="btn add-more btn-danger" type="button" onclick="toggle_visibility('t750_aa2div');">-</button>
+                        <label class="sr-only" for="t750_xr"><?php echo ucfirst(MARC21_t750_x).' '.MARC21_r;?></label>
+                        <input type="text" class="form-control-add" id="t750_xr" placeholder="<?php echo ucfirst(MARC21_t750_x).' '.MARC21_r;?>">  <button id="b2" class="btn add-more btn-danger" type="button" onclick="toggle_visibility('t750_aa2div');">-</button>
                         </div>
                         <div class="form-group">
                         <label class="sr-only" for="genero"><?php echo ucfirst(MARC21_t750_v);?></label>
@@ -94,16 +94,16 @@
                         </div>
                         
                         <?php
-                        if(configValue($CFG_MARC21["t750_z"])){
-                            ?>
+                            if(configValue($CFG_MARC21["t750_z"])){
+                        ?>
 
                         <div class="form-group">
                         <label class="sr-only" for="t750_z"><?php echo ucfirst(MARC21_t750_z);?></label>
                         <input type="text" class="form-control-add" id="t750_z" placeholder="<?php echo ucfirst(MARC21_t750_z);?>" > <button id="b3" class="btn add-more btn-success" type="button" onclick="toggle_visibility('geo2');">+</button>
                         </div>
                         <div id="geo2" style="display:none;">
-                        <label class="sr-only" for="geografico2"><?php echo ucfirst(MARC21_t750_z).' '.MARC21_r;?></label>
-                        <input type="text" class="form-control-add" id="geograficoresposta2" placeholder="<?php echo ucfirst(MARC21_t750_z).' '.MARC21_r;?>"> <button id="b4" class="btn add-more btn-danger" type="button" onclick="toggle_visibility('geo2');">-</button>
+                        <label class="sr-only" for="t750_zr"><?php echo ucfirst(MARC21_t750_z).' '.MARC21_r;?></label>
+                        <input type="text" class="form-control-add" id="t750_zr" placeholder="<?php echo ucfirst(MARC21_t750_z).' '.MARC21_r;?>"> <button id="b4" class="btn add-more btn-danger" type="button" onclick="toggle_visibility('geo2');">-</button>
                         </div>
                         <?php
                             }

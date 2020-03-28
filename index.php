@@ -1,7 +1,5 @@
 <?php
-    require 'config.ws.php';
-
-    include_once('apps/vv/config.ws.php');
+    require 'config.ws.php';  
 
     $searchq  =  XSSprevent($_GET['sgterm']);
     if(strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {
@@ -63,13 +61,17 @@
     <head>
         <?php 
             echo HTMLmeta($_SESSION["vocab"],$term);
-            echo HTMLestilosyjs();            
+            echo HTMLestilosyjs();
+
+            if((checkModuleCFG("VISUAL_VOCAB",$v)) && ($task=='fetchTerm')){
+                include_once('apps/vv/config.ws.php');
+                echo '<link type="text/css" href="'.$CFG_URL_PARAM["url_site"].'apps/vv/css/hypertree.css" rel="stylesheet" />
+                            <!-- JIT Library File -->
+                    <script language="javascript" type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'apps/vv/js/jit-yc.js"></script>
+                    <!-- Source File -->
+                    <script language="javascript" type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'apps/vv/vv.php?term_id='.$term_id.'"></script>';
+                }
         ?>        
-        <link type="text/css" href="<?php echo $CFG_URL_PARAM["url_site"];?>apps/vv/css/hypertree.css" rel="stylesheet" />
-                <!-- JIT Library File -->
-        <script language="javascript" type="text/javascript" src="<?php echo $CFG_URL_PARAM["url_site"];?>apps/vv/js/jit-yc.js"></script>
-        <!-- Source File -->
-        <script language="javascript" type="text/javascript" src="<?php echo $CFG_URL_PARAM["url_site"].'apps/vv/vv.php?term_id='.$term_id;?>"></script>
     </head>
     <body onload="init();">
         <?php
