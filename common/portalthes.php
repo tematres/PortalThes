@@ -596,10 +596,11 @@ function HTMLrss2home($code)
 }
 
 //Eval if the code is a valid vocab => VCODE is default CODE
-function fetchVocabCode($vocab_code)
-{
+function fetchVocabCode($vocab_code){
     GLOBAL $CFG_VOCABS;
     GLOBAL $CFG;
+
+    $v=configValue($vocab_code,$CFG["DEFVOCAB"],$CFG_VOCABS);
 
     $v=(strlen($vocab_code)>0) ? XSSprevent($vocab_code) : '';
 

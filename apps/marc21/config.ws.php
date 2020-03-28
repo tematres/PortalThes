@@ -36,7 +36,7 @@ $CFG_MARC21["t750_v"]='https://vocabularyserver.com/bne/forma/services.php';
 //URL for the vocab provider for  Subdivisión general (R). Optional.
 $CFG_MARC21["t750_x"]='https://vocabularyserver.com/bne/subencabezamientos/services.php';
 
-//URL for the vocab provider for  $z - $y - Subdivisión cronológica (R). Optional.
+//URL for the vocab provider for $y - Subdivisión cronológica (R). Optional.
 //$CFG_MARC21["t650_y"]='';
 
 //URL for the vocab provider for  $z - Subdivisión Geográfica (R). Optional.

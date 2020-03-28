@@ -22,6 +22,7 @@
 ********************************************************************************************
 CONFIGURATION
 ********************************************************************************************/
+ session_start();
 $URL_BASE = '';
 $lang_tematres = '';
 $CFG["ENCODE"] = 'UTF-8';
@@ -82,13 +83,13 @@ if ( !defined('WEBTHES_ABSPATH') )
 	include_once('common/vocabularyservices.php');
 	include_once('common/portalthes.php');
 
-  	session_start();
+
 	
 //get for valid vocab_code provided by GET
-    $v=(isset($_GET["v"])) ? fetchVocabCode($_GET["v"]) : $CFG_VOCABS["1"]["CODE"];
+    $v=(isset($_GET["v"])) ? $_GET["v"] : '';
 
 //check if vocab_code is valid.
-    $v=(is_array($CFG_VOCABS[$v])) ? $v : $CFG_VOCABS["1"]["CODE"];
+    $v=configValue($vocab_code,$CFG["DEFVOCAB"],$CFG_VOCABS);
 	
     $_SESSION["vocab"]=$CFG_VOCABS[$v];	
 	
