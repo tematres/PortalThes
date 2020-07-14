@@ -29,4 +29,3 @@ $message['NA'] = "Note" ;
 $message['NH'] = "Note historique" ;
 $message['NB'] = "Note bibliographique" ;
 $message['NP'] = "Note personnelle" ;
-?>

@@ -17,5 +17,3 @@ $message['posted'] = "Nota bibliográfica" ;
 $message['about'] = "Nota histórica" ;
 $message['searchExpresion'] = "Nota histórica" ;
 $message['suggestedSearchTerm'] = "Nota personal" ;
-
-?>

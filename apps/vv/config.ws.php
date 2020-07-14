@@ -12,5 +12,3 @@ Visual vocabulary language
 * See languages in ../lang
 */
 $CFG_lang=$lang_tematres;
-
-?>

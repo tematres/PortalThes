@@ -42,32 +42,9 @@ if (in_array($_POST["task"], $CFG["SUGGEST_OPT"])) {
 <html lang="<?php echo $_SESSION["vocab"]["lang"]; ?>">
     <head>
         <?php
-            echo HTMLmeta($_SESSION["vocab"], BULK_TERMS_REVIEW_title);
+            echo HTMLmeta($_SESSION["vocab"], LABEL_suggest.' ');
             echo HTMLestilosyjs();
         ?>
-        <script type="text/javascript">
-            var options, a;
-
-            jQuery(function() {
-                options = {
-                    minChars:3,
-                    source: function( request, response ) {
-                    $.ajax( {
-                    url: "<?php echo $CFG_URL_PARAM["url_site"];?>index.php",
-                    dataType: "json",
-                      data: {
-                        sgterm: request.term
-                      },
-                      success: function( data ) {
-                              response ( data );                                
-                      }
-                    } );
-                  },//fin de source
-
-                };//fin de option
-                a = $('#suggest_string').autocomplete(options);
-            });
-        </script>
 
         <style type="text/css">
             .sidebar-nav {
@@ -99,7 +76,30 @@ if (in_array($_POST["task"], $CFG["SUGGEST_OPT"])) {
             .successNoImage{background:#fff8bf;color:#080;padding:1px 5px;}
         /* end search form */
         </style>
+        <!-- Initialize the plugin: -->
+        <script type="text/javascript">
+            var options, a;
 
+            jQuery(function() {
+                options = {
+                    minChars:3,
+                    source: function( request, response ) {
+                    $.ajax( {
+                    url: "<?php echo $CFG_URL_PARAM["url_site"];?>index.php",
+                    dataType: "json",
+                      data: {
+                        sgterm: request.term
+                      },
+                      success: function( data ) {
+                              response ( data );                                
+                      }
+                    } );
+                  },//fin de source
+
+                };//fin de option
+                a = $('#suggest_string').autocomplete(options);
+            });
+        </script>
     </head>
     <body>
         <?php
@@ -110,20 +110,20 @@ if (in_array($_POST["task"], $CFG["SUGGEST_OPT"])) {
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
                 <div class="box box-pres box-pres2">
-                    <h1><?php echo $_SESSION["vocab"]["title"];?></h1>
-                    <p class="autor text-right"><?php echo $_SESSION["vocab"]["author"];?></p>
-                    <p class="text-justify ocultar"><?php echo $_SESSION["vocab"]["scope"];?></p>
+                    <h1><?php echo SUGGESTION_SERVICE_title;?></h1>
+                    <p><?php echo sprintf(SUGGESTION_SERVICE_description);?></p>
+
+                    <h1>
+                    <?php echo $_SESSION["vocab"]["title"];?>
+                </h1>
+                <p class="autor text-right">
+                    <?php echo $_SESSION["vocab"]["author"];?>
+                </p>
+                <p class="text-justify ocultar">
+                    <?php echo $_SESSION["vocab"]["scope"];?>
+                </p>
                 </div><!-- END box presentación -->
-
-                <div class="col-sm-8 col-md-9">
-                    <h2><?php echo SUGGESTION_SERVICE_title;?></h2>
-                    <p><?php echo sprintf(SUGGESTION_SERVICE_description, $CFG["MAX_TERMS4MASS_CTRL"]);?></p>                    
-                </div><!--  END buscador  -->
-
-                <div class="col-sm-8 col-md-9" id="content">
-
                 <div class="box box-info triple">
-                    
                     <?php
                         //se envió el correo
                     if ($sendMail) {
@@ -132,14 +132,11 @@ if (in_array($_POST["task"], $CFG["SUGGEST_OPT"])) {
                         echo formSuggestTerm($vocabularyMetaData->result->uri, $params);
                     };
                     ?>
-                </div><!-- END div -->
-                
-
-
+                </div><!--  END sugerencias -->
             </div><!--END keep -->
             <?php
                 echo HTMLglobalFooter(array());
             ?>
-        </div><!-- END container -->
+        </div><!--END container -->
     </body>
 </html>

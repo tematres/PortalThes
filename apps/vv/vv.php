@@ -1,12 +1,11 @@
-<?php 
+<?php
 require '../../config.ws.php';
 include_once('fun.visual.php');
 //$term_id=814;
 
 $term_id=(@$_GET["term_id"]) ? $_GET["term_id"] : '';
-if(is_numeric($term_id)){
-
-$Jcontent = ($term_id) ? jTermData($URL_BASE,$term_id) : jTopTermData($URL_BASE);
+if (is_numeric($term_id)) {
+    $Jcontent = ($term_id) ? jTermData($URL_BASE, $term_id) : jTopTermData($URL_BASE);
 ?>
 <!-- JIT Library File -->
 var labelType, useGradients, nativeTextSupport, animate;
@@ -66,13 +65,13 @@ function init(){
 
       onCreateLabel: function(domElement, node){
 
-			if (node.id > 0) {            
-				//domElement.innerHTML = "<a href=index.php?tema_id=" + node.id +">" + node.name + "</a>";
-				domElement.innerHTML = "<a href=" + node.id +">" + node.name + "</a>";
-      }		else 		{
-				domElement.innerHTML = node.name;
-			}
-		  
+            if (node.id > 0) {            
+                //domElement.innerHTML = "<a href='index.php?tema_id=" + node.id +"'>" + node.name + "</a>";
+                domElement.innerHTML = "<a href='" + node.id +"'>" + node.name + "</a>";
+      }     else        {
+                domElement.innerHTML = node.name;
+            }
+          
       $jit.util.addEvent(domElement, 'click', function () {
          ht.onClick(node.id);
          });

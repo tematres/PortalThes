@@ -1,7 +1,7 @@
 <?php
 /*
-*      config.ws.php 
-*       
+*      config.ws.php
+*
 *      Copyright 2015 diego <tematres@r020.com.ar>
 *
 *      This program is free software; you can redistribute it and/or modify
@@ -26,5 +26,4 @@ $lang_suggest = $lang_tematres;
 
 require_once("lang/$lang_suggest.php");
 
-$CFG["MAX_TERMS4MASS_CTRL"]     = 300;                                  //Cantidad máxima de términos en control terminológico
-?>
+$CFG["MAX_TERMS4MASS_CTRL"]     = 1000;                                  //Cantidad máxima de términos en control terminológico

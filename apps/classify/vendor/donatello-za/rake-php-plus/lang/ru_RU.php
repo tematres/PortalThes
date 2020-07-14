@@ -4,7 +4,7 @@
  * Stopwords list for the use in the PHP package rake-php-plus.
  * See: https://github.com/Donatello-za/rake-php-plus
  *
- * Extracted using extractor.php @ 2018-05-06T19:28:17+00:00 
+ * Extracted using extractor.php @ 2018-05-06T19:28:17+00:00
  */
 
 return [
@@ -548,4 +548,3 @@ return [
     'эту',
     'я'
 ];
-

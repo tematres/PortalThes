@@ -139,7 +139,6 @@ function render_output(array $stopwords, $stopwords_file, $option)
         } else {
             render_php_output($stopwords);
         }
-
     } else {
         echo "\n";
         echo "Error: No stopwords found in file \"{$stopwords_file}\".\n";
@@ -158,4 +157,3 @@ render_output(
     $stopwords_file,
     get_arg($argv, 2)
 );
-

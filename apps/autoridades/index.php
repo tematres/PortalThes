@@ -1,8 +1,10 @@
 <?php
     require '../../config.ws.php';
-    if(checkModuleCFG('BULK_TERMS_REVIEW')!==true) header("Location:../../index.php");          
+if (checkModuleCFG('BULK_TERMS_REVIEW')!==true) {
+    header("Location:../../index.php");
+}
 
-    header('Content-Type: text/html; charset=UTF-8');        
+    header('Content-Type: text/html; charset=UTF-8');
     require 'config.ws.php';
 
     include_once('../../common/excel/ExcelWriterXML.php');
@@ -12,22 +14,23 @@
 
     $vocabularyMetaData=getTemaTresData($params["TEMATRES_URI_SERVICE"]);
 
-    if ( ! isset($params["content"]))
-        $params["content"] = '';
+if (! isset($params["content"])) {
+    $params["content"] = '';
+}
         $params["content"] = isset($_POST["q"]) ? XSSprevent($_POST["q"]) : $params["content"] ;
         
-    if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
-        $array_text=explode("\n",$params["content"]);
-        if (count($array_text)>1) {
-            return getXLSTemaTresTerm($vocabularyMetaData->result->uri,$vocabularyMetaData,$array_text);
-        }
+if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
+    $array_text=explode("\n", $params["content"]);
+    if (count($array_text)>1) {
+        return getXLSTemaTresTerm($vocabularyMetaData->result->uri, $vocabularyMetaData, $array_text);
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"]; ?>">
     <head>
         <?php
-            echo HTMLmeta($_SESSION["vocab"],BULK_TERMS_REVIEW_title);
+            echo HTMLmeta($_SESSION["vocab"], BULK_TERMS_REVIEW_title);
             echo HTMLestilosyjs();
         ?>
     </head>
@@ -47,7 +50,7 @@
 
                 <div class="col-sm-8 col-md-9">
                     <h2><?php echo BULK_TERMS_REVIEW_title;?></h2>
-                    <p><?php echo sprintf(BULK_TERMS_REVIEW_description,$CFG["MAX_TERMS4MASS_CTRL"]);?></p>                    
+                    <p><?php echo sprintf(BULK_TERMS_REVIEW_description, $CFG["MAX_TERMS4MASS_CTRL"]);?></p>                    
                 </div><!--  END buscador  -->
 
                 <div class="col-sm-8 col-md-9" id="content">
@@ -72,18 +75,17 @@
                 </div><!-- END input autoridades -->
                 
                     <?php
-                        if (isset($_POST["f"]) && $_POST["f"] == 'HTML') {
-                        
-                            $array_text=explode("\n",$params["content"]);
+                    if (isset($_POST["f"]) && $_POST["f"] == 'HTML') {
+                        $array_text=explode("\n", $params["content"]);
 
-                            if (count($array_text)>1) {
-                                echo '<div class="box box-info triple">'    ;
+                        if (count($array_text)>1) {
+                            echo '<div class="box box-info triple">'    ;
                                 
-                                echo getHTMLTemaTresTerm($vocabularyMetaData->result->uri,$vocabularyMetaData,$array_text);
+                            echo getHTMLTemaTresTerm($vocabularyMetaData->result->uri, $vocabularyMetaData, $array_text);
 
-                                echo '</div><!-- END resultados autoridades-->'    ;
-                            }
+                            echo '</div><!-- END resultados autoridades-->'    ;
                         }
+                    }
                     ?>
 
             </div><!--END keep -->

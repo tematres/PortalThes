@@ -1,11 +1,11 @@
-<?php 
+<?php
 require '../../config.ws.php';
 include_once('config.ws.php');
 include_once('fun.visual.php');
 include_once('lang/'.$CFG_lang.'.php');
 
 $tema_id = isset($_GET["tema_id"]) ? $_GET["tema_id"] : null ;
-$Jcontent = ($tema_id) ? jTermData($URL_BASE,$tema_id) : jTopTermData($URL_BASE);
+$Jcontent = ($tema_id) ? jTermData($URL_BASE, $tema_id) : jTopTermData($URL_BASE);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"]; ?>">
@@ -13,7 +13,7 @@ $Jcontent = ($tema_id) ? jTermData($URL_BASE,$tema_id) : jTopTermData($URL_BASE)
           <!-- CSS Files -->
 
         <?php
-            echo HTMLmeta($_SESSION["vocab"],'VisualVocabulary');
+            echo HTMLmeta($_SESSION["vocab"], 'VisualVocabulary');
             echo HTMLestilosyjs();
         ?>
     <link type="text/css" href="css/hypertree.css" rel="stylesheet" />

@@ -1,25 +1,13 @@
 <?php
 /* Funciones espcíficas de TemaTres Suggest Form*/
 
-/*Datos de definición del vocabulario   */
-
-function getTemaTresData($tematres_uri,$task="fetchVocabularyData",$arg="")
-{
-    if ( ! $arg) {
-        return getURLdata($tematres_uri.'?task=fetchVocabularyData');
-    } else {
-        return getURLdata($tematres_uri.'?task='.$task.'&arg='.$arg);
-    }
-}
 
 //Suggest term, with note, with TT term or BT.
 //If do no have BT, must select TT.
 /*  Param: vocab_code, string to term (optional), BT (optional)  */
-function formSuggestTerm($tematres_uri,$params=array())
+function formSuggestTerm($tematres_uri, $params = array())
 {
-    GLOBAL $CFG_URL_PARAM;
-    GLOBAL $CFG;
-    GLOBAL $CFG_SGS;
+    global $CFG_URL_PARAM, $CFG, $CFG_SGS;
 
     $ref_term_id=((int) $params["term_id"]>0) ? $params["term_id"] : 0;
     if ($ref_term_id == 0) {
@@ -27,31 +15,31 @@ function formSuggestTerm($tematres_uri,$params=array())
     }
     switch ($params["t_relation"]) {
         case 'UF':
-            $termData=getURLdata($tematres_uri.'?task=fetchTerm&arg='.$ref_term_id);
+            $termData=getURLdata($tematres_uri.'services.php?task=fetchTerm&arg='.$ref_term_id);
             $ref_term_id=$termData->result->term->term_id;
             $task=$params["t_relation"];
             $label=LABEL_altTermFor;
             break;
         case 'EQ':
-            $termData=getURLdata($tematres_uri.'?task=fetchTerm&arg='.$ref_term_id);
+            $termData=getURLdata($tematres_uri.'services.php?task=fetchTerm&arg='.$ref_term_id);
             $ref_term_id=$termData->result->term->term_id;
             $task=$params["t_relation"];
             $label=LABEL_tradTermFor;
             break;
         case 'NT':
-            $termData=getURLdata($tematres_uri.'?task=fetchTerm&arg='.$ref_term_id);
+            $termData=getURLdata($tematres_uri.'services.php?task=fetchTerm&arg='.$ref_term_id);
             $ref_term_id=$termData->result->term->term_id;
             $task=$params["t_relation"];
             $label=LABEL_narrowerTermFor;
             break;
         case 'modT':
-            $termData=getURLdata($tematres_uri.'?task=fetchTerm&arg='.$ref_term_id);
+            $termData=getURLdata($tematres_uri.'services.php?task=fetchTerm&arg='.$ref_term_id);
             $ref_term_id=$termData->result->term->term_id;
             $task=$params["t_relation"];
             $label=LABEL_modTerm;
             break;
         default:
-            $termData=getURLdata($tematres_uri.'?task=fetchTopTerms');
+            $termData=getURLdata($tematres_uri.'services.php?task=fetchTopTerms');
             $ref_term_id=0;
             $task='term';
             $label=LABEL_newTermFor;
@@ -72,7 +60,7 @@ function formSuggestTerm($tematres_uri,$params=array())
                                             '.ucfirst(LABEL_selectTopTerm).'
                                         </option>';
             foreach ($termData->result->term as $value) {
-            $rows.='                    <option value="'.(int) $value->term_id.'">
+                $rows.='                    <option value="'.(int) $value->term_id.'">
                                             '.(string) $value->string.'
                                         </option>';
             }
@@ -169,21 +157,21 @@ function formSuggestTerm($tematres_uri,$params=array())
     return $rows;
 }
 
-function evalSuggestForm($tematres_uri,$params=array())
+function evalSuggestForm($tematres_uri, $params = array())
 {
 
-    GLOBAL $CFG_SGS;
+    global $CFG_SGS;
     $errorData = array();
     // $securimage = new Securimage();
     //controles
     if (strlen($params["suggest_string"]) > 0) {
         $errorData["flag_task"] = 1;
-        // $suggested_term=getURLdata($tematres_uri.'?task=fetch&arg='.urlencode($params["suggest_string"]));
-        // if ($suggested_term->resume->cant_result > 0) {
-        //     $errorData["_term"]["flag_task"] = 0;
-        //     $errorData["_term"]["div"] = '<span id="error_suggest" style="font-weight: bold; color:red;" class="help-inline">Término existente</span>';
-        //     $errorData["flag_task"] = 0;
-        // }
+        $suggested_term=getURLdata($tematres_uri.'?task=fetch&arg='.urlencode($params["suggest_string"]));
+        if ($suggested_term->resume->cant_result > 0) {
+            $errorData["_term"]["flag_task"] = 0;
+            $errorData["_term"]["div"] = '<span id="error_suggest" style="font-weight: bold; color:red;" class="help-inline">Término existente</span>';
+            $errorData["flag_task"] = 0;
+        }
         // if (strlen($params["suggest_name"]) < 5) {
         //     $errorData["_name"]["flag_task"] = 0;
         //     $errorData["_name"]["div"] = '<span id="error_suggest" style="font-weight: bold; color:red;" class="help-inline">Por favor consigne su nombre</span>';
@@ -215,8 +203,7 @@ function evalSuggestForm($tematres_uri,$params=array())
 
             if (isset($data->success) &&  $data->success === true) {
             // code goes here
-            }
-            else {
+            } else {
                 $errorData["flag_task"] = 0;
                 $errorData["_captcha"]["div"] = '<span id="error_suggest" style="font-weight: bold; color:red;" class="help-inline">  Por favor revise el texto de verificación</span>';
             }
@@ -229,7 +216,7 @@ function evalSuggestForm($tematres_uri,$params=array())
     return $errorData;
 }
 
-function storeSuggestion($vocabularyMetaData,$params=array())
+function storeSuggestion($vocabularyMetaData, $params = array())
 {
     if (is_array($params)) {
         $session_name = md5($params["suggest_mail"].time());
@@ -238,10 +225,10 @@ function storeSuggestion($vocabularyMetaData,$params=array())
     return $session_name;
 }
 
-function redactSuggestion($vocabularyMetaData,$session_name)
+function redactSuggestion($vocabularyMetaData, $session_name)
 {
-    GLOBAL $CFG_URL_PARAM;
-    GLOBAL $CFG;
+    global $CFG_URL_PARAM;
+    global $CFG;
     $tematres_uri=$vocabularyMetaData->result->uri.'services.php';
     $params=$_SESSION[$session_name];
     $ref_term_id=((int) $params["term_id"]>0) ? $params["term_id"] : 0;
@@ -286,9 +273,9 @@ function redactSuggestion($vocabularyMetaData,$session_name)
                  "body"=>$body);
 }
 
-function HTMLthank4suggest($vocabularyMetaData,$msg_id=1)
+function HTMLthank4suggest($vocabularyMetaData, $msg_id = 1)
 {
-    GLOBAL $CFG;
+    global $CFG;
     switch ($msg_id) {
         case '1':
             $rows.='<h4>'.ucfirst(MSG_salutation).'</h4>';

@@ -4,7 +4,7 @@
  * Stopwords list for the use in the PHP package rake-php-plus.
  * See: https://github.com/Donatello-za/rake-php-plus
  *
- * Extracted using extractor.php @ 2018-09-25T19:16:18+00:00 
+ * Extracted using extractor.php @ 2018-09-25T19:16:18+00:00
  */
 
 return [
@@ -569,4 +569,3 @@ return [
     'és',
     'último'
 ];
-

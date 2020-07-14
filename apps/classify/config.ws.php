@@ -1,8 +1,10 @@
 <?php
-if(checkModuleCFG('CLASSIFFY')!==true) header("Location:../../index.php");      
+if (checkModuleCFG('CLASSIFFY')!==true) {
+    header("Location:../../index.php");
+}
 /*
-*      config.ws.php 
-*       
+*      config.ws.php
+*
 *      Copyright 2018 diego <tematres@r020.com.ar>
 *
 *      This program is free software; you can redistribute it and/or modify
@@ -26,21 +28,21 @@ CONFIGURATION
 $lang = 'es_AR';
 
 //ini_set('display_errors', 'On');
-//error_reporting(E_ALL);	
+//error_reporting(E_ALL);
 require_once("lang/$lang.php");
 
 //maximum number of words allowed
-$CFG['max_text_length']= 200;                    
+$CFG['max_text_length']= 200;
 
 //languaje stop words. es by default
-$CFG["rake_lang"]=(in_array($_SESSION["vocab"]["lang"],array('es','en'))) ? $_SESSION["vocab"]["lang"] : 'es'; 
+$CFG["rake_lang"]=(in_array($_SESSION["vocab"]["lang"], array('es','en'))) ? $_SESSION["vocab"]["lang"] : 'es';
 
 // min size of extracted keyword
-$CFG["rake_minLenght"]=3; 
+$CFG["rake_minLenght"]=3;
 
 
 // min score of extracted keyword
-$CFG["rake_minScore"]=2; 
+$CFG["rake_minScore"]=2;
 
 
 //how much controled terms to suggest
@@ -48,4 +50,3 @@ $CFG["max_fetch_keywords"]=20;
 //set the length of keywords you like
 $CFG['min_word_length'] = 5;  //minimum length of single words
 $CFG['min_word_occur'] = 2;  //minimum occur of single words
-?>

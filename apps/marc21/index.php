@@ -3,31 +3,31 @@
     require 'config.ws.php';
     
     $t750_a  =  XSSprevent($_GET['t750_a']);
-    if(strlen($t750_a)>= $CFG["MIN_CHAR_SEARCH"]) {
-        echo getData4AutocompleterUI($URL_BASE,$t750_a);
-        exit();
-    };
+if (strlen($t750_a)>= $CFG["MIN_CHAR_SEARCH"]) {
+    echo getData4AutocompleterUI($URL_BASE, $t750_a);
+    exit();
+};
 
     //sub encabezamiento
     $t750_x  =  XSSprevent($_GET['t750_x']);
-    if(strlen($t750_x)>= $CFG["MIN_CHAR_SEARCH"]) {
-        echo getData4AutocompleterUI($CFG_MARC21["t750_x"],$t750_x);
-        exit();
-    };
+if (strlen($t750_x)>= $CFG["MIN_CHAR_SEARCH"]) {
+    echo getData4AutocompleterUI($CFG_MARC21["t750_x"], $t750_x);
+    exit();
+};
 
     //forma
     $t750_v  =  XSSprevent($_GET['t750_v']);
-    if(strlen($t750_v)>= $CFG["MIN_CHAR_SEARCH"]) {        
-        echo getData4AutocompleterUI($CFG_MARC21["t750_v"],$t750_v);
-        exit();
-    };
+if (strlen($t750_v)>= $CFG["MIN_CHAR_SEARCH"]) {
+    echo getData4AutocompleterUI($CFG_MARC21["t750_v"], $t750_v);
+    exit();
+};
 
     //geográficos
     $t750_z  =  XSSprevent($_GET['t750_z']);
-    if(strlen($t750_z)>= $CFG["MIN_CHAR_SEARCH"]) {        
-        echo getData4AutocompleterUI($CFG_MARC21["t750_z"],$t750_z);
-        exit();
-    };
+if (strlen($t750_z)>= $CFG["MIN_CHAR_SEARCH"]) {
+    echo getData4AutocompleterUI($CFG_MARC21["t750_z"], $t750_z);
+    exit();
+};
       
     require 'config.ws.php';
     
@@ -40,9 +40,9 @@
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"];?>">
     <head>
-        <?php 
-            echo HTMLmeta($_SESSION["vocab"],ucfirst(MARC21_SERVICE_title));
-            echo HTMLestilosyjs();            
+        <?php
+            echo HTMLmeta($_SESSION["vocab"], ucfirst(MARC21_SERVICE_title));
+            echo HTMLestilosyjs();
         ?>        
         <script type="text/javascript" src="<?php echo $CFG_URL_PARAM["url_site"];?>apps/marc21/zeroc/ZeroClipboard.js"></script>        
         <script language="javascript" type="text/javascript" src="<?php echo $CFG_URL_PARAM["url_site"];?>apps/marc21/marcjs.php"></script>
@@ -94,7 +94,7 @@
                         </div>
                         
                         <?php
-                            if(configValue($CFG_MARC21["t750_z"])){
+                        if (configValue($CFG_MARC21["t750_z"])) {
                         ?>
 
                         <div class="form-group">
@@ -106,7 +106,7 @@
                         <input type="text" class="form-control-add" id="t750_zr" placeholder="<?php echo ucfirst(MARC21_t750_z).' '.MARC21_r;?>"> <button id="b4" class="btn add-more btn-danger" type="button" onclick="toggle_visibility('geo2');">-</button>
                         </div>
                         <?php
-                            }
+                        }
                             ?>
                         <button id="btngerid" type="button" class="btn btn-default" onclick="btngerar()" onblur="msgseterr('')"><?php echo ucfirst(MARC21_create);?></button><span id="msgerr" style="color:red;padding:5px;"></span>
 
@@ -130,7 +130,7 @@
                     </div>
                 </form>
                 
-                <?php echo HTMLlistSources($CFG_MARC21,$vocabularyMetaData); ?>
+                <?php echo HTMLlistSources($CFG_MARC21, $vocabularyMetaData); ?>
 
                 </div>
 
@@ -146,8 +146,8 @@
                     </div>
                 </div><!-- END littleinfo  -->
             </div><!--  END row  -->
-                 <?php
-                echo HTMLglobalFooter(array());
+                    <?php
+                    echo HTMLglobalFooter(array());
             ?>
        </div><!--  END container  -->
     </body>

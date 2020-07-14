@@ -1,7 +1,7 @@
 <?php
 /*
-*      config.ws.php 
-*       
+*      config.ws.php
+*
 *      Copyright 2015 diego <tematres@r020.com.ar>
 *
 *      This program is free software; you can redistribute it and/or modify
@@ -48,5 +48,3 @@ $CFG_MARC21["t750_2"]='TEMATRES';
 
 //sub tag selector
 $CFG_MARC21["subtag"]='$';
-
-?>

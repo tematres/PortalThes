@@ -18,4 +18,3 @@ $message['about'] = "about" ;
 $message['searchExpresion'] = "search expresion" ;
 $message['suggestedSearchTerm'] = "did you mean" ;
 $message['relatedResources'] = "related resources";
-?>

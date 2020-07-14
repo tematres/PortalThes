@@ -126,7 +126,7 @@ class RakePlus
         if ($text != '') {
             if (is_array($stopwords)) {
                 $this->pattern = StopwordArray::create($stopwords)->pattern();
-            } else if (is_string($stopwords)) {
+            } elseif (is_string($stopwords)) {
                 if (is_null($this->pattern) || ($this->language != $stopwords)) {
                     $extension = strtolower(pathinfo($stopwords, PATHINFO_EXTENSION));
                     if (empty($extension)) {
@@ -139,11 +139,11 @@ class RakePlus
                             $this->pattern = StopwordsPHP::create($this->language_file)->pattern();
                         }
                         $this->language = $stopwords;
-                    } else if ($extension == 'pattern') {
+                    } elseif ($extension == 'pattern') {
                         $this->language = $stopwords;
                         $this->language_file = $stopwords;
                         $this->pattern = StopwordsPatternFile::create($this->language_file)->pattern();
-                    } else if ($extension == 'php') {
+                    } elseif ($extension == 'php') {
                         $language_file = $stopwords;
                         $this->language = $stopwords;
                         $this->language_file = $language_file;
@@ -291,8 +291,10 @@ class RakePlus
         // seem to like numbers:
         // '/[\/:.\?!,;\-"\'\(\)\\\x{2018}\x{2019}\x{2013}\n\t]+/u'
 
-        return preg_split('/[.!?,;:\t\-\"\(\)]/',
-            preg_replace('/\n/', ' ', $text));
+        return preg_split(
+            '/[.!?,;:\t\-\"\(\)]/',
+            preg_replace('/\n/', ' ', $text)
+        );
     }
 
     /**
@@ -308,8 +310,10 @@ class RakePlus
         // seem to like numbers:
         // '/[\/:.\?!,;\-"\'\(\)\\\x{2018}\x{2019}\x{2013}\n\t]+/u'
 
-        return mb_split('[.!?,;:\t\-\"\(\)]',
-            mb_ereg_replace('\n', ' ', $text));
+        return mb_split(
+            '[.!?,;:\t\-\"\(\)]',
+            mb_ereg_replace('\n', ' ', $text)
+        );
     }
 
     /**
@@ -448,7 +452,7 @@ class RakePlus
      */
     private function splitPhraseIntoWords($phrase)
     {
-        return array_filter(preg_split('/\W+/u', $phrase, -1, PREG_SPLIT_NO_EMPTY), function($word) {
+        return array_filter(preg_split('/\W+/u', $phrase, -1, PREG_SPLIT_NO_EMPTY), function ($word) {
             return !is_numeric($word);
         });
     }

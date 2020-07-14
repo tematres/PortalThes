@@ -31,20 +31,17 @@ $CFG["ENCODE"] = 'UTF-8';
 $lang_tematres = "es_AR" ;
 
 //  VOCABULARIOS == vocabulary to use
-$CFG_VOCABS["1"]["CODE"]       	= "1"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
+$CFG_VOCABS["1"]["CODE"]        = "1"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
 //$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/TemaTres-Vocabulary-Server/vocab/'; // URL of the tematres instance
 $CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/bne/encabezamientos/'; // URL of the tematres instance
-$CFG_VOCABS["1"]["ALPHA"]      	= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
-$CFG_VOCABS["1"]["ALIAS"]  	= "SAIJ"; // 
-$CFG_VOCABS["1"]["SHOW_TREE"]  	= 0; // show main tree navigation. Default=1
+$CFG_VOCABS["1"]["ALPHA"]       = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
+$CFG_VOCABS["1"]["ALIAS"]   = "lemb"; //
+$CFG_VOCABS["1"]["SHOW_TREE"]   = 0; // show main tree navigation. Default=1
 $CFG_VOCABS["1"]["MODULES"]     = array("MARC21","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK","VISUAL_VOCAB");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
 
 
-$CFG_VOCABS["2"]["CODE"]       	= "2"; // internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS[""] array.
-$CFG_VOCABS["2"]["URL_BASE"]    = 'https://vocabularyserver.com/brased/'; // URL of the tematres instance
-$CFG_VOCABS["2"]["ALPHA"]      	= array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
-$CFG_VOCABS["2"]["SHOW_TREE"]  	= 1; // show main tree navigation. Default=1
-$CFG_VOCABS["2"]["MODULES"]     = array("CLASSIFFY","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
+
 
 ## Config data about THIS WEB PORTAL
 $CFG_URL_PARAM["url_site"]      ='http://localhost/tematres/portalthes/';
@@ -53,46 +50,49 @@ $CFG_URL_PARAM["site_info"]='Lorem ipsum 0';
 $CFG_URL_PARAM["site_info_line1"]='Lorem ipsum 1';
 $CFG_URL_PARAM["site_info_line2"]='Lorem ipsum 2';
 
-$CFG["DEFVOCAB"]                = "1";                                  //Default vocab
+$CFG["DEFVOCAB"]                = "5";                                  //Default vocab
 $CFG["MIN_CHAR_SEARCH"]         = 2;                                    //search strings with more than x chars
 $CFG["LOCAL_NOTES"]["DEF"]      = "Nota de definición";
+$CFG["LOCAL_NOTES"]["NA"]      = "Nota de alcance";
+$CFG["LOCAL_NOTES"]["NB"]      = "Nota bibliográfica";
 
 
-//$CFG_URL_PARAM["fetchTerm"]		= 'index.php?task=fetchTerm&amp;arg=';
-//$CFG_URL_PARAM["search"]		= 'index.php?task=search&amp;arg=';
-//$CFG_URL_PARAM["letter"]		= 'index.php?task=letter&amp;arg=';
-//$CFG_URL_PARAM["v"]		= '&amp;v=';
-$CFG_URL_PARAM["URIfetchTerm"]	= '/fetchTerm/';
+//$CFG_URL_PARAM["fetchTerm"]       = 'index.php?task=fetchTerm&amp;arg=';
+//$CFG_URL_PARAM["search"]      = 'index.php?task=search&amp;arg=';
+//$CFG_URL_PARAM["letter"]      = 'index.php?task=letter&amp;arg=';
+//$CFG_URL_PARAM["v"]       = '&amp;v=';
+$CFG_URL_PARAM["URIfetchTerm"]  = '/fetchTerm/';
 
-$CFG_URL_PARAM["v"]		= '';
-$CFG_URL_PARAM["fetchTerm"]		= '/term/';
-$CFG_URL_PARAM["search"]		= '/search/';
-$CFG_URL_PARAM["letter"]		= '/letter/';
+$CFG_URL_PARAM["v"]     = '';
+$CFG_URL_PARAM["fetchTerm"]     = '/term/';
+$CFG_URL_PARAM["search"]        = '/search/';
+$CFG_URL_PARAM["letter"]        = '/letter/';
 
 
 
 /*  In almost cases, you don't need to touch nothing here!! */
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-// error_reporting(E_ALL);
+//error_reporting(E_ERROR | E_WARNING | E_PARSE);
+ error_reporting(E_ERROR | E_WARNING);
 
-if ( !defined('WEBTHES_ABSPATH') )
-	/** Use this for version of PHP < 5.3 */
-	define('WEBTHES_ABSPATH', dirname(__FILE__));
+if (!defined('WEBTHES_ABSPATH')) {
+    /** Use this for version of PHP < 5.3 */
+    define('WEBTHES_ABSPATH', dirname(__FILE__));
+}
 
     require_once("common/lang/$lang_tematres.php");
-	include_once('common/vocabularyservices.php');
-	include_once('common/portalthes.php');
+    include_once('common/vocabularyservices.php');
+    include_once('common/portalthes.php');
 
 
-	
+    
 //get for valid vocab_code provided by GET
     $v=(isset($_GET["v"])) ? $_GET["v"] : '';
 
 //check if vocab_code is valid.
-    $v=configValue($vocab_code,$CFG["DEFVOCAB"],$CFG_VOCABS);
-	
-    $_SESSION["vocab"]=$CFG_VOCABS[$v];	
-	
+    $v=configValue($vocab_code, $CFG["DEFVOCAB"], $CFG_VOCABS);
+    
+    $_SESSION["vocab"]=$CFG_VOCABS[$v];
+    
     $URL_BASE=$CFG_VOCABS[$v]["URL_BASE"].'services.php';
 
         $vocabularyMetadata=fetchVocabularyMetadata($URL_BASE);
@@ -104,5 +104,3 @@ if ( !defined('WEBTHES_ABSPATH') )
         $_SESSION["vocab"]["keywords"] = (string) $vocabularyMetadata["keywords"];
         $_SESSION["vocab"]["lastMod"] = (string) $vocabularyMetadata["lastMod"];
         $_SESSION["vocab"]["cant_terms"] = (string) $vocabularyMetadata["cant_terms"];
-
-?>
