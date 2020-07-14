@@ -234,7 +234,7 @@ function HTMLglobalContextualMenu($params = array())
 
     if (@$params["vocab_code"]) {
         $rows=' <h1>
-                    '.$params["vocabularyMetadata"]["title"].'
+                    <a href="'.$CFG_URL_PARAM["url_site"].'" title="'.$params["vocabularyMetadata"]["title"].'">'.$params["vocabularyMetadata"]["title"].'</a>
                 </h1>
                 <p class="autor text-right">
                     '.LABEL__attrib.' '.$params["vocabularyMetadata"]["author"].'

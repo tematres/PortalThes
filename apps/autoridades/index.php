@@ -43,7 +43,7 @@ if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
                 <div class="box box-pres box-pres2">
-                    <h1><?php echo $_SESSION["vocab"]["title"];?></h1>
+                    <h1><a href="<?php echo $CFG_URL_PARAM["url_site"];?>" title="<?php echo $_SESSION["vocab"]["title"];?>"><?php echo $_SESSION["vocab"]["title"];?></a></h1>
                     <p class="autor text-right"><?php echo $_SESSION["vocab"]["author"];?></p>
                     <p class="text-justify ocultar"><?php echo $_SESSION["vocab"]["scope"];?></p>
                 </div><!-- END box presentación -->
