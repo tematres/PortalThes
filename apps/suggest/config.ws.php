@@ -27,5 +27,5 @@ $lang_suggest = $lang_tematres;
 require_once("lang/$lang_suggest.php");
 
 $CFG["SUGGEST_OPT"]             = array("UF","NT","EQ","term","modT");  //type of suggestions availables
-$CFG_SGS["key_google_captcha"]='6LegSAUTAAAAAAJXLhasBuWh9twJyviiU7rPEZ5a';
-$CFG_SGS["sitekey_google_captcha"]='6LegSAUTAAAAAPu7xGaCcgXGFJXx-YJq1UKX8rED';
+$CFG_SGS["key_google_captcha"]='';
+$CFG_SGS["sitekey_google_captcha"]='';
