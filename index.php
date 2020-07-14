@@ -120,12 +120,10 @@ if (is_array($CFG_VOCABS[$v])) {
                             echo HTMLmetadataVocabulary($CFG_VOCABS[$v]);
                             break;
 
-                        case 'topsterms':
-                            echo '  <div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?v='.$v.'"></div><!-- #topterms -->';
-                            break;
-
                         default:
+                            if ($CFG_VOCABS[$v]["SHOW_TREE"]!==0) {
                                 echo '<div id="treeTerm" data-url="'.$CFG_URL_PARAM["url_site"].'common/treedata.php?v='.$v.'"></div><!-- #topterms -->';
+                            }
                             break;
                     }
                     ?>
