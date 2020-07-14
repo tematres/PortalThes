@@ -37,7 +37,7 @@ $CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/bne/encabezamien
 $CFG_VOCABS["1"]["ALPHA"]       = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
 ; // array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
 $CFG_VOCABS["1"]["ALIAS"]   = "lemb"; //
-$CFG_VOCABS["1"]["SHOW_TREE"]   = 0; // show main tree navigation. Default=1
+$CFG_VOCABS["1"]["SHOW_TREE"]   = 0; // show main tree navigation. Default=1. 0 = "do no show"
 $CFG_VOCABS["1"]["MODULES"]     = array("MARC21","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK","VISUAL_VOCAB");//Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
 
 
@@ -50,7 +50,7 @@ $CFG_URL_PARAM["site_info"]='Lorem ipsum 0';
 $CFG_URL_PARAM["site_info_line1"]='Lorem ipsum 1';
 $CFG_URL_PARAM["site_info_line2"]='Lorem ipsum 2';
 
-$CFG["DEFVOCAB"]                = "5";                                  //Default vocab
+$CFG["DEFVOCAB"]                = "1";                                  //Default vocab
 $CFG["MIN_CHAR_SEARCH"]         = 2;                                    //search strings with more than x chars
 $CFG["LOCAL_NOTES"]["DEF"]      = "Nota de definición";
 $CFG["LOCAL_NOTES"]["NA"]      = "Nota de alcance";
