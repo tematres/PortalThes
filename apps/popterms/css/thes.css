@@ -1,0 +1,120 @@
+
+#term_breadcrumb{font-size: 12px; font-family: Arial, Helvetica, sans-serif;}
+
+#term_prefLabel{font-size: 16px; font-weight: bold;}
+
+#topterms{font-size: 16px; font-family: Arial, Helvetica, sans-serif; padding:15px;}
+
+.label_details{
+display: block; 
+font-size: 10px; 
+font-family: Arial, Helvetica, sans-serif; 
+line-height: 10px;  
+color:#000000;
+padding:10px;
+text-align:right;
+}
+
+.label_details a{
+color:#000000;
+text-decoration:none;
+}
+
+
+#msg_search_result{
+font-size: 14px; font-family: Arial, Helvetica, sans-serif; font-weight: bold;
+color: #000000;
+margin: 20px 0 10px;
+font-weight: bold;
+}
+
+#list_search_result li{
+font-size: 14px; font-family: Arial, Helvetica, sans-serif;
+margin: 10px 0 6px 10px;
+}
+
+.topterms li.metaTerm{
+font-family: "Proxima Nova Regular","Helvetica Neue","Calibri","Droid Sans","Helvetica","Arial",sans-serif;
+font-style: normal;
+font-weight: 400;
+}
+
+
+ul.topterms a {
+font-size: 1.2em;
+width: auto!important;
+border: 0;
+letter-spacing: .15em;
+margin-top: 2.5em;
+padding: .8em .5em .25em 1%;
+text-transform: uppercase;
+border-bottom: .07em solid rgba(0,0,0,0.1);
+line-height: 30px!important;
+}
+
+ul.topterms  {
+list-style-type: none;
+}
+
+p.note{
+	padding: .1em 0 0 2.5em;
+	margin: 0 auto;
+}
+
+span.note_label{
+	padding: .8em 0 0 0;
+	margin-top: 2.5em;
+	padding: .4em .25em .25em 0;
+	border-bottom: .07em solid rgba(0,0,0,0.1);
+	line-height: 20px;
+}
+	
+a:link
+                color: #009BDD;
+text-decoration: none;
+                }
+a:hover {
+                color: #009BDD;
+                text-decoration: underline;
+}
+a:visited {
+                color: #009BDD;
+                text-decoration: none;
+}
+
+.label_list {display:inline; font-weight: bolder;}  
+
+#alt_terms li, #broader_terms li, #related_terms li{   list-style-type: none;   display: inline;}
+#alt_terms li{   font-style: italic; }
+
+#term_relations a{text-decoration:underline;}
+
+.post-tags a,.post-tags li{display:inline-block;color:#999}
+.post-tags{margin-bottom:40px}
+
+.post-tags a{background:#f2f2f2; line-height:2;white-space:nowrap;padding:3px 5px;margin:0 5px 2px 0;-webkit-border-radius:3px;border-radius:3px;color:blue}
+.post-tags a:hover{background-color:#46B8DA;color:#fff}
+
+.alt-tags {background:#f2f2f2; line-height:2.666em;white-space:nowrap;padding:3px 7px;margin:0 5px 2px 0;-webkit-border-radius:2px;border-radius:2px}
+
+
+.alt-tags {background:#f2f2f2; line-height:2.666em;white-space:nowrap;padding:3px 7px;margin:0 5px 2px 0;-webkit-border-radius:2px;border-radius:2px}
+
+.copy-clipboard {border-radius: 0;vertical-align: inherit;font-size: 14px;margin-right: 5px;border: 0;}
+
+.alphamenu{font-size: 8px;}
+
+span.metaTerm,a.metaTerm{color:#616161;}
+span.metaTerm:before,a.metaTerm:before{content:'<'}
+span.metaTerm:after,a.metaTerm:after{content:'>'}
+
+hr{margin-top:3px;}
+h2{font-size:20px;}
+
+/* enlarging search input on larger popup sizes */
+@media (min-width: 768px) {
+	.navbar-form .input-group {
+		width: 100%;
+	}
+}
+

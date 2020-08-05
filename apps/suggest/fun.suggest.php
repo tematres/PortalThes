@@ -72,7 +72,7 @@ function formSuggestTerm($tematres_uri, $params = array())
             $rows.='        <input type="hidden" id="term_id" name="term_id" value="'.$ref_term_id.'" />
                             <legend align="right">
                                 '.ucfirst($label).'
-                                <strong><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchTerm&amp;arg='.$ref_term_id.'&amp;v='.$params["v"].'">'.$termData->result->term->string.'</a></strong>
+                                <strong><a href="'.redactHREF($params["v"], "fetchTerm", $ref_term_id).'">'.$termData->result->term->string.'</a></strong>
                             </legend>
                             <input type="hidden" id="ref_term_id" name="ref_term_id" value="'.$ref_term_id.'"> ';
         }
