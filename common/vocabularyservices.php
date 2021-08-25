@@ -79,6 +79,10 @@ function data2html4Notes($data, $param = array())
                 $rows.='<div rel="skos:scopeNote">';
                 $rows.='<span class="note_label">'.$note_label.':</span>';
                 $rows.='<p class="note">'.(string) $value->note_text.'</p>';
+            if (@$value->note_src) {
+                                $rows.='<p class="note">'.(string) $value->note_src.'</p>';
+            }
+
                 $rows.='</div>';
         }
         $rows.='</div>';

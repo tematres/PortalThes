@@ -639,7 +639,7 @@ function fetchVocabCode($vocab_code)
     
 
     foreach ($CFG_VOCABS as $k => $val) {
-        if ($val[$key] == $v) {
+        if ($val[$k] == $v) {
             return $v;
         };
     }
