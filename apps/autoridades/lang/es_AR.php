@@ -20,3 +20,4 @@ define('BULK_TERMS_REVIEW_help', 'Ingrese los términos a comparar, uno por reng
 define('BULK_TERMS_REVIEW_inBrowser', 'ver resultados en el navegador');
 define('BULK_TERMS_REVIEW_inExcel', 'guardar resultados en un archivo (*.xls)');
 define('BULK_TERMS_REVIEW_compare', 'comparar');
+define('BULK_TERMS_REVIEW_TERMSUGGES', 'término sugerido');

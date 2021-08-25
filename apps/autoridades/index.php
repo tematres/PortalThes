@@ -34,7 +34,7 @@ if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
             echo HTMLestilosyjs();
         ?>
     </head>
-    <body>
+    <body onload="countLines(document.getElementById('searchbox'))">
         <?php
             echo HTMLglobalMenu(array("CFG_VOCABS"=>$CFG_VOCABS));
         ?>
@@ -58,7 +58,7 @@ if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
                 <div class="box box-info triple">
                     <form class="controlterm" action="index.php#massiveresult" method="post">
                         <div class="text-field">
-                            <textarea id="searchbox" name="q" rows="20" placeholder="<?php echo BULK_TERMS_REVIEW_help;?>"><?php echo $params["content"];?></textarea>
+                            <textarea id="searchbox" class="" name="q" rows="20" placeholder="<?php echo BULK_TERMS_REVIEW_help;?>"><?php echo $params["content"];?></textarea>
                         </div>
                         <label class="radio">
                             <input type="radio" name="f" id="f1" value="HTML" checked>
@@ -72,6 +72,14 @@ if (isset($_POST["f"]) && $_POST["f"] == 'XLS') {
                             <input type="submit" id="parse_text" class="btn btn-info" value="<?php echo ucfirst(BULK_TERMS_REVIEW_compare);?>">
                         </div>
                     </form>
+                    <script>
+                    $(function() {
+                        $(".lined").linedtextarea(
+                            {selectedLine: 4}
+                        );
+                    });
+                    </script>
+
                 </div><!-- END input autoridades -->
                 
                     <?php
