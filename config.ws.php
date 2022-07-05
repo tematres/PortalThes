@@ -24,64 +24,103 @@ CONFIGURATION
 ********************************************************************************************/
 session_start();
 
-/** VOCABULARIOS == vocabulary to use*/
-/** internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.  */
-$CFG_VOCABS["1"]["CODE"]        = "1"; 
-/** URL of the tematres instance */
-$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/bne/encabezamientos/';
-/** Array of char used to alphabetic global menu navigation. For example: array('a','b','c','d') */
-$CFG_VOCABS["1"]["ALPHA"]       = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"); 
-/** Show main tree navigation. Default=1. 0 = "do not show" */
-$CFG_VOCABS["1"]["SHOW_TREE"]   = 0; 
-/** Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK */
-$CFG_VOCABS["1"]["MODULES"]     = array("MARC21","BULK_TERMS_REVIEW","SUGGESTION_SERVICE","COPY_CLICK","VISUAL_VOCAB");
+/** 
+ * VOCABULARIOS == vocabulary to use
+ * Internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.  
+*/
+$CFG_VOCABS["1"]["CODE"]        = "1";
+$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/vocab/'; // URL of the tematres instance
+
+/** 
+ * Array of char used to alphabetic global menu navigation. For example: array('a','b','c','d') 
+ */
+$CFG_VOCABS["1"]["ALPHA"]       = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+/** 
+ * Show main tree navigation. Default=1. 0 = "do not show" 
+ */
+$CFG_VOCABS["1"]["SHOW_TREE"]   = 1;
+/** 
+ * Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
+ */
+$CFG_VOCABS["1"]["MODULES"]     = array("SUGGESTION_SERVICE","VISUAL_VOCAB","BULK_TERMS_REVIEW");
 
 
-/** HTML encode */
+/** 
+ * HTML encode
+ */
 $CFG["ENCODE"] = 'UTF-8';
-/** Language of the interface */
+
+/** 
+ * Language of the interface
+ */
 $lang_tematres = "es_AR" ;
 
-/** Config data about THIS WEB PORTAL */
-/** base URL to the portalthes implementation */
+/** Config data about THIS WEB PORTAL
+ * base URL to the portalthes implementation
+ */
 $CFG_URL_PARAM["url_site"]      ='http://localhost/tematres/portalthes/';
 
-/** Title of portalthes implementation */
+/** 
+ * Title of portalthes implementation
+ */
 $CFG_URL_PARAM["title_site"]    = 'Portal de Vocabularios ';
 
-/** Site info to publish in footer line 1*/
+/** 
+ * Site info to publish in footer line 1
+ */
 $CFG_URL_PARAM["site_info"]='Lorem ipsum 0';
-/** Site info to publish in footer line 2*/
+
+/** 
+ * Site info to publish in footer line 2
+ */
 $CFG_URL_PARAM["site_info_line1"]='Lorem ipsum 1';
-/** Site info to publish in footer line 3*/
+
+/** 
+ * Site info to publish in footer line 3
+ */
 $CFG_URL_PARAM["site_info_line2"]='Lorem ipsum 2';
 
 
-/** Default vocab. index from the array vocabularies */
-$CFG["DEFVOCAB"]                = "1";              
+/**
+ *  Default vocab. index from the array vocabularies
+ */
+$CFG["DEFVOCAB"]                = "1";
 
-/** Search strings with more than x chars */
-$CFG["MIN_CHAR_SEARCH"]         = 2;        
+/**
+ *  Search strings with more than x chars
+ */
+$CFG["MIN_CHAR_SEARCH"]         = 2;
 
-/** Config local labels for custum notes. Use code of the note */
+/**
+ *  Config local labels for custum notes. Use code of the note
+ */
 $CFG["LOCAL_NOTES"]["DEF"]     = "Nota de definición";
 $CFG["LOCAL_NOTES"]["NA"]      = "Nota de alcance";
 $CFG["LOCAL_NOTES"]["NB"]      = "Nota bibliográfica";
 
 
+/** 
+ * Check HTTPS certificates
+ */
+$CFG["CHK_HTTPS"]     = 0;
+
 
 /**  In almost cases, you don't need to touch nothing here!! */
 
 
-/** params for GET if you do not have enable mod_rewrite */
-/** 
-$CFG_URL_PARAM["fetchTerm"]       = 'index.php?task=fetchTerm&amp;arg=';
-$CFG_URL_PARAM["search"]      = 'index.php?task=search&amp;arg=';
-$CFG_URL_PARAM["letter"]      = 'index.php?task=letter&amp;arg=';
-$CFG_URL_PARAM["v"]       = '&amp;v=';
+/**
+ * params for GET if you do not have enable mod_rewrite
+ */
+/**
+$CFG_URL_PARAM["fetchTerm"]       = '&amp;task=term&amp;arg=';
+$CFG_URL_PARAM["search"]      = '&amp;task=search&amp;arg=';
+$CFG_URL_PARAM["letter"]      = '&amp;task=letter&amp;arg=';
+$CFG_URL_PARAM["v"]       = 'index.php?v=';
 */
 
-/** params for GET if you enable mod_rewrite */
+/** 
+ * params for GET if you enable mod_rewrite
+ */
 $CFG_URL_PARAM["URIfetchTerm"]  = '/fetchTerm/';
 $CFG_URL_PARAM["v"]     = '';
 $CFG_URL_PARAM["fetchTerm"]     = '/term/';

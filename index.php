@@ -135,7 +135,7 @@ if (is_array($CFG_VOCABS[$v])) {
                 <div class="col-xs-12 littleinfo">
                     <div class="caja box-info">
                         <?php
-                            echo littleinfo(array("vocab_code"=>$v,"vocabularyMetadata"=>$vocabularyMetadata));
+                            echo HTMLlittleinfo(array("vocab_code"=>$v,"vocabularyMetadata"=>$vocabularyMetadata));
                         ?>
                     </div>
                 </div><!-- END littleinfo  -->

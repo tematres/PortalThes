@@ -30,12 +30,18 @@ if (! defined('WEBTHES_ABSPATH')) {
 *       & arg = argumentos de la consulta   */
 function getURLdata($url)
 {
+    global $CFG;
     if (extension_loaded('curl')) {
         $rCURL = curl_init();
+        if ($CFG["CHK_HTTPS"]==0) {
+            curl_setopt($rCURL, CURLOPT_SSL_VERIFYPEER, false);    
+        }
+        
         curl_setopt($rCURL, CURLOPT_URL, $url);
         curl_setopt($rCURL, CURLOPT_HEADER, 0);
         curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
-        $xml = curl_exec($rCURL) or die("Could not open a feed called: " . $url);
+        $xml = curl_exec($rCURL) or die("Could not open a feed called: " . $url ." ".curl_error($rCURL));
+
         curl_close($rCURL);
     } else {
         $xml=file_get_contents($url) or die("Could not open a feed called: " . $url);

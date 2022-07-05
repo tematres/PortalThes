@@ -274,73 +274,6 @@ function HTMLglobalContextualMenu($params = array())
     return $rows;
 }
 
-/*  Información sobre el voc para pantallas chicas  */
-function littleinfo($params = array())
-{
-    global $CFG_URL_PARAM;
-    global $CFG_SITE;
-    setlocale(LC_ALL, 'es_AR');
-    if (@$params["vocab_code"]) {
-        $rows=' <p class="text-justify">
-                    '.$params["vocabularyMetadata"]["title"].': '.$params["vocabularyMetadata"]["scope"].'
-                </p>
-                <div id="carousel2" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carousel2" data-slide-to="0" class="active"></li>
-                      <li data-target="#carousel2" data-slide-to="1"></li>
-                      <li data-target="#carousel2" data-slide-to="2"></li>
-                    </ol>
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <div class="whitebox text-center">';
-                                /*La última actualización fue en '.date_format(date_create_from_format('Y-m-d G:i:s', $params["vocabularyMetadata"]["lastMod"]), 'm/y').'. */$rows.='<br><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&amp;v='.$params["vocab_code"].'" title="Últimas modificaciones de '.$params["vocabularyMetadata"]["title"].'"><span>¡Mirá las últimas modificaciones!</span></a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="whitebox text-center">
-                                <p class="statsnum">
-                                    '.$params["vocabularyMetadata"]["cant_terms"].'
-                                </p>
-                                <p class="statstext">
-                                    términos';
-        if ($_SESSION["vocab"]["mail"]) {
-            $rows.='                ... &nbsp;&nbsp;
-                                    <a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABEL_sendSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>¡Sugerí uno!</span></a>';
-        }
-        $rows.='                </p>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="whitebox text-right">
-                                <p class="text-center">Recibí las actualizaciones de este vocabulario... </p>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal">
-                                    <span>¡Suscribíte!</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="note" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Cerrar ventana"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Suscripción al RSS</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="text-justify">RSS es una forma muy sencilla para recibir información actualizada sobre determinadas páginas web, sin necesidad de visitarlas una a una.</p>
-                                    <p class="text-justify">Para poder recibir noticias RSS se necesita un lector RSS como <a href="http://digg.com/reader">Digg Reader</a> o <a href="https://www.inoreader.com/">Inoreader</a>.</p>
-                                    <p class="text-center"><a href="'.$CFG_URL_PARAM["url_site"].'rss.php?v='.$params["vocab_code"].'" title="Suscripción al RSS">RSS de este vocabulario</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>';
-    }
-    return $rows;
-}
 
 /*  Presentación de menú contextual de término  */
 function datosdeltermino($params = array())
@@ -741,4 +674,74 @@ function HTMLcopyClick($v, $targt_div, $array_flags)
     }
 
     return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'"><span class="glyphicon glyphicon-copy" aria-hidden="true"  title="'.ucfirst(LABEL_copy_click).'"></span></button>';
+}
+
+
+
+/*  Información sobre el voc para pantallas chicas  */
+function HTMLlittleinfo($params=array())
+{
+    GLOBAL $CFG_URL_PARAM;
+    GLOBAL $CFG_SITE;
+    setlocale(LC_ALL, 'es_AR');
+    if (@$params["vocab_code"]) {
+        $rows=' <p class="text-justify">
+                    '.$params["vocabularyMetadata"]["title"].': '.$params["vocabularyMetadata"]["scope"].'
+                </p>
+                <div id="carousel2" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                      <li data-target="#carousel2" data-slide-to="0" class="active"></li>
+                      <li data-target="#carousel2" data-slide-to="1"></li>
+                      <li data-target="#carousel2" data-slide-to="2"></li>
+                    </ol>
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <div class="whitebox text-center">';
+                                /*La última actualización fue en '.date_format(date_create_from_format('Y-m-d G:i:s', $params["vocabularyMetadata"]["lastMod"]), 'm/y').'. */
+                                $rows.='<br><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&amp;v='.$params["vocab_code"].'" title="Últimas modificaciones de '.$params["vocabularyMetadata"]["title"].'"><span>¡Mirá las últimas modificaciones!</span></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="whitebox text-center">
+                                <p class="statsnum">
+                                    '.$params["vocabularyMetadata"]["cant_terms"].'
+                                </p>
+                                <p class="statstext">
+                                    términos';
+        if ($_SESSION["vocab"]["mail"])
+            $rows.='                ... &nbsp;&nbsp;
+                                    <a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABEL_sendSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>¡Sugerí uno!</span></a>';
+        $rows.='                </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="whitebox text-right">
+                                <p class="text-center">Recibí las actualizaciones de este vocabulario... </p>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal">
+                                    <span>¡Suscribíte!</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="note" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Cerrar ventana"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Suscripción al RSS</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-justify">RSS es una forma muy sencilla para recibir información actualizada sobre determinadas páginas web, sin necesidad de visitarlas una a una.</p>
+                                    <p class="text-justify">Para poder recibir noticias RSS se necesita un lector RSS como <a href="http://digg.com/reader">Digg Reader</a> o <a href="https://www.inoreader.com/">Inoreader</a>.</p>
+                                    <p class="text-center"><a href="'.$CFG_URL_PARAM["url_site"].'rss.php?v='.$params["vocab_code"].'" title="Suscripción al RSS">RSS de este vocabulario</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+    }
+    return $rows;
 }
