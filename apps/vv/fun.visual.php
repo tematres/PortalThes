@@ -35,7 +35,7 @@ function JeachNode($term)
     $rows='"id":"'.$term->term_id.'",';
     $rows.='"name":"'.FixEncoding($term->string).'",';
     $rows.='"data": {';
-    $rows.='   \'Term\': \' '.$term->string.' \',';
+    $rows.='   \'Term\': \' '.json_encode($term->string).' \',';
     $rows.='},';
 
     return $rows;

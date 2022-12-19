@@ -430,11 +430,11 @@ function data2html4TopTerms($data, $param = array())
 }
 
 //lista alfabética
-function HTMLalphaNav($arrayLetras = array(), $param = array(), $select_letra = "")
+function HTMLalphaNav($arrayLetras = array(), $select_letra = "",$param = array())
 {
     global $URL_BASE;
-
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
+
     $rows='    <ul class="nav nav-alpha nav-pills">';
     foreach ($arrayLetras as $letra) {
         $class=($select_letra==$letra) ? 'active' : '';
@@ -695,7 +695,7 @@ function redactHREF($v, $task, $arg, $extra = array())
 
     $v=(is_array($CFG_VOCABS[$v])) ? $v : $CFG["DEFVOCAB"];
 
-    $task=(in_array($task, array('fetchTerm','search','letter','last'))) ? $task : 'last' ;
+    $task=(in_array($task, array('fetchTerm','search','letter','last','topterms'))) ? $task : 'last' ;
 
     return $CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$v.$CFG_URL_PARAM[$task].$arg;
 }

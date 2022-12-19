@@ -1,15 +1,20 @@
 <?php
-    require 'config.ws.php';
+require 'config.ws.php';
+
+if (is_array($CFG_VOCABS[$v])) {
+    $v=configValue($_GET["v"], $CFG["DEFVOCAB"]);
+}
 
     $searchq  =  XSSprevent($_GET['sgterm']);
-if (strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {
-    echo getData4AutocompleterUI($URL_BASE, $searchq);
+if (strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {    
+    header('Content-type: application/json; charset=utf-8');
+    echo getData4AutocompleterUI($URL_BASE, $searchq,$v);
     exit();
 };
     header('Content-Type: text/html; charset=UTF-8');
- 
-if (is_array($CFG_VOCABS[$v])) {
-    $v=configValue($_GET["v"], $CFG["DEFVOCAB"]);
+
+
+
     if (isset($_GET["task"])) {
         switch ($_GET["task"]) {
             //datos de un término == term data
@@ -60,14 +65,13 @@ if (is_array($CFG_VOCABS[$v])) {
     }
     //default values
     $c=isset($_GET['c']) ? XSSprevent($_GET['c']) : '';
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"];?>">
     <head>
         <?php
             echo HTMLmeta($_SESSION["vocab"], $term);
-            echo HTMLestilosyjs();
+            echo HTMLestilosyjs($v);
 
         if ((checkModuleCFG("VISUAL_VOCAB", $v)) && ($task=='fetchTerm')) {
             include_once('apps/vv/config.ws.php');
@@ -141,7 +145,7 @@ if (is_array($CFG_VOCABS[$v])) {
                 </div><!-- END littleinfo  -->
             </div><!--  END row  -->
                     <?php
-                    echo HTMLglobalFooter(array());
+                    echo HTMLglobalFooter(array("vocab_code"=>$v,"vocabularyMetadata"=>$vocabularyMetadata));
             ?>
        </div><!--  END container  -->
     </body>

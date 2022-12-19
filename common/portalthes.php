@@ -22,7 +22,7 @@ if (! defined('WEBTHES_ABSPATH')) {
      *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
      *      MA 02110-1301, USA.
      */
-function HTMLestilosyjs()
+function HTMLestilosyjs($v="")
 {
     global $CFG_URL_PARAM;
 
@@ -42,7 +42,7 @@ function HTMLestilosyjs()
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/masonry.pkgd.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/imagesloaded.pkgd.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/tree.jquery.js"></script>
-    <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php?v='.$_SESSION["v"].'"></script>
     <script type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'js/clipboard.min.js"></script>
     <!-- css -->
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">
@@ -102,7 +102,7 @@ function HTMLformSearch()
                 </div>
             </div>
             <input type="hidden" id="task" name="task" value="search" />
-            <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["code"].'" />             
+            <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["CODE"].'" />             
         </form>
         </div>
     </div>';
@@ -117,6 +117,8 @@ function HTMLglobalMenu($params = array())
 
     global $CFG_URL_PARAM;
 
+ //   $vocab_code=$_SESSION["vocab"]["code"];
+
     $rows=' <nav class="navbar navbar-inverse navbar-fixed-top bnm_navbar">
                 <div class="container">
                     <div class="navbar-header">
@@ -126,7 +128,7 @@ function HTMLglobalMenu($params = array())
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand completo" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$_SESSION["vocab"]["code"].'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a>
+                        <a class="navbar-brand completo" href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a>
                         <a class="navbar-brand breve" href="'.$CFG_URL_PARAM["url_site"].'index.php" title="'.$_SESSION["vocab"]["title"].'"></a>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -136,22 +138,22 @@ function HTMLglobalMenu($params = array())
                                 <ul class="dropdown-menu" role="menu">';
 
     if (checkModuleCFG('BULK_TERMS_REVIEW')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
     }
 
     if (checkModuleCFG('CLASSIFFY')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
     }
 
     if (checkModuleCFG('SUGGESTION_SERVICE')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
     }
                     
     if (checkModuleCFG('MARC21')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
     }
 
-    $rows.='    <li><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">Consultar últimas modificaciones</a></li>
+    $rows.='    <li><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$params["vocab_code"].'">Consultar últimas modificaciones</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -173,23 +175,23 @@ function HTMLglobalFooter($params = array())
                     <ul class="list-unstyled">';
 
     if (checkModuleCFG('BULK_TERMS_REVIEW')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
     }
 
     if (checkModuleCFG('CLASSIFFY')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
     }
 
     if (checkModuleCFG('SUGGESTION_SERVICE')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
     }
                     
     if (checkModuleCFG('MARC21')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
+        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
     }
 
     $rows.='       <li>
-                            <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$_SESSION["vocab"]["code"].'">
+                            <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$params["vocab_code"].'">
                                 '.ucfirst(LABEL_showNewsTerm).'
                             </a>
                         </li>                        
@@ -234,7 +236,7 @@ function HTMLglobalContextualMenu($params = array())
 
     if (@$params["vocab_code"]) {
         $rows=' <h1>
-                    <a href="'.$CFG_URL_PARAM["url_site"].'" title="'.$params["vocabularyMetadata"]["title"].'">'.$params["vocabularyMetadata"]["title"].'</a>
+                    <a href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$params["vocabularyMetadata"]["title"].'">'.$params["vocabularyMetadata"]["title"].'</a>
                 </h1>
                 <p class="autor text-right">
                     '.LABEL__attrib.' '.$params["vocabularyMetadata"]["author"].'
@@ -564,20 +566,19 @@ function fetchVocabCode($vocab_code)
     global $CFG_VOCABS;
     global $CFG;
 
-    $v=configValue($vocab_code, $CFG["DEFVOCAB"], $CFG_VOCABS);
+    $v=configValue($vocab_code, $CFG["DEFVOCAB"], $CFG["VOCABS"]);
 
     $v=(strlen($vocab_code)>0) ? XSSprevent($vocab_code) : '';
 
     $v=(strlen($v)>0) ? $v : $CFG["DEFVOCAB"];
     
-
     foreach ($CFG_VOCABS as $k => $val) {
         if ($val[$k] == $v) {
             return $v;
         };
     }
 
-    return $CFG["DEFVOCAB"];
+    return $v;
 }
 
 /* Retorna los datos, acorde al formato de autocompleter */
@@ -600,7 +601,7 @@ function getData4Autocompleter($URL_BASE, $searchq)
 
 
 /* Retorna los datos, acorde al formato de autocompleter UI*/
-function getData4AutocompleterUI($URL_BASE, $searchq)
+function getData4AutocompleterUI($URL_BASE, $searchq,$v)
 {
 
         $data=getURLdata($URL_BASE.'?task=suggestDetails&arg='.$searchq);

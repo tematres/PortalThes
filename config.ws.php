@@ -29,7 +29,10 @@ session_start();
  * Internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.  
 */
 $CFG_VOCABS["1"]["CODE"]        = "1";
-$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/tematres/vocab/'; // URL of the tematres instance
+$CFG_VOCABS["1"]["URL_BASE"]    = 'http://vocabularios.caicyt.gov.ar/flacso/'; // URL of the tematres instance
+$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/mole.guru/colombia.rama/vocab/'; // URL of the tematres instance
+$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/lab/saij/tsjcaba/'; // URL of the tematres instance
+//$CFG_VOCABS["1"]["URL_BASE"]    = 'https://eduthes.cdc.qc.ca/vocab/'; // URL of the tematres instance
 
 /** 
  * Array of char used to alphabetic global menu navigation. For example: array('a','b','c','d') 
@@ -42,7 +45,15 @@ $CFG_VOCABS["1"]["SHOW_TREE"]   = 1;
 /** 
  * Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
  */
-$CFG_VOCABS["1"]["MODULES"]     = array("SUGGESTION_SERVICE","VISUAL_VOCAB","BULK_TERMS_REVIEW");
+$CFG_VOCABS["1"]["MODULES"]     = array("SUGGESTION_SERVICE","VISUAL_VOCAB","BULK_TERMS_REVIEW");//"VISUAL_VOCAB",
+
+
+##
+$CFG_VOCABS["2"]["CODE"]        = "2";
+$CFG_VOCABS["2"]["URL_BASE"]    = 'http://localhost/tematres.import/kostype/en/'; // URL of the tematres instance
+$CFG_VOCABS["2"]["ALPHA"]       = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+$CFG_VOCABS["2"]["SHOW_TREE"]   = 1;
+$CFG_VOCABS["2"]["MODULES"]     = array("SUGGESTION_SERVICE","BULK_TERMS_REVIEW");//"VISUAL_VOCAB",
 
 
 /** 
