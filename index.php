@@ -1,20 +1,11 @@
 <?php
 require 'config.ws.php';
-<<<<<<< HEAD
 
 if (is_array($CFG_VOCABS[$v])) {
     $v=configValue(array2value("v",$_GET), $CFG["DEFVOCAB"]);
 }
 
     $searchq  =  XSSprevent(array2value('sgterm',$_GET));
-=======
-
-if (is_array($CFG_VOCABS[$v])) {
-    $v=configValue($_GET["v"], $CFG["DEFVOCAB"]);
-}
-
-    $searchq  =  XSSprevent($_GET['sgterm']);
->>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
 if (strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {    
     header('Content-type: application/json; charset=utf-8');
     echo getData4AutocompleterUI($URL_BASE, $searchq,$v);
@@ -22,7 +13,6 @@ if (strlen($searchq)>= $CFG["MIN_CHAR_SEARCH"]) {
 };
     header('Content-Type: text/html; charset=UTF-8');
 
-<<<<<<< HEAD
 $c=isset($_GET['c']) ? XSSprevent($_GET['c']) : '';
 $term='';
 $array_node=array();
@@ -84,84 +74,14 @@ switch ($task) {
     default:
         $task       = 'topterms';
 }
-=======
-
-
-    if (isset($_GET["task"])) {
-        switch ($_GET["task"]) {
-            //datos de un término == term data
-            case 'term':
-                //sanitiar variables
-                $tema_id = is_numeric($_GET['arg']) ? intval($_GET['arg']) : 0;
-                if ($tema_id > 0) {
-                    $dataTerm=getURLdata($URL_BASE.'?task=fetchTerm&arg='.$tema_id);
-                    $htmlTerm=data2htmlTerm($dataTerm, array("vocab_code"=>$v));
-                    $term= (string) FixEncoding($dataTerm->result->term->string);
-                    $term_id= (int) $dataTerm->result->term->term_id;
-                    $arrayTermData=$htmlTerm["resultData"];
-                    $task='fetchTerm';
-                }
-                break;
-            //datos de una letra == char data
-            case 'letter':
-                $letter     = isset($_GET['arg']) ? XSSprevent($_GET['arg']) : null;
-                $dataTerm   = getURLdata($URL_BASE.'?task=letter&arg='.$letter);
-                $htmlTerm   = data2html4Letter($dataTerm, array("vocab_code"=>$v,"div_title"=>"Términos con la letra "));
-                $task       = 'letter';
-                break;
-            //ultimos términos
-            case 'fetchLast':
-                $dataTerm   = getURLdata($URL_BASE.'?task=fetchLast');
-                $htmlTerm   = data2html4LastTerms($dataTerm, array("vocab_code"=>$v,"div_title"=>"Últimas modificaciones"));
-                $task       = 'fetchLast';
-                break;
-            //búsqueda  == search
-            case 'search':
-                //sanitiar variables
-                $string = isset($_GET['arg']) ? XSSprevent($_GET['arg']) : null;
-                if (strlen($string) > 0) {
-                    $dataTerm = getURLdata($URL_BASE.'?task=search&arg='.urlencode($string));
-                    //check for unique results
-                    if (((int) $dataTerm->resume->cant_result == 1) && (mb_strtoupper((string) $dataTerm->result->term->string) == mb_strtoupper($string))) {
-                        header('Location:'.$CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$v.$CFG_URL_PARAM["fetchTerm"].$dataTerm->result->term->term_id);
-                    }
-                    $htmlSearchTerms = data2html4Search($dataTerm, /*ucfirst($message["searchExpresion"]).' : <i>'.*/$string/*.'</i>'*/, array("vocab_code"=>$v));
-                    $task = 'search';
-                }
-                break;
-            default:
-                $task       = 'topterms';
-        }
-    } else {
-            $task       = 'topterms';
-    }
-    //default values
-    $c=isset($_GET['c']) ? XSSprevent($_GET['c']) : '';
->>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION["vocab"]["lang"];?>">
     <head>
-<<<<<<< HEAD
 <?php
     echo HTMLmeta($_SESSION["vocab"], $term);
     echo HTMLestilosyjs($v);
 ?>  
-=======
-        <?php
-            echo HTMLmeta($_SESSION["vocab"], $term);
-            echo HTMLestilosyjs($v);
-
-        if ((checkModuleCFG("VISUAL_VOCAB", $v)) && ($task=='fetchTerm')) {
-            include_once('apps/vv/config.ws.php');
-            echo '<link type="text/css" href="'.$CFG_URL_PARAM["url_site"].'apps/vv/css/hypertree.css" rel="stylesheet" />
-                            <!-- JIT Library File -->
-                    <script language="javascript" type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'apps/vv/js/jit-yc.js"></script>
-                    <!-- Source File -->
-                    <script language="javascript" type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'apps/vv/vv.php?term_id='.$term_id.'"></script>';
-        }
-        ?>        
->>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
     </head>
     <body>
         <?php

@@ -63,28 +63,16 @@ function getXLSTemaTresTerm($tematres_uri, $vocabularyMetaData, $array_terms)
             if ($data->resume->cant_result>0) {
                 foreach ($data->result->term as $value) {
                     $sheet->writeString($i, 1, $term);
-                    $isUF=((string) $value->string==(string) $data->resume->arg) ? 0 : 1;
                     if (strtoupper((string)$value->string)==strtoupper((string)$term)) {
                         $sheet->writeString($i, 2, BULK_TERMS_REVIEW_termFound);
                         $sheet->writeString($i, 3, (int) $value->term_id);
                         $sheet->writeString($i, 4, (string) $value->code);
                         $sheet->writeString($i, 5, (string) $value->string);
-
-
-
                     } else {
                         $sheet->writeString($i, 2, (string) BULK_TERMS_REVIEW_termFoundDiff, $formatRed);
                         $sheet->writeString($i, 3, (int) $value->term_id);
                         $sheet->writeString($i, 4, (string) $value->code);
                         $sheet->writeString($i, 5, (string) $value->string);
-                        /** búsqueda del término preferente */
-                        /*
-                        if($isUF==1){
-                            $dataPrefTerm=getTemaTresData($tematres_uri, "fetchTerm", $value->term_id);
-                            $sheet->writeString($i, 6, $dataPrefTerm->result->term->string);
-
-                        }*/
-
                     }
                 }
             } else {

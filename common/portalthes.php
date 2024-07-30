@@ -128,7 +128,6 @@ function HTMLglobalMenu($params = array())
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_tools).'<b class="caret"></b></a>
                                 <ul class="dropdown-menu" role="menu">';
 
-<<<<<<< HEAD
     if (checkModuleCFG('BULK_TERMS_REVIEW',$_SESSION["vocab"]["CODE"])==true) {
         $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
     }
@@ -142,21 +141,6 @@ function HTMLglobalMenu($params = array())
     }
                     
     if (checkModuleCFG('MARC21',$_SESSION["vocab"]["CODE"])==true) {
-=======
-    if (checkModuleCFG('BULK_TERMS_REVIEW')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
-    }
-
-    if (checkModuleCFG('CLASSIFFY')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
-    }
-
-    if (checkModuleCFG('SUGGESTION_SERVICE')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
-    }
-                    
-    if (checkModuleCFG('MARC21')==true) {
->>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
         $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
     }
 
@@ -593,10 +577,6 @@ function fetchVocabCode($vocab_code)
             };
         endif;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
     return $v;
 }
 
