@@ -3,7 +3,7 @@
 function getTemaTresTerm($tematres_uri, $vocab, $term)
 {
     global $message;
-    global $CFG_URL_PARAM;
+    global $CFG_URL_PARAM,$CFG;
     $data=getTemaTresData($tematres_uri, "fetch", urlencode($term));
     $rows='';
     if ($data->resume->cant_result>0) {
@@ -28,9 +28,9 @@ function getXLSTemaTresTerm($tematres_uri, $vocabularyMetaData, $array_terms)
 
 
     $xml = new ExcelWriterXML($vocabularyMetaData->result->title.'_report.xls');
-    $xml->docTitle($CFG["MASS_CTRL_TITLE"].' '.$CFG["title_site"]);
-    $xml->docAuthor($CFG["author_site"]);
-    $xml->docCompany($CFG["author_site"]);
+    $xml->docTitle($CFG["MASS_CTRL_TITLE"].' '.@$CFG["title_site"]);
+    $xml->docAuthor(@$CFG["author_site"]);
+    $xml->docCompany(@$CFG["author_site"]);
     $format = $xml->addStyle('StyleHeader');
     $format->fontBold();
     $sheet = $xml->addSheet(ucfirst(BULK_TERMS_REVIEW_sheetLabel).' - '.$vocabularyMetaData->result->title);

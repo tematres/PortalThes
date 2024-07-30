@@ -25,5 +25,5 @@ CONFIGURATION
 $lang_suggest = $lang_tematres;
 
 require_once("lang/$lang_suggest.php");
-
-$CFG["MAX_TERMS4MASS_CTRL"]     = 1000;                                  //Cantidad máxima de términos en control terminológico
+$CFG["MASS_CTRL_TITLE"]			="Servicio de reconciliación terminológica";
+$CFG["MAX_TERMS4MASS_CTRL"]     = 200;                                  //Cantidad máxima de términos en control terminológico

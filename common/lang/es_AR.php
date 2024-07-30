@@ -20,10 +20,10 @@ define('MSG_ResultLetra','Letra');
 define('LABEL_start','Términos que comienzan con');
 define('LABEL_TERMINO_SUGERIDO','¿Quizás quiso decir');
 define('MSG_ResultBusca','Término/s encontrados para la búsqueda');
-define('TG_terminos','Términos más generales');
-define('TE_terminos','Términos más específicos');
-define('UP_terminos','Términos equivalentes');
-define('TR_terminos','Términos relacionados');
+define('TG_terminos','términos más generales');
+define('TE_terminos','términos más específicos');
+define('UP_terminos','términos equivalentes');
+define('TR_terminos','términos relacionados');
 define('LABEL_Abreviatura','Abreviatura');
 define('LABEL_CODE','Notación');
 define('USE_termino','USE');
@@ -61,22 +61,23 @@ define('LABELFORM_newSuggest','Proponer un término ');
 define('LABELFORM_eqSuggest;','Proponer una traducción ');
 
 
-/*BULK TERM ANALISIS MODULE */
+/** BULK TERM ANALISIS MODULE */
 define('BULK_TERMS_REVIEW_title','Reconciliación terminológica');
 define('BULK_TERMS_REVIEW_description','Herramienta de análisis y control de términos. Coteja una lista de términos (<strong>hasta %s términos</strong>) según se encuentro o no en el vocabulario. Genera un informe en línea o descargable que indica: términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
 define('BULK_TERMS_REVIEW_short_description','Herramienta de análisis y control masivo de términos');
 
-/*CLASSIFY MODULE */
+/** CLASSIFY MODULE */
 define('CLASSIFY_SERVICE_title','Asistente de clasificación');
 define('CLASSIFY_SERVICE_description','Extractor de de palabras clave. ');
 define('CLASSIFY_SERVICE_short_description','Extractor de de palabras clave. ');
 
-/*MARC21 MODULE */
+/** MARC21 MODULE */
 define('MARC21_SERVICE_title','Encabezamientos de materia MARC21');
 define('MARC21_SERVICE_description','Asistente de redacción de encabezamientos de materia según las pautas de <strong>encabezamientos temáticos en MARC21</strong> (campo <a href="https://www.loc.gov/marc/classification/cd750.html">750 - Index Term-Topical (R)</a>). ');
 define('MARC21_SERVICE_short_description','Asistente de redacción de encabezamientos de materia según las pautas de encabezamientos temáticos en MARC21');
 
-/*Copy-click module*/
-
+/** Copy-click module */
 define('LABEL_copy_click','copiar término al portapapeles');
+
+/** GRAPH MODULE (vis.js) */
 ?>

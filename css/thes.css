@@ -773,3 +773,11 @@ span.note_label {
 span.metaTerm,a.metaTerm{color:#616161;}
 span.metaTerm:before,a.metaTerm:before{content:'<'}
 span.metaTerm:after,a.metaTerm:after{content:'>'}
+
+/* Graph vis.js div */
+#graphterm {
+width: 100%;
+height: 600px;
+border: 0px solid lightgray;
+text-align: center;
+}

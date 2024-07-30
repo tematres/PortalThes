@@ -264,7 +264,8 @@ class ExcelWriterXML_Style {
 		
 		$numberFormat = '';
 		
-		if (empty($this->id)) throw new exception;
+		//if (empty($this->id)) throw new exception('id is null');
+		if (empty($this->id)) $this->id=null;
 		if (!empty($this->name)){$name = 'ss:Name="'.$this->name.'"';}
 		
 		// Alignment

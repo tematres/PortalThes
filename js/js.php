@@ -9,7 +9,8 @@ $(document).ready(function (){
               url: "<?php echo $CFG_URL_PARAM["url_site"];?>index.php",
               dataType: "json",
               data: {
-                sgterm: request.term
+                sgterm: request.term,
+                v: <?php echo $_SESSION["v"];?>
               },
               success: function( data ) {
                 response( data );

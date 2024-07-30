@@ -34,13 +34,17 @@ function getURLdata($url)
     if (extension_loaded('curl')) {
         $rCURL = curl_init();
         if ($CFG["CHK_HTTPS"]==0) {
-            curl_setopt($rCURL, CURLOPT_SSL_VERIFYPEER, false);    
+            curl_setopt($rCURL, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($rCURL, CURLOPT_SSL_VERIFYHOST, false);        
         }
         
         curl_setopt($rCURL, CURLOPT_URL, $url);
         curl_setopt($rCURL, CURLOPT_HEADER, 0);
         curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
-        $xml = curl_exec($rCURL) or die("Could not open a feed called: " . $url ." ".curl_error($rCURL));
+
+        //$xml = curl_exec($rCURL) or die("Could not open a feed called: " . $url ." ".curl_error($rCURL));
+        $xml = curl_exec($rCURL);
+        if(!$xml) : return "Could not open a feed called: " . $url ." ".curl_error($rCURL); endif;
 
         curl_close($rCURL);
     } else {
@@ -200,7 +204,7 @@ function data2html4Search($data, $string, $param = array())
 function data2htmlTerm($data, $param = array())
 {
 
-    global $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS ;
+    global $URL_BASE, $CFG_URL_PARAM, $CFG_VOCABS, $CFG ;
 
     $vocab_code = fetchVocabCode(@$param["vocab_code"]);
     $date_term  = ($data->result->term->date_mod) ? $data->result->term->date_mod : $data->result->term->date_create;
@@ -209,7 +213,7 @@ function data2htmlTerm($data, $param = array())
     $term       = (string) $data->result->term->string;
     $class_term = ($data->result->term->isMetaTerm == 1) ? ' class="metaTerm" ' :'';
 
-    $arrayRows["termdata"] = '<span '.$class_term.' id="xterm_prefLabel" property="skos:prefLabel" content="'.FixEncoding($term).'">'.FixEncoding($term).'</span> '.HTMLcopyClick($vocab_code, 'xterm_prefLabel', array("isMetaTerm"=>$data->result->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+    $arrayRows["termdata"] = '<span '.$class_term.' id="xterm_prefLabel" property="skos:prefLabel" content="'.FixEncoding($term).'">'.FixEncoding($term).'</span> '.HTMLcopyClick($vocab_code, 'xterm_prefLabel', array("isMetaTerm"=>$data->result->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>array2value("COPY_CLICK",$CFG)));
 
 
     /*  Notas  */
@@ -245,7 +249,6 @@ function data2htmlTerm($data, $param = array())
     }
 
 
-
     /* Buscar términos mapeados  */
     $dataMapped=getURLdata($URL_BASE.'?task=fetchTargetTerms&arg='.$term_id);
     if ($dataMapped->resume->cant_result > 0) {
@@ -257,7 +260,11 @@ function data2htmlTerm($data, $param = array())
         $arrayRows["LINKED"]=data2html4MappedURITerms($dataMappedURI, array("vocab_code"=>$vocab_code));
     }
 
-    return array("task"=>"fetchTerm","results"=>$arrayRows,"resultData"=>array("nt"=>$dataTE,"rt"=>$dataDirectTerms,"bt"=>$dataTG));
+    $cant_term_relations=$dataTE->resume->cant_result+$dataTG->resume->cant_result+$array2HTMLdirectTerms["RTcant"];
+
+    $data4vis=($cant_term_relations>0) ? data4vis($data,$dataDirectTerms,$dataTE) : null;
+
+    return array("task"=>"fetchTerm","results"=>$arrayRows,"resultData"=>array("nt"=>$dataTE,"rt"=>$dataDirectTerms,"bt"=>$dataTG),"data4vis"=>$data4vis);
 }
 
 
@@ -269,10 +276,9 @@ function data2html4MappedTerms($data, $param = array())
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
 
     if ($data->resume->cant_result >"0") {
-        $rows.='<div>';
+        $rows='<div>';
         $rows.='        <ul>';
         foreach ($data->result->term as $value) {
-            $i=++$i;
             $rows.='<li><span about="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" typeof="skos:Concept">';
             $rows.=(string) $value->target_vocabulary_label.': <span resource="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" property="skos:prefLabel" href="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" title="'.(string) $value->string.'">'.(string) $value->string.'</span>';
             $rows.='</span>';
@@ -297,7 +303,7 @@ function data2html4directTerms($data, $param = array())
     $RT_rows = '';
     $BT_rows = '';
     $UF_rows = '';
-
+    $class_dd='';
     if ($data->resume->cant_result > "0") {
         foreach ($data->result->term as $value) {
             $i=++$i;
@@ -313,13 +319,13 @@ function data2html4directTerms($data, $param = array())
                     $iRT=++$iRT;
                     $RT_rows.='<li class="rt_term post-tags" id="rt'.$value->term_id.'" about="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" typeof="skos:Concept">';
                     //$RT_rows.=($value->code) ? '<span property="skos:notation">'.$value->code.'</span>' :'';
-                    $RT_rows.=' <a rel="tag" href="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>'.HTMLcopyClick($vocab_code, 'rt'.$value->term_id, array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>';
+                    $RT_rows.=' <a rel="tag" href="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>'.HTMLcopyClick($vocab_code, 'rt'.$value->term_id, array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>array2value("COPY_CLICK",$CFG))).'</li>';
 
                     break;
                 case '3':
                     $iBT=++$iBT;
                     
-                    $BT_rows.=' <li class="'.$class_dd.' bt_term post-tags" id="bt'.$value->term_id.'" about="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" typeof="skos:Concept"><a rel="tag" href="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>'.HTMLcopyClick($vocab_code, 'bt'.$value->term_id, array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>';
+                    $BT_rows.=' <li class="'.$class_dd.' bt_term post-tags" id="bt'.$value->term_id.'" about="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" typeof="skos:Concept"><a rel="tag" href="'.redactHREF($vocab_code, "fetchTerm", $value->term_id).'" title="'.$term_string.'">'.$term_string.'</a>'.HTMLcopyClick($vocab_code, 'bt'.$value->term_id, array("isMetaTerm"=>$value->term->isMetaTerm,"isValidTerm"=>1,"copy_click"=>array2value("COPY_CLICK",$CFG))).'</li>';
                     break;
                 case '4':
                     if ($value->relation_code !='H') {
@@ -346,7 +352,7 @@ function data2html4Breadcrumb($data, $the_term = array(), $param = array())
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
     
     if ($data->resume->cant_result > 0) {
-        $rows.='<div id="term_breadcrumb">';
+        $rows='<div id="term_breadcrumb">';
         $rows.='<span typeof="v:Breadcrumb">';
         $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
         $rows.='</span>  ';
@@ -370,7 +376,7 @@ function data2html4Breadcrumb($data, $the_term = array(), $param = array())
     } else {
         //there are only one result
 
-        $rows.='<div id="term_breadcrumb">';
+        $rows='<div id="term_breadcrumb">';
         $rows.='<span typeof="v:Breadcrumb">';
         $rows.='<a rel="v:url" property="v:title" href="'.$CFG_URL_PARAM["url_site"].'index.php?v='.$vocab_code.'" title="'.MENU_Inicio.'">'.MENU_Inicio.'</a>';
         $rows.='</span>  ';
@@ -390,7 +396,7 @@ function data2html4MappedURITerms($data, $param = array())
     global $URL_BASE;
 
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
-    $rows.='<div>';
+    $rows='<div>';
     if ($data->resume->cant_result > 0) {
         $rows.='<ul>';
         foreach ($data->result->term as $value) {
@@ -430,12 +436,12 @@ function data2html4TopTerms($data, $param = array())
 }
 
 //lista alfabética
-function HTMLalphaNav($arrayLetras = array(), $param = array(), $select_letra = "")
+function HTMLalphaNav($arrayLetras = array(), $select_letra = "",$param = array())
 {
     global $URL_BASE;
-
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
-    $rows='    <ul class="nav nav-alpha nav-pills">';
+
+    $rows='    <ul class="nav nav-alpha nav-pills" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">';
     foreach ($arrayLetras as $letra) {
         $class=($select_letra==$letra) ? 'active' : '';
         $rows.='    <li class="'.$class.'">
@@ -447,6 +453,7 @@ function HTMLalphaNav($arrayLetras = array(), $param = array(), $select_letra = 
     $rows.='    </ul>';
     return $rows;
 }
+
 
 /*  Armado de salida RSS  */
 function fetchRSS($URL_BASE, $param = array())
@@ -695,7 +702,7 @@ function redactHREF($v, $task, $arg, $extra = array())
 
     $v=(is_array($CFG_VOCABS[$v])) ? $v : $CFG["DEFVOCAB"];
 
-    $task=(in_array($task, array('fetchTerm','search','letter','last'))) ? $task : 'last' ;
+    $task=(in_array($task, array('fetchTerm','search','letter','last','topterms'))) ? $task : 'last' ;
 
     return $CFG_URL_PARAM["url_site"].$CFG_URL_PARAM["v"].$v.$CFG_URL_PARAM[$task].$arg;
 }
@@ -716,6 +723,63 @@ function configValue($value, $default = false, $defaultValues = array())
             return $default;
         }
     }
+
+    return $value;
+}
+
+/**
+ * Create value from key array
+ *
+ * @param string $key   key in array to assign
+ * @param array  $array array to use as source value, if the value is null, the value is null.
+ * 
+ * @return return $value as value
+ */
+function array2value($key,$array=array())
+{
+    $array=(is_array($array)) ? $array : array();
+
+    if(is_array($key)) print_r($key).'|';
+
+    $key=(is_string($key)) ?  $key : null;
+
+    return (isset($array["$key"])) ? $array["$key"] : null;
+
+}
+
+
+function variable_name( &$var, $scope=false, $prefix='UNIQUE', $suffix='VARIABLE' ){
+    if($scope) {
+        $vals = $scope;
+    } else {
+        $vals = $GLOBALS;
+    }
+    $old = $var;
+    $var = $new = $prefix.rand().$suffix;
+    $vname = FALSE;
+    foreach($vals as $key => $val) {
+        if($val === $new) $vname = $key;
+    }
+    $var = $old;
+    return $vname;
+}
+/**
+ * Create value from key object
+ *
+ * @param string $key   key in array to assign
+ * @param array  $array array to use as source value, if the value is null, the value is null.
+ * 
+ * @return return $value as value
+ */
+function object2value($object,$key,$type="int")
+{
+    $object=(is_object($object)) ? $object : null;
+
+    if (isset($object->$key)) : 
+        $value= ($type=='int') ? (int) $object->$key : (string) $object->$key ;
+    else:
+        $value=null;
+    endif;
 
     return $value;
 }
