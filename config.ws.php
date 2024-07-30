@@ -24,9 +24,21 @@ CONFIGURATION
 ********************************************************************************************/
 session_start();
 
+<<<<<<< HEAD
 error_reporting(E_ERROR | E_WARNING);
 //error_reporting(E_ALL);
 ini_set('display_errors', 0);
+=======
+/** 
+ * VOCABULARIOS == vocabulary to use
+ * Internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.  
+*/
+$CFG_VOCABS["1"]["CODE"]        = "1";
+$CFG_VOCABS["1"]["URL_BASE"]    = 'http://vocabularios.caicyt.gov.ar/flacso/'; // URL of the tematres instance
+$CFG_VOCABS["1"]["URL_BASE"]    = 'http://localhost/mole.guru/colombia.rama/vocab/'; // URL of the tematres instance
+$CFG_VOCABS["1"]["URL_BASE"]    = 'https://vocabularyserver.com/lab/saij/tsjcaba/'; // URL of the tematres instance
+//$CFG_VOCABS["1"]["URL_BASE"]    = 'https://eduthes.cdc.qc.ca/vocab/'; // URL of the tematres instance
+>>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
 
 
 /**
@@ -40,9 +52,23 @@ $CFG["DEFVOCAB"] = "1";
 $CFG["VOCABS"] = array(1,2);
 
 /** 
+<<<<<<< HEAD
  * VOCABULARIOS == vocabulary to use
  * Internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.  
 */
+=======
+ * Enable modules: CLASSIFFY, BULK_TERMS_REVIEW, SUGGESTION_SERVICE,COPY_CLICK
+ */
+$CFG_VOCABS["1"]["MODULES"]     = array("SUGGESTION_SERVICE","VISUAL_VOCAB","BULK_TERMS_REVIEW");//"VISUAL_VOCAB",
+
+
+##
+$CFG_VOCABS["2"]["CODE"]        = "2";
+$CFG_VOCABS["2"]["URL_BASE"]    = 'http://localhost/tematres.import/kostype/en/'; // URL of the tematres instance
+$CFG_VOCABS["2"]["ALPHA"]       = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+$CFG_VOCABS["2"]["SHOW_TREE"]   = 1;
+$CFG_VOCABS["2"]["MODULES"]     = array("SUGGESTION_SERVICE","BULK_TERMS_REVIEW");//"VISUAL_VOCAB",
+>>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
 
 /* The default vocab (configurated in $CFG["DEFVOCAB"]). The web path will be the $CFG_URL_PARAM["url_site"] + /1/. For example http://localhost/tematres/portalthes/1/ */
 $CFG_VOCABS["1"]["TITLE"]="Demo Tematres";

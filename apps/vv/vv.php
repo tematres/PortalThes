@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/javascript');
 require '../../config.ws.php';
 include_once('fun.visual.php');
 //$term_id=814;

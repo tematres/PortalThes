@@ -441,7 +441,11 @@ function HTMLalphaNav($arrayLetras = array(), $select_letra = "",$param = array(
     global $URL_BASE;
     $vocab_code=fetchVocabCode(@$param["vocab_code"]);
 
+<<<<<<< HEAD
     $rows='    <ul class="nav nav-alpha nav-pills" style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">';
+=======
+    $rows='    <ul class="nav nav-alpha nav-pills">';
+>>>>>>> 84c0b9b0b042da9954423285a2b83b4183995a97
     foreach ($arrayLetras as $letra) {
         $class=($select_letra==$letra) ? 'active' : '';
         $rows.='    <li class="'.$class.'">
