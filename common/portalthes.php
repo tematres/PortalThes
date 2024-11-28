@@ -44,14 +44,19 @@ function HTMLestilosyjs($v="")
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">
     <link type="image/x-icon" href="'.$CFG_URL_PARAM["url_site"].'css/favicon.ico" rel="icon" />
 
-    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.css">
-    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes.css">
+    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.css">';
+    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/main-cop.css">';
+
+    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Syncopate">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.css">';
 
     $rows.='<link rel="alternate" href="'.$CFG_URL_PARAM["url_site"].'rss.php?v='.$_SESSION["v"].'" title="RSS '.$_SESSION["vocab"]["title"].'" />';
 
+    $rows.='<link rel="preconnect" href="https://fonts.googleapis.com">';
+    $rows.='<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
+    $rows.='<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">';
     return $rows;
 }
 
@@ -101,6 +106,46 @@ function HTMLformSearch()
 }
 
 
+
+/*  Presentación de header global  */
+function HTMLglobalHeader($params = array())
+{
+    global $CFG_URL_PARAM,$CFG_MAIN_MENU;
+
+    $rows=' <header>
+        <div class="wrapper">
+            <div class="top-logos">
+                <img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-complutense-odontology.png" alt="">
+            </div>
+            <div class="main-header">
+                <p class="title-header">
+                                        <a class="title-header" href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a>
+
+                </p>
+                <ul class="logos-cabecera">
+                    <li><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-csic.png" alt=""></li>
+                    <li><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-complutense.png" alt=""></li>
+                    <li><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-colegio.png" alt=""></li>
+                </ul>
+            </div>
+            
+        <nav class="navbar navbar-cop">
+          <div class="container-fluid">
+            <a class="navbar-brand" title="Inicio" href="'.redactHREF($params["vocab_code"], "topterms", "").'">Inicio</a>';
+            foreach ($CFG_MAIN_MENU as $option) {
+                /*revisar si el ref incluye http*/
+                $link = (filter_var($option["ref"], FILTER_VALIDATE_URL) === FALSE) ? $CFG_URL_PARAM["url_site"].$option["ref"] : $option["ref"];
+                $target = ($option["target"]) ? ' target="_blank" ' : null; 
+                $rows.='<a class="navbar-brand" title="'.$option["title"].'" href="'.$link.'" '.$target.'>'.$option["title"].'</a>';
+
+            }
+
+    $rows.='</nav>
+        </div>
+    </header>';
+
+    return $rows;
+};
 
 /*  Presentación de menú global  */
 function HTMLglobalMenu($params = array())
@@ -159,63 +204,34 @@ function HTMLglobalFooter($params = array())
 {
     global $CFG_URL_PARAM,$CFG_SITE;
 
-    $rows=' <div style="clear: both;"></div>
-            <footer class="row">
-                <section class="col-xs-12 col-sm-4">
-                    <h5>'.ucfirst(LABEL_tools).'</h5>
-                    <ul class="list-unstyled">';
-
-    if (checkModuleCFG('BULK_TERMS_REVIEW')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
-    }
-
-    if (checkModuleCFG('CLASSIFFY')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
-    }
-
-    if (checkModuleCFG('SUGGESTION_SERVICE')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
-    }
-                    
-    if (checkModuleCFG('MARC21')==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
-    }
-
-    $rows.='       <li>
-                            <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$params["vocab_code"].'">
-                                '.ucfirst(LABEL_showNewsTerm).'
-                            </a>
-                        </li>                        
-                    </ul>
-                </section>
-                <section class="col-xs-12 col-sm-4">
-                    <h5> '.$CFG_URL_PARAM["site_info"].'</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                        '.$CFG_URL_PARAM["site_info_line1"].'
-                        </li>
-                        <li>
-                        '.$CFG_URL_PARAM["site_info_line2"].'
-                        </li>
-                    </ul>
-                </section>
-                <section class="col-xs-12 col-sm-4">
-                    <h5>'.LABEL_contact.'</h5>
-                    <ul class="list-unstyled">
-                        <li>'.array2value("contact_info_line1",$CFG_SITE).'</li>
-                        <li>'.array2value("contact_info_line2",$CFG_SITE).'</li>
-                        <li>
-                            <address>
-                                <a href="mailto:'.$_SESSION["vocab"]["mail"].'" target="_blank">
-                                    '.$_SESSION["vocab"]["mail"].'
-                                </a>
-                            </address>
-                        </li>
-                    </ul>
-                </section>
-            </footer>';
+    $rows=' <div style="clear: both;"></div>';
+    $rows.=' <footer>
+        <div class="wrapper">
+            <div class="inner-footer">
+                
             
-            $rows.='<script type="text/javascript">var clipboard = new ClipboardJS(\'.copy-clipboard\')</script>';
+            <img src="imagenes/logo-footer.png" alt="">
+            <ul class="social-menu">
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-ig.svg" alt=""></a></li>
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-fb.svg" alt=""></a></li>
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-sp.svg" alt=""></a></li>
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-x.svg" alt=""></a></li>
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-in.svg" alt=""></a></li>
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-yt.svg" alt=""></a></li>
+                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-iv.svg" alt=""></a></li>
+            </ul>
+            </div>
+            <div class="inner-footer">
+                <ul class="legal-links">
+                    <li><a href="https://www.copmadrid.org/web/politica-de-privacidad" title="Política de privacidad">Política de privacidad</a></li>
+                    <li><a href="https://www.copmadrid.org/web/aviso-legal" title="Aviso legal">Aviso legal</a></li>
+                    <li><a href="https://www.copmadrid.org/web/politica/123/politica-de-cookies-tesauro" title="Política de cookies">Política de cookies</a></li>
+                </ul>       
+            </div>
+        </div>
+    </footer>';
+            
+    $rows.='<script type="text/javascript">var clipboard = new ClipboardJS(\'.copy-clipboard\')</script>';
     return $rows;
 }
 
@@ -386,46 +402,10 @@ function HTMLtermDetaills($htmlTerm, $dataTerm, $vocabularyMetadata)
     $rows='';
 
     if (isset($htmlTerm["results"]["termdata"])) {
-        $rows.= '          <div>
-                            <h2>
-                                '.$htmlTerm["results"]["termdata"].'
-                            </h2>
-                        </div>';
+        $rows.= '<div><h2 class="title-header">'.$htmlTerm["results"]["termdata"].'</h2></div>';
     }
 
-
-    $rows.= '<div class="tabbable">
-                    <ul class="nav nav-tabs sections">
-                        <li class="active">
-                            <a href="#main" data-toggle="tab">
-                                '.LABEL_Termino.'
-                            </a>
-                        </li>';
-    if (isset($htmlTerm["results"]["MAP"]) || isset($htmlTerm["results"]["LINKED"])) {
-        $rows.= '  <li class="">
-                            <a href="#matches" data-toggle="tab">
-                                '.LABEL_TargetTerm.'
-                            </a>
-                        </li>';
-    }
-    if ($_SESSION["vocab"]["mail"]) {
-        $rows.= '  <li class="">
-                            <a href="#suggests" data-toggle="tab">
-                                '.LABEL_suggests.'
-                            </a>
-                        </li>';
-    }
-             $rows.= '      <li class="">
-                            <a href="#datos" data-toggle="tab">
-                                '.LABEL_webservices.'
-                            </a>
-                        </li>
-                    </ul>
-
-
-            <div id="term" about="'.$dataTerm->result->term->term_id.'" typeof="skos:Concept">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="main">';
+    $rows.='<div id="term" about="'.$dataTerm->result->term->term_id.'"><div class="tab-content">';
 
     if (isset($htmlTerm["results"]["breadcrumb"])) {
         $rows.=$htmlTerm["results"]["breadcrumb"];
@@ -435,38 +415,24 @@ function HTMLtermDetaills($htmlTerm, $dataTerm, $vocabularyMetadata)
     if (! isset($htmlTerm["results"]["UF"])) {
         $htmlTerm["results"]["UF"]='';
     }
-     $rows.= '              <div class="relation-body padbot">
-                            <div id="altTerms">'
-                                .$htmlTerm["results"]["UF"].'
-                            </div>
-                        </div>';
+    $rows.= '<div id="altTerms padbot">'.$htmlTerm["results"]["UF"].'</div>';
 
 
     if (strlen($htmlTerm["results"]["NOTES"]) > 0) {
-          $rows.= '      <div class="relation panel">
-                            <div id="notas" class="relation-body">
-                                '.$htmlTerm["results"]["NOTES"].'
-                            </div>
-                        </div>';
+          $rows.= '<div id="notas" class="relation-body">'.$htmlTerm["results"]["NOTES"].'</div>';
     }
 
     if (isset($htmlTerm["results"]["BT"])) {
-        $rows.= '          <div class="relation-body">
-                            '.$htmlTerm["results"]["BT"].'
-                        </div>';
+        $rows.= '<div class="relation-body">'.$htmlTerm["results"]["BT"].'</div>';
     }
 
     if (! isset($htmlTerm["results"]["NT"])) {
         $htmlTerm["results"]["NT"]='';
     }
-     $rows.= '              <div class="row">
-                                <div class="relation-body col-md-5">'.$htmlTerm["results"]["NT"].'</div>
-                            </div>';
+     $rows.= '<div class="row"><div class="relation-body col-md-5">'.$htmlTerm["results"]["NT"].'</div></div>';
 
     if (isset($htmlTerm["results"]["RT"])) {
-        $rows.= '          <div class="relation-body">
-                            '.$htmlTerm["results"]["RT"].'
-                        </div>';
+        $rows.= '<div class="relation-body">'.$htmlTerm["results"]["RT"].'</div>';
     }
 
      $rows.=  '</div>';
@@ -477,19 +443,7 @@ function HTMLtermDetaills($htmlTerm, $dataTerm, $vocabularyMetadata)
     if (! isset($htmlTerm["results"]["LINKED"])) {
         $htmlTerm["results"]["LINKED"] = '';
     }
-      $rows.=  '          <!-- mapeos -->
-                    <div class="tab-pane" id="matches">
-                        <h4>'.LABEL_TargetTerm.'</h4>
-                        <div class="relation-body">
-                            '.$htmlTerm["results"]["MAP"].'
-                        </div>
-                        <div class="relation-body">
-                          '.$htmlTerm["results"]["LINKED"].'
-                        </div>
-                    </div>
-                    '.HTMLtermSuggestionMenu(array("vocab_code"=>$_SESSION["v"],"term_id"=>(int) $term_id,"vocabularyMetadata"=>$vocabularyMetadata)).'
-                    '.datosdeltermino(array("term_id"=>(int) $term_id,"vocabularyMetadata"=>$vocabularyMetadata,"vocab_code"=>$_SESSION["v"]));'
-                </div>';
+    
       
       $rows.=  '</div><!-- #term -->';
       /** if there are relations */
@@ -497,7 +451,6 @@ function HTMLtermDetaills($htmlTerm, $dataTerm, $vocabularyMetadata)
         $rows.=  ' <div class="card"><div id="graphterm"></div></div>';  
       }
       
-
       $rows.=  '</div> <! --#tabbable -->';
  
     return $rows;
