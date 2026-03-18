@@ -26,8 +26,8 @@ El archivo principal de configuración es config.ws.php.
 Configuración
 Toda la configuración se gestiona a través de arrays de PHP en los archivos config.ws.php. A continuación, se detallan las variables más importantes.
 
-
-// Los índices numéricos (1, 2, 3...) son los códigos internos que usa el portal.
+## Los índices numéricos (1, 2, 3...) son los códigos internos que usa el portal.
+```
 $CFG_VOCABS["1"] = array(
     // Código interno (debe coincidir con el índice del array).
     "CODE"      => "1",
@@ -43,8 +43,9 @@ $CFG_VOCABS["1"] = array(
     // Caracteres para el índice alfabético global.
     "ALPHA"     => array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")
 );
-
-// Ejemplo de un segundo vocabulario:
+```
+### Ejemplo de un segundo vocabulario:
+```
 $CFG_VOCABS["2"] = array(
     "CODE"      => "2",
     "URL_BASE"  => "https://otro-servidor.com/mi-tesauro/",
@@ -56,29 +57,32 @@ $CFG_VOCABS["2"] = array(
     ),
     "ALPHA"     => array("A", "B", "C", "D", "E")
 );
+```
 
-// Índice del vocabulario por defecto (debe existir en $CFG_VOCABS).
+## Índice del vocabulario por defecto (debe existir en $CFG_VOCABS).
+```
 $CFG["DEFVOCAB"] = "1";
+```
 
-// Array con los índices de los vocabularios habilitados.
+## Array con los índices de los vocabularios habilitados.
+```
 $CFG["VOCABS"] = array(1, 2); // Aquí solo se muestran los vocabularios con código 1 y 2.
-
-
-
-// Personalización de notas: puede cambiar las etiquetas por defecto de los diferentes tipos de notas que pueden tener los términos.
-
+```
+## Personalización de notas: puede cambiar las etiquetas por defecto de los diferentes tipos de notas que pueden tener los términos.
+```
 $CFG["LOCAL_NOTES"]["DEF"] = "Definición";
 $CFG["LOCAL_NOTES"]["NA"]  = "Nota de alcance";
 $CFG["LOCAL_NOTES"]["NB"]  = "Nota bibliográfica";
 $CFG["LOCAL_NOTES"]["EX"]  = "Ejemplo de uso";
 // ... puedes agregar o modificar más.
+```
 
-// Uso de URLs Amigables (mod_rewrite)
+## Uso de URLs Amigables (mod_rewrite)
+```
 /* 
 Por defecto, la configuración asume que tienes mod_rewrite habilitado. Si tu servidor no lo soporta, puedes cambiar a URLs con parámetros GET. Para ello, en tu config.ws.php, debes comentar las líneas de "mod_rewrite" y descomentar las líneas de "GET".
 Si optas por URLs amigables, asegúrate de que el archivo .htaccess (si usas Apache) esté presente y configurado correctamente en el directorio raíz de PortalThes.
 */
-
 
 // --- Si NO tienes mod_rewrite habilitado, usa esta sección ---
 /*
@@ -97,37 +101,50 @@ $CFG_URL_PARAM["fetchTerm"] = '/term/';
 $CFG_URL_PARAM["search"]    = '/search/';
 $CFG_URL_PARAM["letter"]    = '/letter/';
 $CFG_URL_PARAM["topterms"]  = '/';
+```
 
-?>
-// --- Modo Debug ---
+## --- Modo Debug ---
+```
 // Actívalo solo para desarrollo o resolución de problemas (1 = activado, 0 = desactivado).
 $CFG["debugMode"] = "0";
+```
 
-// --- Codificación ---
+## --- Codificación ---
+```
 // Codificación de caracteres para la salida HTML (generalmente UTF-8).
 $CFG["ENCODE"] = 'UTF-8';
+```
 
-// --- Idioma de la Interfaz ---
+## --- Idioma de la Interfaz ---
+```
 // Define el idioma de los textos del portal.
 // Valores posibles: 'es_AR' (español), 'en' (inglés), etc.
 $lang_tematres = "es_AR";
+```
 
-// --- Búsqueda ---
+## --- Búsqueda ---
+```
 // Longitud mínima de caracteres para realizar una búsqueda.
 $CFG["MIN_CHAR_SEARCH"] = 2;
+```
 
-// --- Google Analytics (opcional) ---
+## --- Google Analytics (opcional) ---
+```
 // Si tienes Google Analytics, reemplaza '0' con tu ID de seguimiento (GA_TRACKING_ID).
 // Ejemplo: $CFG["GA_TRACKING_ID"] = 'UA-12345678-1';
 $CFG["GA_TRACKING_ID"] = '0';
+```
 
-// --- Verificación HTTPS ---
+## --- Verificación HTTPS ---
+```
 // Para entornos de desarrollo con certificados SSL autofirmados, puedes desactivar la verificación.
 // 0 = No verificar certificados SSL (menos seguro, útil para pruebas locales).
 // 1 = Verificar certificados SSL (recomendado para entornos de producción).
 $CFG["CHK_HTTPS"] = 0;
+```
 
-// URL base de tu instalación de PortalThes.
+## URL base de tu instalación de PortalThes.
+```
 $CFG_URL_PARAM["url_site"]      = 'http://localhost/portalthes/';
 
 // Nombre corto del sitio (se usa en títulos de navegación).
@@ -139,3 +156,4 @@ $CFG_URL_PARAM["title_site"]    = 'Portal de Vocabularios Controlados';
 // Una breve descripción o lema del sitio.
 $CFG_URL_PARAM["site_info"]     = 'Consulta y exploración de tesauros, glosarios y ontologías.';
 
+```
