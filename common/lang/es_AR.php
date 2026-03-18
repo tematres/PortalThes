@@ -33,6 +33,7 @@ define('LABEL_ND',LABEL_NotaDefinicion);
 define('LABEL_NH','Nota histórica');
 define('LABEL_NB',LABEL_NotaBibliografica);
 define('LABEL_NC','Nota de catalogación');
+define('NOTE_isMetaTerm', 'Un meta-término es un término que NO debe utilizarse para indización. Es un término que describe otros términos. Ej: Términos guía, Facetas, Categorías, etc.');
 
 
 define('LABEL_resources','Recursos');
@@ -43,8 +44,17 @@ define('LABEL_URIterm','URI del término');
 define('LABEL_contact','Contacto');
 define('LABEL_showNewsTerm','ver cambios recientes');
 define('LABEL_lastChanges','cambios recientes');
+/*ver 2.0 */
+define('LABEL_datePublish','fecha publicación');
+define('LABEL_dateLastUpdate','actualización');
+define('LABEL_language','idioma');
+define('LABEL_showMore','ver más');
+define('LABEL_showLess','ver menos');
 define('LABEL_tools','Herramientas');
 define('LABEL__attrib','por ');
+define('LABEL_prototypeTerms','términos centrales');
+define('LABEL_mappedTerms','correspondencias');
+define('LABEL_linkedData','recursos enlazados');
 
 /*TERM SUGGESTION MODULE */
 define('SUGGESTION_SERVICE_title','Sugerencia de términos y correcciones');
@@ -62,9 +72,13 @@ define('LABELFORM_eqSuggest;','Proponer una traducción ');
 
 
 /** BULK TERM ANALISIS MODULE */
-define('BULK_TERMS_REVIEW_title','Reconciliación terminológica');
-define('BULK_TERMS_REVIEW_description','Herramienta de análisis y control de términos. Coteja una lista de términos (<strong>hasta %s términos</strong>) según se encuentro o no en el vocabulario. Genera un informe en línea o descargable que indica: términos coincidentes, términos no coincidentes, términos equivalentes (no preferidos), términos similares (variantes ortográficas).');
-define('BULK_TERMS_REVIEW_short_description','Herramienta de análisis y control masivo de términos');
+define('BULK_TERMS_REVIEW_title','TermóMetro de términos');
+//define('BULK_TERMS_REVIEW_title','TermChecker');
+define('BULK_TERMS_REVIEW_description','Revisa una lista de términos (<strong>hasta %s términos</strong>) y verifica coincidencias con el léxico controlado. Discrimina entre 4 alternativas: <strong>términos coincidentes</strong>, <strong>variaciones sin impacto léxico o términos equivalentes</strong>, <strong>términos no coincidentes</strong>, <strong>términos similares</strong>. Una vez completado el análisis, la herramienta sintetiza los resultados en un informe interactivo que puede consultarse <strong>en línea o descargarse</strong> para su distribución, ofreciendo una asistencia automatizada para la auditoría y revisión de léxicos.');
+
+define('BULK_TERMS_REVIEW_home_description','Verifica coincidencias entre listados terminológicos y el vocabulario controlado (<i>%s</i>). Discrimina entre 4 alternativas: <strong>términos coincidentes</strong>, <strong>variaciones sin impacto léxico o términos equivalentes</strong>, <strong>términos no coincidentes</strong>, <strong>términos similares</strong>. Una vez completado el análisis, la herramienta sintetiza los resultados en un informe interactivo que puede consultarse <strong>en línea o descargarse</strong> para su distribución, ofreciendo una asistencia automatizada para la auditoría y revisión de léxicos.');
+
+define('BULK_TERMS_REVIEW_short_description','Verificador de términos: herramienta de análisis y control masivo de términos');
 
 /** CLASSIFY MODULE */
 define('CLASSIFY_SERVICE_title','Asistente de clasificación');

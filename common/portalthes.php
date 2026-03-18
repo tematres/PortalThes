@@ -25,15 +25,21 @@ if (! defined('WEBTHES_ABSPATH')) {
 function HTMLestilosyjs($v="")
 {
     global $CFG_URL_PARAM;
+
     $rows='
     <!-- js -->
-    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-3.4.1.min.js"></script>
-    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-3.7.1.min.js"></script>
+    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.14.1/jquery-ui.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'js/vis-network.min.js"></script>
 
-    <script src="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/js/bootstrap.min.js"></script>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
-    <script src="'.$CFG_URL_PARAM["url_site"].'js/jquery.mockjax.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mockjax/2.6.1/jquery.mockjax.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/jquery.validate.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/masonry.pkgd.min.js"></script>
     <script src="'.$CFG_URL_PARAM["url_site"].'vendor/imagesloaded.pkgd.min.js"></script>
@@ -41,16 +47,16 @@ function HTMLestilosyjs($v="")
     <script src="'.$CFG_URL_PARAM["url_site"].'js/js.php?v='.$_SESSION["v"].'"></script>
     <script type="text/javascript" src="'.$CFG_URL_PARAM["url_site"].'js/clipboard.min.js"></script>
     <!-- css -->
-    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'bt/3.3.4/css/bootstrap.min.css">
     <link type="image/x-icon" href="'.$CFG_URL_PARAM["url_site"].'css/favicon.ico" rel="icon" />
 
-    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.css">';
-    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/main-cop.css">';
+    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/jqtree.postcss">';
 
-    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Syncopate">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.12.1/jquery-ui.css">';
+    
+    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/thes3.css">';
+    $rows.='<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Syncopate">';
+    $rows.='<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">';
+    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'js/jquery-ui-1.14.1/jquery-ui.css">';
+    $rows.='<link rel="stylesheet" href="'.$CFG_URL_PARAM["url_site"].'css/modal-notes.css">';
 
     $rows.='<link rel="alternate" href="'.$CFG_URL_PARAM["url_site"].'rss.php?v='.$_SESSION["v"].'" title="RSS '.$_SESSION["vocab"]["title"].'" />';
 
@@ -84,235 +90,182 @@ function HTMLmeta($vocabularyMetadata, $extraTitle = "")
 function HTMLformSearch()
 {
     global $CFG_URL_PARAM;
-    $rows='<div class="row">
-      <div class="col-12">
-        <form name="searchForm" method="get" id="searchform" action="'.$CFG_URL_PARAM["url_site"].'index.php">
-            <div id="custom-search-input">
-                <div class="input-group ">
-                    <input type="text" class="form-control input-lg"  id="query" name="arg" class="search-query" placeholder="'.LABEL_Buscar.'">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg" type="submit">
-                            <i class="glyphicon glyphicon-search"></i>
-                        </button>
-                    </span>
+
+    $rows='        <!-- Búsqueda -->
+            <div class="search-container">
+            <form name="searchForm" method="get" id="searchform" action="'.$CFG_URL_PARAM["url_site"].'index.php">
+                <div class="input-group input-group-lg mb-3">
+                    <input type="text" class="form-control" id="query" name="arg" class="search-query" placeholder="'.LABEL_Buscar.'">
+                    <button type="submit" class="btn btn-primary" type="button" id="searchButton">
+                        <i class="bi bi-search"></i> Buscar</button>
                 </div>
-            </div>
-            <input type="hidden" id="task" name="task" value="search" />
-            <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["CODE"].'" />             
-        </form>
-        </div>
-    </div>';
+
+                <!-- Opciones de búsqueda -->
+                <div class="search-options">
+                    <div class="d-flex align-items-center flex-wrap gap-3 mb-4">
+                        <span class="text-muted small">Opciones:</span>
+                        <div class="btn-group btn-group-sm" role="group">
+                          <input type="radio" class="btn-check" name="optSearch" id="optSearchExact" value="optSearchExact" >
+                          <label class="btn btn-outline-secondary" for="optSearchExact">Exacta</label>
+                          
+                          <input type="radio" class="btn-check" name="optSearch" id="optSearchDefault"  value="optSearchDefault" checked>
+                          <label class="btn btn-outline-secondary" for="optSearchDefault">General</label>
+
+                          
+                          <input type="radio" class="btn-check" name="optSearch" id="optSearchNotes" value="optSearchNotes">
+                          <label class="btn btn-outline-secondary" for="optSearchNotes">En notas</label>
+                        </div>
+                      </div>
+                </div>
+                <input type="hidden" id="task" name="task" value="search" />
+                <input type="hidden" id="v" name="v" value="'.$_SESSION["vocab"]["CODE"].'" />
+                </form>
+            </div>';
     return $rows;
 }
 
-
-
-/*  Presentación de header global  */
-function HTMLglobalHeader($params = array())
-{
-    global $CFG_URL_PARAM,$CFG_MAIN_MENU;
-
-    $rows=' <header>
-        <div class="wrapper">
-            <div class="top-logos">
-                <img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-complutense-odontology.png" alt="">
-            </div>
-            <div class="main-header">
-                <p class="title-header">
-                                        <a class="title-header" href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a>
-
-                </p>
-                <ul class="logos-cabecera">
-                    <li><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-csic.png" alt=""></li>
-                    <li><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-complutense.png" alt=""></li>
-                    <li><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/logo-colegio.png" alt=""></li>
-                </ul>
-            </div>
-            
-        <nav class="navbar navbar-cop">
-          <div class="container-fluid">
-            <a class="navbar-brand" title="Inicio" href="'.redactHREF($params["vocab_code"], "topterms", "").'">Inicio</a>';
-            foreach ($CFG_MAIN_MENU as $option) {
-                /*revisar si el ref incluye http*/
-                $link = (filter_var($option["ref"], FILTER_VALIDATE_URL) === FALSE) ? $CFG_URL_PARAM["url_site"].$option["ref"] : $option["ref"];
-                $target = ($option["target"]) ? ' target="_blank" ' : null; 
-                $rows.='<a class="navbar-brand" title="'.$option["title"].'" href="'.$link.'" '.$target.'>'.$option["title"].'</a>';
-
-            }
-
-    $rows.='</nav>
-        </div>
-    </header>';
-
-    return $rows;
-};
 
 /*  Presentación de menú global  */
 function HTMLglobalMenu($params = array())
 {
 
     global $CFG_URL_PARAM;
+    $rows='        <!-- Encabezado del vocabulario -->
+            <div class="vocabulary-header bg-secondary bg-opacity-75 text-white py-3">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="display-5 fw-bold">
+                           <a style="color:#fff;" href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a>
+                        </h1>                   
+                        <p class="lead mt-3">
+                            '.textoConColapsoSimple($_SESSION["vocab"]["scope"]).'
+                        </p>
+                        <div class="mt-3">
+                            <span class="badge bg-light text-dark me-2">
+                                <i class="bi bi-calendar me-1"></i>'.$_SESSION["vocab"]["createDate"].'
+                            </span>
+                            <span class="badge bg-light text-dark me-2">
+                                <i class="bi bi-globe me-1"></i>'.ucfirst(LABEL_language).': '.$_SESSION["vocab"]["lang"].'
+                            </span>
+                        <span class="badge bg-light text-dark">
+                            <i class="bi bi-tags me-1"></i> '.$_SESSION["vocab"]["cant_terms"].' '.LABEL_terms.' 
+                        </span>
 
- //   $vocab_code=$_SESSION["vocab"]["code"];
-
-    $rows=' <nav class="navbar navbar-inverse navbar-fixed-top bnm_navbar">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand completo" href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$_SESSION["vocab"]["title"].'">'.$_SESSION["vocab"]["title"].'</a>
-                        <a class="navbar-brand breve" href="'.$CFG_URL_PARAM["url_site"].'index.php" title="'.$_SESSION["vocab"]["title"].'"></a>
+                        </div>
                     </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_tools).'<b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu">';
-
-    if (checkModuleCFG('BULK_TERMS_REVIEW',$_SESSION["vocab"]["CODE"])==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(BULK_TERMS_REVIEW_short_description).'">'.ucfirst(BULK_TERMS_REVIEW_title).'</a></li>';
-    }
-
-    if (checkModuleCFG('CLASSIFFY',$_SESSION["vocab"]["CODE"])==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/classify/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(CLASSIFY_SERVICE_short_description).'">'.ucfirst(CLASSIFY_SERVICE_title).'</a></li> ';
-    }
-
-    if (checkModuleCFG('SUGGESTION_SERVICE',$_SESSION["vocab"]["CODE"])==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(SUGGESTION_SERVICE_short_description).'">'.ucfirst(SUGGESTION_SERVICE_title).'</a></li>';
-    }
-                    
-    if (checkModuleCFG('MARC21',$_SESSION["vocab"]["CODE"])==true) {
-        $rows.='<li><a href="'.$CFG_URL_PARAM["url_site"].'apps/marc21/index.php?v='.$params["vocab_code"].'" title="'.ucfirst(MARC21_SERVICE_short_description).'">'.ucfirst(MARC21_SERVICE_title).'</a></li>';
-    }
-
-    $rows.='    <li><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&v='.$params["vocab_code"].'">Consultar últimas modificaciones</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <i class="bi bi-journal-text" style="font-size: 5rem; opacity: 0.8;"></i>
+                        </div>
                     </div>
                 </div>
-            </nav>';
+            </div>
+
+';
+
     return $rows;
 }
 
 /*  Presentación de footer global  */
 function HTMLglobalFooter($params = array())
 {
-    global $CFG_URL_PARAM,$CFG_SITE;
+    global $CFG_URL_PARAM,$CFG;
 
-    $rows=' <div style="clear: both;"></div>';
-    $rows.=' <footer>
-        <div class="wrapper">
-            <div class="inner-footer">
-                
-            
-            <img src="imagenes/logo-footer.png" alt="">
-            <ul class="social-menu">
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-ig.svg" alt=""></a></li>
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-fb.svg" alt=""></a></li>
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-sp.svg" alt=""></a></li>
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-x.svg" alt=""></a></li>
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-in.svg" alt=""></a></li>
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-yt.svg" alt=""></a></li>
-                <li><a href="#"><img src="'.$CFG_URL_PARAM["url_site"].'imagenes/ico-iv.svg" alt=""></a></li>
-            </ul>
+    $createDate = str_replace('/', '-', $params["vocabularyMetadata"]["createDate"]);
+
+    $rows=' <div class="border-top" style="clear: both;"><p></p></div>';
+
+    $rows.=' <!-- Estadísticas del vocabulario -->
+        <div class="stats-grid fade-in-up " style="animation-delay: 0.1s">
+ 
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(52, 152, 219, 0.1); color: var(--secondary);">
+                    <i class="bi bi-calendar-plus"></i>
+                </div>
+                <div class="stat-content">
+                    <h5>'.date("d/m/Y",strtotime($createDate)).'</h5>
+                    <p>'.ucfirst(LABEL_datePublish).'</p>
+                </div>
             </div>
-            <div class="inner-footer">
-                <ul class="legal-links">
-                    <li><a href="https://www.copmadrid.org/web/politica-de-privacidad" title="Política de privacidad">Política de privacidad</a></li>
-                    <li><a href="https://www.copmadrid.org/web/aviso-legal" title="Aviso legal">Aviso legal</a></li>
-                    <li><a href="https://www.copmadrid.org/web/politica/123/politica-de-cookies-tesauro" title="Política de cookies">Política de cookies</a></li>
-                </ul>       
-            </div>
-        </div>
-    </footer>';
             
-    $rows.='<script type="text/javascript">var clipboard = new ClipboardJS(\'.copy-clipboard\')</script>';
-    return $rows;
-}
-
-/*  Presentación de menú contextual global  */
-function HTMLglobalContextualMenu($params = array())
-{
-    global $CFG_URL_PARAM;
-    global $CFG_SITE;
-
-    if (@$params["vocab_code"]) {
-        $rows=' <h1>
-                    <a href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$params["vocabularyMetadata"]["title"].'">'.$params["vocabularyMetadata"]["title"].'</a>
-                </h1>
-                <p class="autor text-right">
-                    '.LABEL__attrib.' '.$params["vocabularyMetadata"]["author"].'
-                </p>
-                <p class="text-left ocultar">
-                    '.$params["vocabularyMetadata"]["scope"].'
-                </p>
-                <div id="carousel" class="carousel slide ocultar" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                      <li data-target="#carousel" data-slide-to="1"></li>
-                    </ol>
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <div class="whitebox text-center">
-                                <p class="statsnum">
-                                    '.$params["vocabularyMetadata"]["cant_terms"].'
-                                </p>
-                                <p class="statstext"> '.LABEL_terms.' ';
-        
-        if ($_SESSION["vocab"]["mail"]) {
-            $rows.='<a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.LABELFORM_newSuggest.' '.$params["vocabularyMetadata"]["title"].'"><span>'.LABELFORM_newSuggest.'</span></a>';
-        }
-
-        $rows.='                </p>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="whitebox text-center">';
-                                /*La última actualizacionesción fue en '.date_format(date_create_from_format('Y-m-d G:i:s', $params["vocabularyMetadata"]["lastMod"]), 'm/y').'. */$rows.='<br><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&amp;v='.$params["vocab_code"].'" title="Últimas modificaciones de '.$params["vocabularyMetadata"]["title"].'"><span>'.ucfirst(LABEL_showNewsTerm).'</span></a>
-                            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(39, 174, 96, 0.1); color: var(--success);">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <div class="stat-content">
+                    <h5>'.date("d/m/Y",strtotime($params["vocabularyMetadata"]["lastMod"])).'</h5>
+                    <p>'.ucfirst(LABEL_dateLastUpdate).'</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(155, 89, 182, 0.1); color: #9b59b6;">
+                    <i class="bi bi-hash"></i>
+                </div>
+                <div class="stat-content">
+                    <h5>'.$params["vocabularyMetadata"]["cant_terms"].'</h5>
+                    <p>'.ucfirst(LABEL_terms).'</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon" style="background: rgba(241, 196, 15, 0.1); color: #f1c40f;">
+                    <i class="bi bi-bell"></i>
+                </div>
+                <div class="stat-content">
+                    <h5>
+                        <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&amp;v='.$params["vocab_code"].'" title="'.ucfirst(LABEL_showNewsTerm).' '.$params["vocabularyMetadata"]["title"].'" class="text-decoration-none" style="color: var(--primary);">'.ucfirst(LABEL_lastChanges).'</a>
+                    </h5>
+                    <p>'.ucfirst(LABEL_showNewsTerm).'</p>
+                </div>
+            </div>
+        </div>';
+    if ((checkModuleCFG('BULK_TERMS_REVIEW')==true) && (@$params["page"]!=='BULK_TERMS_REVIEW') && (count($_GET)==1)) {
+        $rows.='<div class="card-header row g-3  py-3">
+                    <div class="card-header row g-3 border-top py-3">
+                        <div><h4><i class="bi bi-ui-checks-grid fs-4" style="color: var(--secondary);"></i> <a href="'.$CFG_URL_PARAM["url_site"].'apps/autoridades/?v='.$params["vocab_code"].'">'.BULK_TERMS_REVIEW_title.'</a></h4> '.sprintf(BULK_TERMS_REVIEW_home_description,$params["vocabularyMetadata"]["title"]).'
                         </div>
                     </div>
                 </div>';
+
+    };
+
+    $rows.='       <footer class="modern-footer fade-in-up" style="animation-delay: 0.4s">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="'.$CFG_URL_PARAM["url_site"].'img/tematres-logo.gif" width="40" height="40" viewBox="0 0 24 24" alt="TemaTres" style="width: 40px;">
+                        <div>
+                            <p class="mb-0 fw-semibold text-start"><a href="'.redactHREF($params["vocab_code"], "topterms", "").'" title="'.$_SESSION["vocab"]["title"].'">'.$params["vocabularyMetadata"]["title"].'</a></p>
+                            <p class="mb-0 small text-muted text-start">'.$params["vocabularyMetadata"]["author"].' '.$params["vocabularyMetadata"]["contributor"].'</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+        
+                    <a href="https://github.com/tematres/PortalThes" target="_blank" class="text-decoration-none small text-secondary">
+                        <i class="bi bi-github me-1"></i>Tematres PortalThes
+                        <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
+            </div>
+        </footer>';
+
+    $rows.='    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
+    $rows.='<script type="text/javascript">var clipboard = new ClipboardJS(\'.copy-clipboard\')</script>';
+
+    if ($CFG["GA_TRACKING_ID"]!=='0') {
+        $rows.='<!-- Google Analytics -->' ;
+        $rows.='<script async src="https://www.googletagmanager.com/gtag/js?id='.$CFG["GA_TRACKING_ID"].'"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag(\'js\', new Date());
+              gtag(\'config\', \''.$CFG["GA_TRACKING_ID"].'\');
+            </script>
+            <!-- Google Analytics -->' ;
     }
-    return $rows;
-}
 
-
-/*  Presentación de menú contextual de término  */
-function datosdeltermino($params = array())
-{
-    global $CFG_URL_PARAM;
-    $rows=' <div class="tab-pane" id="datos">
-                <h4>URI DEL TÉRMINO Y REPRESENTACIONES ALTERNATIVAS</h4>
-                <ul class="list-unstyled">
-                    <li class="">
-                        <a href="'.$params["vocabularyMetadata"]["uri"].'services.php?task=fetchTerm&amp;arg='.$params["term_id"].'">
-                                <i class="fa fa-link"></i>'.LABEL_URIterm.'
-                            </a>
-                        </li>
-                    <li class="">
-                        <a href="'.$params["vocabularyMetadata"]["uri"].'services.php?task=fetchTerm&amp;arg='.$params["term_id"].'&amp;output=json'.'" title="Javascript Object Notation representation">
-                            <img src="img/json.png">JSON
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="'.$params["vocabularyMetadata"]["uri"].'services.php?task=fetchTerm&amp;arg='.$params["term_id"].'&amp;output=skos'.'" title="RDF Skos-core representation" id="rdf_link_xml">
-                            <i class="fa fa-share-alt"></i>Skos-Core
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="'.$params["vocabularyMetadata"]["uri"].'services.php?task=fetchTerm&amp;arg='.$params["term_id"].'" id="xml_link">
-                            <i class="fa fa-code"></i>XML
-                        </a>
-                    </li>
-                </ul>
-            </div>';
     return $rows;
 }
 
@@ -401,115 +354,85 @@ function HTMLtermDetaills($htmlTerm, $dataTerm, $vocabularyMetadata)
     $term_id= (int) $dataTerm->result->term->term_id;
     $rows='';
 
-    if (isset($htmlTerm["results"]["termdata"])) {
-        $rows.= '<div><h2 class="title-header">'.$htmlTerm["results"]["termdata"].'</h2></div>';
-    }
-
-    $rows.='<div id="term" about="'.$dataTerm->result->term->term_id.'"><div class="tab-content">';
-
-    if (isset($htmlTerm["results"]["breadcrumb"])) {
-        $rows.=$htmlTerm["results"]["breadcrumb"];
-    }
-
-
-    if (! isset($htmlTerm["results"]["UF"])) {
-        $htmlTerm["results"]["UF"]='';
-    }
-    $rows.= '<div id="altTerms padbot">'.$htmlTerm["results"]["UF"].'</div>';
-
-
-    if (strlen($htmlTerm["results"]["NOTES"]) > 0) {
-          $rows.= '<div id="notas" class="relation-body">'.$htmlTerm["results"]["NOTES"].'</div>';
-    }
-
-    if (isset($htmlTerm["results"]["BT"])) {
-        $rows.= '<div class="relation-body">'.$htmlTerm["results"]["BT"].'</div>';
-    }
-
-    if (! isset($htmlTerm["results"]["NT"])) {
-        $htmlTerm["results"]["NT"]='';
-    }
-     $rows.= '<div class="row"><div class="relation-body col-md-5">'.$htmlTerm["results"]["NT"].'</div></div>';
-
-    if (isset($htmlTerm["results"]["RT"])) {
-        $rows.= '<div class="relation-body">'.$htmlTerm["results"]["RT"].'</div>';
-    }
-
-     $rows.=  '</div>';
-
     if (! isset($htmlTerm["results"]["MAP"])) {
         $htmlTerm["results"]["MAP"] = '';
     }
     if (! isset($htmlTerm["results"]["LINKED"])) {
         $htmlTerm["results"]["LINKED"] = '';
     }
-    
-      
-      $rows.=  '</div><!-- #term -->';
+
+    if (isset($htmlTerm["results"]["breadcrumb"])) {
+        $rows.=$htmlTerm["results"]["breadcrumb"];
+    }
+
+    if (isset($htmlTerm["results"]["termdata"])) {
+
+        $type_term_style=($dataTerm->result->term->isMetaTerm==1) ? '<i class="bi bi-info-circle text-secondary ms-1" data-bs-toggle="tooltip" title="'.ucfirst(NOTE_isMetaTerm).'"></i>' : '';        
+        
+        $rows.= '<!-- Detalle del término -->
+                    <div class="col-lg-7 mb-4"><h4 class="mb-3"><i class="bi bi-record-circle me-2"></i><span class="highlight">'.$dataTerm->result->term->string.'</span>'.$type_term_style.'</h4>
+                        <div class="term-detail-card" id="termDetail">';
+    }
+
+
+    $htmlTerm["results"]["UF"]=$htmlTerm["results"]["UF"] ?? '';
+    $htmlTerm["results"]["BT"]=$htmlTerm["results"]["BT"] ?? '';
+    $htmlTerm["results"]["NT"]=$htmlTerm["results"]["NT"] ?? '';
+    $htmlTerm["results"]["RT"]=$htmlTerm["results"]["RT"] ?? '';
+    $htmlTerm["results"]["MAP"]=$htmlTerm["results"]["MAP"] ?? '';
+    $htmlTerm["results"]["LINKED"]=$htmlTerm["results"]["LINKED"] ?? '';
+
+    if (strlen($htmlTerm["results"]["UF"])>0) {
+    $rows.= '<div class="term-section" id="altTerms">'.$htmlTerm["results"]["UF"].'</div>';
+    }
+
+    if (strlen($htmlTerm["results"]["NOTES"]) > 0) {
+          $rows.= '<div class="term-section"><h5 class="term-section-title">
+                            <i class="bi bi-sticky"></i>'.ucfirst(LABEL_notes).' </h5>'.$htmlTerm["results"]["NOTES"].'</div>';
+    }
+
+    if (strlen($htmlTerm["results"]["BT"])>0) {
+        $rows.= '<div class="relation-body term-section">'.$htmlTerm["results"]["BT"].'</div>';
+
+    }
+
+    if (strlen($htmlTerm["results"]["NT"])>0) {
+     $rows.= '<div class="relation-body term-section">'.$htmlTerm["results"]["NT"].'</div>';
+    }
+
+    if (isset($htmlTerm["results"]["RT"])) {
+        $rows.= '<div class="relation-body  term-section">'.$htmlTerm["results"]["RT"].'</div>';
+    }
+
+    if (strlen($htmlTerm["results"]["MAP"]>0)) {
+        $rows.= '<div class="relation-body  term-section">'.$htmlTerm["results"]["MAP"].'</div>';
+    }
+    if (strlen($htmlTerm["results"]["LINKED"]>0)) {
+        $rows.= '<div class="relation-body  term-section">'.$htmlTerm["results"]["LINKED"].'</div>';
+    }
+    $rows.=  '</div><!-- #Detalle del término -->';
+
+
+    $rows.=  '</div><!-- #term -->';
+
       /** if there are relations */
       if(isset($htmlTerm["data4vis"]["edges"])){
-        $rows.=  ' <div class="card"><div id="graphterm"></div></div>';  
-      }
-      
-      $rows.=  '</div> <! --#tabbable -->';
- 
-    return $rows;
-}
-
-function human_filesize($bytes, $decimals = 2)
-{
-    $sz = 'BKMGTP';
-    $factor = floor((strlen($bytes) - 1) / 3);
-    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) .' '.@$sz[$factor];
-}
-
-
-
-function HTMLrss2home($code)
-{
-    global $CFG_URL_PARAM, $CFG_VOCABS;
-    // Include SimplePie
-    include_once('simplepie/autoloader.php');
-    // Create a new instance of the SimplePie object
-    $feed = new SimplePie();
-    // Use the URL that was passed to the page in SimplePie
-    $feed->set_feed_url($CFG_URL_PARAM["url_site"].'rss.php?v='.$code);
-
-    if (@$CFG_URL_PARAM["cache_site"]) {
-        $feed->set_cache_location($CFG_URL_PARAM["cache_site"]);
-    } else {
-        $feed->enable_cache(false);
-    }
-    $success = $feed->init();
-    $feed->handle_content_type();
-    $rows=' <div class="box box-voc '.$code.' '.$CFG_VOCABS[$code]["CAT"].'" id="vocabw_'.$code.'">
-                <h4 class="widgettitulo">
-                    <a href="'.
-                        // $feed->get_link()
-                        $CFG_URL_PARAM["url_site"].'index.php?v='.$code
-                        .'" title="'.$feed->get_title().'">
-                            '.$feed->get_title().'
-                    </a>
-                </h4>
-                <p class="borde">
-                    '.$feed->get_description().'
-                </p>
-                <p class="padd">
-                    <strong>'.ucfirst(LABEL_lastChanges).'</strong>: ';
-    $i = 0;
-    foreach ($feed->get_items() as $item) {
-        ++$i;
-        if (($item->get_permalink()) && ($i<5)) {
-            $rows.='<a href="' . $item->get_permalink() . '" title="'.$item->get_title().'">
-                        '.$item->get_title().'
-                    </a>; ';
-        }
-    }
-    $rows.='        <a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&amp;v='.$code.'" title="'.ucfirst(LABEL_lastChanges).'">...</a>
-                </p>
+        $rows.=  '             <!-- Visualización gráfica -->
+            <div class="col-lg-5 mb-4">
+                <h4 class="mb-3"><i class="bi bi-diagram-3 me-2"></i>Vista gráfica de relaciones</h4>
+                <!-- El grafo se renderizará aquí -->
+                <div class="graph-container" id="networkGraph">
+                    <div id="graphterm"></div>
+                </div>
             </div>';
+      }
+
+
     return $rows;
 }
+
+
+
 
 //Eval if the code is a valid vocab => VCODE is default CODE
 function fetchVocabCode($vocab_code)
@@ -522,7 +445,7 @@ function fetchVocabCode($vocab_code)
     $v=(strlen($vocab_code)>0) ? XSSprevent($vocab_code) : '';
 
     $v=(strlen($v)>0) ? $v : $CFG["DEFVOCAB"];
-    
+
     foreach ($CFG_VOCABS as $k => $val) {
         if(isset($val[$k])) :
             if ($val[$k] == $v) {
@@ -583,18 +506,6 @@ function checkModuleCFG($module, $v = 1)
             }
             break;
 
-        case 'CLASSIFFY':
-            if (in_array('CLASSIFFY', $enable_modules)) {
-                return true;
-            }
-            break;
-
-        case 'VISUAL_VOCAB':
-            if (in_array('VISUAL_VOCAB', $enable_modules)) {
-                return true;
-            }
-            break;
-
         case 'SUGGESTION_SERVICE':
             //que este habilitado y que haya mail de contacto
             if ((in_array('SUGGESTION_SERVICE', $enable_modules)) && (strlen($_SESSION["vocab"]["mail"])>0)) {
@@ -622,7 +533,7 @@ function checkModuleCFG($module, $v = 1)
 /*HTML button to copy the value string for valid term*/
 function HTMLcopyClick($v, $targt_div, $array_flags)
 {
- 
+
     if (($array_flags["isMetaTerm"]==1) || ($array_flags["isValidTerm"]==0) || (checkModuleCFG('COPY_CLICK', $v)==0)) {
         return;
     }
@@ -632,82 +543,13 @@ function HTMLcopyClick($v, $targt_div, $array_flags)
 
 
 
-/*  Información sobre el voc para pantallas chicas  */
-function HTMLlittleinfo($params=array())
-{
-    GLOBAL $CFG_URL_PARAM;
-    GLOBAL $CFG_SITE;
-    setlocale(LC_ALL, 'es_AR');
-    if (@$params["vocab_code"]) {
-        $rows=' <p class="text-justify">
-                    '.$params["vocabularyMetadata"]["title"].': '.$params["vocabularyMetadata"]["scope"].'
-                </p>
-                <div id="carousel2" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carousel2" data-slide-to="0" class="active"></li>
-                      <li data-target="#carousel2" data-slide-to="1"></li>
-                      <li data-target="#carousel2" data-slide-to="2"></li>
-                    </ol>
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <div class="whitebox text-center">';
-                                /*La última actualización fue en '.date_format(date_create_from_format('Y-m-d G:i:s', $params["vocabularyMetadata"]["lastMod"]), 'm/y').'. */
-                                $rows.='<br><a href="'.$CFG_URL_PARAM["url_site"].'index.php?task=fetchLast&amp;v='.$params["vocab_code"].'" title="Últimas modificaciones de '.$params["vocabularyMetadata"]["title"].'"><span>¡Mirá las últimas modificaciones!</span></a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="whitebox text-center">
-                                <p class="statsnum">
-                                    '.$params["vocabularyMetadata"]["cant_terms"].'
-                                </p>
-                                <p class="statstext">
-                                    términos';
-        if (isset($_SESSION["vocab"]["mail"]))
-            $rows.='                ... &nbsp;&nbsp;
-                                    <a href="'.$CFG_URL_PARAM["url_site"].'apps/suggest/index.php?v='.$params["vocab_code"].'" title="'.$params["vocabularyMetadata"]["title"].'"><span>¡Sugerí uno!</span></a>';
-        $rows.='                </p>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="whitebox text-right">
-                                <p class="text-center">Recibí las actualizaciones de este vocabulario... </p>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal">
-                                    <span>¡Suscribíte!</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="note" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Cerrar ventana"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Suscripción al RSS</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="text-justify">RSS es una forma muy sencilla para recibir información actualizada sobre determinadas páginas web, sin necesidad de visitarlas una a una.</p>
-                                    <p class="text-justify">Para poder recibir noticias RSS se necesita un lector RSS como <a href="http://digg.com/reader">Digg Reader</a> o <a href="https://www.inoreader.com/">Inoreader</a>.</p>
-                                    <p class="text-center"><a href="'.$CFG_URL_PARAM["url_site"].'rss.php?v='.$params["vocab_code"].'" title="Suscripción al RSS">RSS de este vocabulario</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>';
-    }
-    return $rows;
-}
-
-
 /**
- * DATA for visual graph 
+ * DATA for visual graph
  *
  * @param array $termData  object term data
  * @param array $DirectData  object data about terms who are related with any relation to the term
  * @param array $NTdata  data about terms who is more narrowed to the term
- * 
+ *
  * @return return $array with nodes and edges content
  */
 function data4vis($termData,$DirectData,$NTdata){
@@ -721,7 +563,7 @@ if ($NTdata->resume->cant_result > 0) {
                                                          "rel_rel_type"=>object2value($value,"relation_label","string")
                                                          );
     };
-}   
+}
 
 if ($DirectData->resume->cant_result > 0) {
 
@@ -782,21 +624,44 @@ if(isset($term_context["RT"])) :
     return array("nodes"=>$array_node,"edges"=>$array_edge);
 }
 
+//lista alfabética
+function HTMLalphaNav($arrayLetras = array(), $select_letra = "",$param = array())
+{
+    global $URL_BASE;
+    $vocab_code=fetchVocabCode(@$param["vocab_code"]);
+
+    $rows='        <!-- Navegación por letras -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alphabet-nav">';
+    foreach ($arrayLetras as $letra) {
+        $class=($select_letra==$letra) ? 'active' : '';
+        //$rows.='    <li class="'.$class.'">';
+        $rows.='<a class="alphabet-letter '.$class.'" href="'.redactHREF($vocab_code, "letter", strtoupper($letra)).'">'.strtoupper($letra).'</a>';
+        //$rows.='</li>';
+    }
+    $rows.='    </ul>';
+    $rows.='     </div>
+              </div>
+            </div>';
+    return $rows;
+}
+
 
 
 /**
- * HTML for visual graph 
+ * HTML for visual graph
  *
  * @param array $nodes  array terms as nodes
  * @param array $edges  array of edges about relations between the terms.
- * 
+ *
  * @return return $html content
  */
 function HTMLvisualGraph($nodes,$edges){
 
-if(is_array($nodes)) :       
+if(is_array($nodes)) :
 $html='   <script type="text/javascript">
-        
+
         let nodes = new vis.DataSet('. json_encode($nodes). ');
         let edges = new vis.DataSet('. json_encode($edges). ');
 
@@ -831,15 +696,15 @@ $html='   <script type="text/javascript">
                 margin: 10,
                 multi: false,
             },
-            edges: {                
+            edges: {
                 color: \'black\',
                 scaling: {
                     label: false,
                 },
                 shadow: true,
             },
-            
-            
+
+
         };
         let container = document.getElementById("graphterm");
         let network = new vis.Network(container, data, options);
@@ -856,7 +721,7 @@ return $html;
  *
  * @param array $array_vocab  data about the vocab from config.ws.php
  * @param array $array_error  data about the error
- * 
+ *
  * @return return $html content
  */
 
@@ -871,4 +736,162 @@ function HTMLerrorVocabulary($vocab_id,$array_error=array()){
 return $rows;
 }
 
+/**
+ * Convierte un texto en HTML con sistema de colapso/expansión usando Bootstrap
+ * si el texto supera los 400 caracteres
+ *
+ * @param string $texto Texto a procesar
+ * @return string Código HTML generado
+ */
 
+function textoConColapsoSimple(string $texto): string {
+    // Limpiar el texto
+    $texto = htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
+    
+    // Si el texto tiene 400 caracteres o menos, devolverlo sin cambios
+    if (strlen($texto) <= 400) {
+        return '<p>' . $texto . '</p>';
+    }
+    
+    // Obtener los primeros 400 caracteres
+    $textoCorto = substr($texto, 0, 400);
+    $ultimoEspacio = strrpos($textoCorto, ' ');
+    if ($ultimoEspacio !== false) {
+        $textoCorto = substr($textoCorto, 0, $ultimoEspacio);
+    }
+    
+    // El resto del texto
+    $textoLargo = substr($texto, strlen($textoCorto));
+    
+    // Construir el HTML
+    $html = '<p>';
+    $html .= '<span id="shortVersion">' . $textoCorto . '...</span>';
+    $html .= '<span id="fullVersion" class="collapse" aria-expanded="false">';
+    $html .= $textoLargo;
+    $html .= '</span>';
+    $html .= '</p>';
+    
+    // Botón para expandir/colapsar
+    $html .= '<button class="btn btn-sm btn-outline-light" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#fullVersion"
+                    aria-expanded="false" 
+                    aria-controls="fullVersion"
+                    onclick="toggleButtonText(this)">'.ucfirst(LABEL_showMore).'
+              </button>';
+    
+    return $html;
+}
+/**
+ * Corta texto en HTML si el texto supera los 400 caracteres
+ *
+ * @param string $texto Texto a procesar
+ * @return string Código HTML generado
+ */
+
+function textoLimitado(string $texto, int $char_limit=400): string {
+
+        // Limpiar el texto
+    $texto = htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
+
+    $char_limit = ($char_limit>400) ? 200 : $char_limit;
+    
+    // Si el texto tiene 400 caracteres o menos, devolverlo sin cambios
+    if (strlen($texto) <= $char_limit) {
+        return $texto;
+    }
+    
+    // Obtener los primeros 400 caracteres
+    $textoCorto = substr($texto, 0, $char_limit);
+    $ultimoEspacio = strrpos($textoCorto, ' ');
+    if ($ultimoEspacio !== false) {
+        $textoCorto = substr($textoCorto, 0, $ultimoEspacio);
+    }
+    
+    return $textoCorto;
+}
+
+
+
+/**
+ * Convierte un texto en HTML con sistema de colapso/expansión usando Bootstrap
+ * si el texto supera los 400 caracteres
+ *
+ * @param string $texto Texto a procesar
+ * @return string Código HTML generado
+ */
+function HTMLgridTerminos($vocab_code,$note_type,$limit=1){
+    GLOBAL $URL_BASE, $CFG_VOCABS;
+
+    $note_type=configValue($note_type, 'NA');
+
+    $array_terms=data4randomTerms($limit,$note_type,$terms_array=array());
+
+    $i=0;
+     $rows='    <!-- Grid de Términos -->
+                <div class="row g-4" id="glossaryGrid">';
+
+    foreach ($array_terms as $term_data) {
+        
+        $data2html4NotesBadge=data2html4NotesBadge(getURLdata($URL_BASE.'?task=fetchNotes&arg='.$term_data["term_id"]),$note_type);
+        $nota=textoLimitado($data2html4NotesBadge,200);
+        $nota=(strlen($data2html4NotesBadge)>strlen($nota)) ? $nota.' ... <i class="bi bi-card-text me-1"></i> <a href="'.redactHREF($_SESSION["v"], "fetchTerm", $term_data["term_id"]).'">'.LABEL_showMore.' ...</a> ' : $nota;
+        $i=++$i;
+        $rows.='            <!-- Término '.$i.' -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card glossary-card shadow-sm">
+                            <!--<span class="badge bg-warning category-badge">Tecnología</span> -->
+                            <div class="card-body p-4">
+                                <!-- <div class="term-icon bg-primary bg-opacity-10 text-primary">
+                                    <i class="bi bi-cloud"></i>
+                                </div> -->';
+        $rows.='<h3 class="text-decoration-none hover-underline term-link" data-term-id="'.$term_data["term_id"].'">'.ucfirst($term_data["term"]).'</h3>';                                
+        //$rows.='<h3  class="text-decoration-none text-dark hover-underline"><a href="'.redactHREF($_SESSION["v"], "fetchTerm", $term_data["term_id"]).'" >'.ucfirst($term_data["term"]).'</a></h3>';
+        $rows.='                <p class="term-note">'.$nota.'</p>';
+        $rows.='                   <div class="mt-3">
+                                    
+                                </div>';
+        $rows.='           </div>
+                        </div>
+                    </div>';
+    };
+
+        $rows .= '<a href="'.redactHREF($_SESSION["v"], "topterms", "").'" class="btn btn-primary" title="'.ucfirst(LABEL_showMore).'"><i class="bi bi-chevron-down me-2"></i>'.ucfirst(LABEL_showMore).'</a>';
+
+$rows.='        </div>';//cierre grid            
+
+return $rows;
+
+}
+
+
+
+
+/**Cloud terms  */
+function HTMLcloudTerms($vocab_code,$limit, $term_id = 0){
+
+    GLOBAL $URL_BASE, $CFG_VOCABS;
+
+    //$URL_BASE=$CFG_VOCABS["$vocab_code"]["URL_BASE"];
+
+    $data=getURLdata($URL_BASE.'?task=fetchCentralTerms');
+    $i=0;
+     if ($data->resume->cant_result > 0) {
+        $rows='<div class="row g-3 border-top"><h3>'.ucfirst(LABEL_prototypeTerms).'</h3>' ;
+        $rows.='<div class="d-flex flex-wrap align-items-center gap-2 p-4 bg-light rounded" id="tagcloud">' ;
+        foreach ($data->result->term as $value) {
+            $i=++$i;
+            if($i==1){$max_widht=$value->width;}
+            $font_size=str_replace(array(0,1,2,3,4), array("tag-xs","tag-sm","tag-md","tag-lg","tag-xl"),round(ceil($value->width*100/$max_widht)/25));
+            $rows.='<a class="btn btn-primary '.$font_size.'" href="'.redactHREF($_SESSION["v"], "fetchTerm", $value->term_id).'" role="button" rel="'.$value->width.'" title="'.$value->string.'">'.$value->string.'</a>' ;
+            $max_width=$value->width;
+        }
+        $rows.=' </div>' ;
+        $rows.='</div>' ;
+    } else {
+        return false;
+    }
+
+    return $rows;
+}

@@ -24,7 +24,15 @@ CONFIGURATION
 ********************************************************************************************/
 session_start();
 
+/** Modo debug = 1 // debug mode = 1 */
+$CFG["debugMode"] = "0";
 
+if ($CFG["debugMode"]=='1') {
+      ini_set('display_errors', 'On');
+      error_reporting(E_ALL);
+} else {
+      ini_set('display_errors', false);
+}
 /**
  *  Default vocab. index from the array vocabularies
  */
@@ -33,34 +41,35 @@ $CFG["DEFVOCAB"] = "1";
 /**
  *  Enabled vocabs. index from the array vocabularies
  */
-$CFG["VOCABS"] = array(1,2);
+$CFG["VOCABS"] = array(1,2,3);
 
-/** 
+
+
+/**
+ * Google Analytics  GA_TRACKING_ID, Default false=0, to add Google Analytics replace 0 with your GA_TRACKING_ID
+ */
+$CFG["GA_TRACKING_ID"] = '0';
+
+
+/**
  * VOCABULARIOS == vocabulary to use
- * Internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.  
+ * Internal and arbitrary code to identify each vocab. This code must to be the same used in $CFG_VOCABS["x"] array.
 */
 
-/* The default vocab (configurated in $CFG["DEFVOCAB"]). The web path will be the $CFG_URL_PARAM["url_site"] + /1/. For example http://localhost/tematres/portalthes/1/ */
-$CFG_VOCABS["1"]["TITLE"]="Demo Tematres";
-$CFG_VOCABS["1"]["CODE"]="1";
-$CFG_VOCABS["1"]["URL_BASE"]="https://r020.com.ar/tematres/demo/";   // URL of the tematres instance
-$CFG_VOCABS["1"]["MODULES"]= array("BULK_TERMS_REVIEW","CODE"); //Enable modules: BULK_TERMS_REVIEW, SUGGESTION_SERVICE;
-$CFG_VOCABS["1"]["SHOW_TREE"]   = 1;    //Show main tree navigation. Default=1. 0 = "do not show" 
-$CFG_VOCABS["1"]["ALPHA"]=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");   //Array of char used to alphabetic global menu navigation. For example: array('a','b','c','d') 
+$CFG_VOCABS["1"]=array(
+                "CODE"  => "1",
+                "URL_BASE"  => "http://localhost/tematres/vocab/",   // URL of the tematres instance
+                "CONFIG"   => array("SHOW_TREE_TERMS"=>1, "SHOW_CLOUD_TERMS"=>1, "HOME_GRID_SIZE"=>3,"FEATURE_NOTE"=>"NA"),    //Show main tree navigation. Default=1. 0 = "do not show"
+                "ALPHA" => array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")   //Array of char used to alphabetic global menu navigation. For example: array('a','b','c','d')
+);
 
-/*Example of second vocabulary in the same path.  The web path will be the $CFG_URL_PARAM["url_site"] + /2/. For example http://localhost/tematres/portalthes/2/ */
-$CFG_VOCABS["2"]["CODE"]="2";
-$CFG_VOCABS["2"]["URL_BASE"]="https://vocabularyserver.com/tadirah/pt/";   // URL of the tematres instance
-$CFG_VOCABS["2"]["MODULES"]= array(); //Enable modules: BULK_TERMS_REVIEW, SUGGESTION_SERVICE;
-$CFG_VOCABS["2"]["SHOW_TREE"]   = 1;    //Show main tree navigation. Default=1. 0 = "do not show" 
-$CFG_VOCABS["2"]["ALPHA"]=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");   //Array of char used to alphabetic global menu navigation. For example: array('a','b','c','d') 
 
-/** 
+/**
  * HTML encode
  */
 $CFG["ENCODE"] = 'UTF-8';
 
-/** 
+/**
  * Language of the interface
  */
 $lang_tematres = "es_AR" ;
@@ -72,9 +81,6 @@ $CFG_URL_PARAM["url_site"]      ='http://localhost/tematres/portalthes/'; // Web
 $CFG_URL_PARAM["name_site"]= 'Name site. See $CFG_URL_PARAM param in config.ws.php to to configure';
 $CFG_URL_PARAM["title_site"]    = 'Title site. ';
 $CFG_URL_PARAM["site_info"]='Little site info, line 0.';
-$CFG_URL_PARAM["site_info_line1"]='Little site info, line 1. ';
-$CFG_URL_PARAM["site_info_line2"]='Little site info, line 2. See $CFG_URL_PARAM param in config.ws.php to to configure';
-
 
 /**
  *  Search strings with more than x chars
@@ -87,15 +93,14 @@ $CFG["MIN_CHAR_SEARCH"] = 2;
 $CFG["LOCAL_NOTES"]["DEF"] = "Nota de definición";
 $CFG["LOCAL_NOTES"]["NA"]  = "Nota de alcance";
 $CFG["LOCAL_NOTES"]["NB"]  = "Nota bibliográfica";
+$CFG["LOCAL_NOTES"]["EX"]  = "Nota de ejemplo";
 
 
-/** 
+/**
  * Check HTTPS certificates
  */
 $CFG["CHK_HTTPS"] = 0; //0=false ; 1=true
 
-
-//require_once("config.uba.php");
 
 /**  In almost cases, you don't need to touch nothing here!! */
 
@@ -108,11 +113,13 @@ $CFG_URL_PARAM["fetchTerm"]       = '&task=term&arg=';
 $CFG_URL_PARAM["search"]      = '&task=search&arg=';
 $CFG_URL_PARAM["letter"]      = '&task=letter&arg=';
 $CFG_URL_PARAM["v"]       = 'index.php?v=';
+$CFG_URL_PARAM["topterms"]  = 'index.php?v=';
 */
 
-/** 
+/**
  * params for GET if you enable mod_rewrite
  */
+
 $CFG_URL_PARAM["URIfetchTerm"]  = '/fetchTerm/';
 $CFG_URL_PARAM["v"]         = '';
 $CFG_URL_PARAM["fetchTerm"] = '/term/';
@@ -131,7 +138,7 @@ if (!defined('WEBTHES_ABSPATH')) {
     include_once('common/portalthes.php');
 
 
-    
+
 //get for valid vocab_code provided by GET
     $v=(isset($_GET["v"])) ? $_GET["v"] : $_SESSION["v"];
 
@@ -142,9 +149,9 @@ if (!defined('WEBTHES_ABSPATH')) {
 
 //check if vocab_code is valid.
     $v=configValue(array2value("v",$_GET), $CFG["DEFVOCAB"], $CFG["VOCABS"]);
-    
+
     $URL_BASE=$CFG_VOCABS[$v]["URL_BASE"].'services.php';
-    
+
 
     $vocabularyMetadata=fetchVocabularyMetadata($URL_BASE);
     $_SESSION["vocab"]["mail"]  = ((strlen($vocabularyMetadata["adminEmail"])>0)) ? $vocabularyMetadata["adminEmail"] : false ;
@@ -154,4 +161,5 @@ if (!defined('WEBTHES_ABSPATH')) {
     $_SESSION["vocab"]["lang"] = (string) $vocabularyMetadata["lang"];
     $_SESSION["vocab"]["keywords"] = (string) $vocabularyMetadata["keywords"];
     $_SESSION["vocab"]["lastMod"] = (string) $vocabularyMetadata["lastMod"];
+    $_SESSION["vocab"]["createDate"] = (string) $vocabularyMetadata["createDate"];
     $_SESSION["vocab"]["cant_terms"] = (string) $vocabularyMetadata["cant_terms"];

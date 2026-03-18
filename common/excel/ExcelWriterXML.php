@@ -41,7 +41,7 @@ class ExcelWriterXML{
 	private $sheets = array();
 	private $showErrorSheet = false;
 	private $overwriteFile = false;
-	private $docFileName;
+	private $docFileName ='terms_report.xls';
 	private $docTitle;
 	private $docSubject;
 	private $docAuthor;
@@ -65,11 +65,11 @@ class ExcelWriterXML{
 		$style->name('Normal');
 		$style->alignVertical('Bottom');
 		
-		if ($fileName == ''){
+		/*if ($fileName == ''){
 			$fileName = 'file.xml';
 			$this->addError(__FUNCTION__,'File name was blank, default to "file.xml"');
 		}
-		
+		*/
 		$this->docFileName = $fileName;
 		$this->docCreated = date('Y-m-d').'T'.date('H:i:s').'Z';
 		EWXcreateStylesDB($this);
@@ -122,9 +122,9 @@ class ExcelWriterXML{
      * This is only necessary if the XML doc is to be delivered from the server
      * to the browser.
      */
-	public function sendHeaders(){
+	public function sendHeaders($fileName="rep.xls"){
 		header('content-type: text/xls');
-		header('Content-Disposition: attachment; filename="'.$this->docFileName.'"');
+		header('Content-Disposition: attachment; filename="'.$fileName.'"');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0,pre-check=0');
 		header('Pragma: public');

@@ -26,17 +26,16 @@ $(document).ready(function (){
 
   $(function() {
         $('#treeTerm').tree({
-           // buttonLeft: false,
+            //buttonLeft: false,
             dragAndDrop: false,
             autoEscape: false,
             selectable: false,
-           // closedIcon: $('<i class="fa fa-angle-right"></i>'),
-           // openedIcon: $('<i class="fa fa-angle-down"></i>')
+            closedIcon: $('<i class="bi bi-plus-square">'),
+            openedIcon: $('<i class="bi bi-dash-square">')
         });
     });
 
 });
-
 
 
 $(function() {
